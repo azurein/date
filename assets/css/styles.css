@@ -1,0 +1,37 @@
+body{
+  font-family:"Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+img.img-responsive{
+  margin:auto;
+}
+
+nav.navbar.navbar-default{
+  border-radius:0;
+  border-left:none;
+  border-right:none;
+}
+
+input.search{
+}
+
+i.glyphicon.glyphicon-pencil{
+  margin:0px 5px;
+}
+
+i.glyphicon.glyphicon-trash{
+  margin:0px 5px;
+}
+
+i{
+  cursor:pointer;
+}
+
+input.form-control.search{
+  margin-bottom:1em;
+}
+
+nav.pagination{
+  margin:0px;
+}
+
