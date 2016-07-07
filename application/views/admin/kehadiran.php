@@ -1,71 +1,4 @@
-
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12"><img class="img-responsive" src="assets/img/qr.png"></div>
-            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                <fieldset>
-                    <legend>Kehadiran </legend>
-                </fieldset>
-                <form>
-                    <input class="form-control search" type="text" placeholder="Pencarian terkait kehadiran">
-                </form>
-                <div class="table-responsive">
-                    <table class="table table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th>Kode Kartu</th>
-                                <th>Nama Peserta</th>
-                                <th>Waktu </th>
-                                <th>Tindakan </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>xxxxx </td>
-                                <td>Ms. xxxxx xxxxx</td>
-                                <td>hh:mm:ss </td>
-                                <td> <i class="glyphicon glyphicon-trash"></i></td>
-                            </tr>
-                            <tr>
-                                <td>xxxxx </td>
-                                <td>Ms. xxxxx xxxxx </td>
-                                <td>hh:mm:ss </td>
-                                <td> <i class="glyphicon glyphicon-trash"></i></td>
-                            </tr>
-                            <tr>
-                                <td>xxxxx </td>
-                                <td>Mr. xxxxx xxxxx&nbsp; </td>
-                                <td>hh:mm:ss </td>
-                                <td> <i class="glyphicon glyphicon-trash"></i></td>
-                            </tr>
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <td class="active" colspan="4">
-                                    <div class="btn-group" role="group">
-                                        <button class="btn btn-success" type="button">Import Excel</button>
-                                        <button class="btn btn-success" type="button">Export Excel</button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-                <nav class="pagination">
-                    <ul class="pagination">
-                        <li><a aria-label="Previous"><span aria-hidden="true">«</span></a></li>
-                        <li><a>1</a></li>
-                        <li><a>2</a></li>
-                        <li><a>3</a></li>
-                        <li><a>4</a></li>
-                        <li><a>5</a></li>
-                        <li><a aria-label="Next"><span aria-hidden="true">»</span></a></li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-    </div>
-    <footer></footer>
+    
     <div class="modal fade" role="dialog" tabindex="-1">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -175,7 +108,73 @@
             </div>
         </div>
     </div>
-    
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12"><img class="img-responsive" src="assets/img/qr.png"></div>
+            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                <fieldset>
+                    <legend>Kehadiran </legend>
+                </fieldset>
+                <form>
+                    <input class="form-control search" type="text" placeholder="Pencarian terkait kehadiran">
+                </form>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Kode Kartu</th>
+                                <th>Nama Peserta</th>
+                                <th>Waktu </th>
+                                <th>Tindakan </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>xxxxx </td>
+                                <td>Ms. xxxxx xxxxx</td>
+                                <td>hh:mm:ss </td>
+                                <td> <i class="glyphicon glyphicon-trash"></i></td>
+                            </tr>
+                            <tr>
+                                <td>xxxxx </td>
+                                <td>Ms. xxxxx xxxxx </td>
+                                <td>hh:mm:ss </td>
+                                <td> <i class="glyphicon glyphicon-trash"></i></td>
+                            </tr>
+                            <tr>
+                                <td>xxxxx </td>
+                                <td>Mr. xxxxx xxxxx&nbsp; </td>
+                                <td>hh:mm:ss </td>
+                                <td> <i class="glyphicon glyphicon-trash"></i></td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td class="active" colspan="4">
+                                    <div class="btn-group" role="group">
+                                        <button class="btn btn-success" type="button">Import Excel</button>
+                                        <button class="btn btn-success" type="button">Export Excel</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <nav class="pagination">
+                    <ul class="pagination">
+                        <li><a aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+                        <li><a>1</a></li>
+                        <li><a>2</a></li>
+                        <li><a>3</a></li>
+                        <li><a>4</a></li>
+                        <li><a>5</a></li>
+                        <li><a aria-label="Next"><span aria-hidden="true">»</span></a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <footer></footer>
 </body>
 
 </html>

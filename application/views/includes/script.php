@@ -1,6 +1,7 @@
 <script type="text/javascript" src="{assets}js/jquery.min.js"></script>
 <script type="text/javascript" src="{assets}bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="{assets}js/scripts.js"></script>
+<script type="text/javascript" src="{assets}js/plugin/bootstrap3-typeahead.min.js"></script>
 <script type="text/javascript" src="{assets}js/page/{page}.js"></script>
 <script>
 	var BASE_URL = "<?=base_url()?>";

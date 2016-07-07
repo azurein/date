@@ -3,7 +3,308 @@ class Peserta_model extends CI_Model {
 	public function __construct()
 	{
 		parent::__construct();
+		$this->db = $this->load->database('participant',TRUE);
 	}
+
+	public function getParticipant1($key=''){
+		$query = 	"SELECT
+					c.card_id,
+					a.participant_id,
+					b.title_name,
+					a.participant_name,
+					a.group_id,
+					d.group_name,
+					a.follower,
+					'Tidak Hadir' as status_kehadiran
+
+					FROM participant a
+
+					JOIN titles b
+					ON a.title_id = b.title_id
+					AND a._status <> 'D'
+					AND b._status <> 'D'
+
+					JOIN card c
+					ON a.participant_id = c.participant_id
+					AND c._status <> 'D'
+
+					JOIN groups d
+					ON a.group_id = d.group_id
+					AND d._status <> 'D'
+					WHERE c.card_id LIKE '%".$key."%'
+					OR CONCAT(b.title_name ,a.participant_name) LIKE '%".$key."%'
+					OR d.group_name LIKE '%".$key."%'
+					OR a.follower LIKE '%".$key."%'
+					OR 'tidak hadir' = '".$key."'
+					";
+		$data =$this->db->query($query)->result_array();
+		return $data;
+	}
+
+	public function getParticipantTable()
+	{
+		return $this->db->get('participant');
+	}
+
+	public function getParticipantByID($id)
+	{
+		$query = "SELECT
+					participant_id,
+					title_id,
+					participant_name,
+					group_id,
+					follower,
+					delegate_to
+
+					FROM participant
+					WHERE participant_id = '".$id."'
+					AND _status <> 'D'";
+		$data = $this->db->query($query)->result();
+		return $data;
+	}
+
+	public function getAvailDelegateParticipant($participantID)
+	{
+		$query = "SELECT
+					c.card_id,
+					a.participant_id,
+					b.title_name,
+					a.participant_name
+
+					FROM participant a
+
+					JOIN titles b
+					ON a.title_id = b.title_id
+					AND b._status <> 'D'
+
+					JOIN card c
+					ON a.participant_id = c.participant_id
+					AND c._status <> 'D'
+
+					WHERE a._status <> 'D'
+					AND a.participant_id <> '".$participantID."'
+					AND 
+					(
+						a.delegate_to IS NULL
+						OR a.delegate_to = 0
+					)
+					";
+		$data = $this->db->query($query)->result();
+
+		return $data;
+	}
+
+	public function getTitle1(){
+		$query = "SELECT title_id,title_name FROM titles WHERE _status <> 'D'";
+		$data = $this->db->query($query)->result_array();
+		return $data;
+	}
+	public function getGroup1(){
+		$query = "SELECT group_id,group_name FROM groups WHERE _status <> 'D'";
+		$data = $this->db->query($query)->result_array();
+		return $data;
+	}
+
+	public function createParticipant1($data){
+		$query = "INSERT INTO participant
+			(participant_name,title_id,delegate_to,follower,group_id,_status,_user,_date,event_id)
+			VALUES(?,?,?,?,?,'I',?,NOW(),?)";
+
+		$this->db->query($query,array(
+			$data['name'],
+			$data['title'],
+			$data['delegate'],
+			$data['follower'],
+			$data['group'],
+			$data['userID'],
+			$data['eventID']
+		));
+
+		return $this->db->insert_id();
+	}
+
+	public function createCard($data)
+	{
+		$query = "INSERT INTO card
+			(card_id,participant_id,_status,_user,_date,event_id)
+			VALUES(CAST(NOW()+0 as CHAR(14) ),?,'I',?,NOW(),?)";
+
+		return $this->db->query($query,array(
+			$data['participantID'],
+			$data['userID'],
+			$data['eventID']
+		));
+	}
+
+	public function createCardWithID($data)
+	{
+		$query = "INSERT INTO card
+			(card_id,participant_id,_status,_user,_date,event_id)
+			VALUES(?,?,'I',?,NOW(),?)";
+
+		return $this->db->query($query,array(
+			$data['cardID'],
+			$data['participantID'],
+			$data['userID'],
+			$data['eventID']
+		));
+	}
+
+	public function editParticipant($data)
+	{
+		$query = "UPDATE participant SET
+					title_id = ?,
+					participant_name = ?,
+					group_id = ?,
+					follower = ?,
+					delegate_to = ?,
+					_user = ?,
+					event_id =?,
+					_status = 'U',
+					_date = NOW()
+					WHERE participant_id = ?";
+		return $this->db->query($query,array(
+			$data['title'],
+			$data['name'],
+			$data['group'],
+			$data['follower'],
+			$data['delegate'],
+			$data['userID'],
+			$data['eventID'],
+			$data['id']
+		));
+	}
+
+	public function resetCardID($data)
+	{
+		$query = "UPDATE card SET 
+					card_id = CAST(NOW()+0 as CHAR(14)),
+					_user = ?,
+					_status = 'U',
+					_date = NOW()
+					WHERE card_id = ?";
+		return $this->db->query($query,array(
+			$data['userID'],
+			$data['cardID']
+		));
+	}
+
+	public function deactiveParticipantById($data)
+	{
+		$query = "UPDATE participant SET
+					_status = 'D',
+					_user = ?,
+					_date = NOW()
+					WHERE participant_id = ?";
+		$this->db->query($query,array(
+			$data['userID'],
+			$data['participantID']
+		));
+		$query = "UPDATE participant SET
+					delegate_to = null,
+					_status = 'U',
+					_user = ?,
+					_date = NOW()
+					WHERE delegate_to = ?
+					AND _status <> 'D'";
+		return $this->db->query($query,array(
+			$data['userID'],
+			$data['participantID']
+		));
+	}
+
+	public function getTitleID($data)
+	{
+		$query = "SELECT title_id FROM titles WHERE _status <> 'D' AND title_name = '".$data."'";
+		$data = $this->db->query($query)->result_array();
+		return $data;
+	}
+
+	public function getGroupID($data)
+	{
+		$query = "SELECT group_id FROM groups WHERE _status <> 'D' AND group_name = '".$data."'";
+		$data = $this->db->query($query)->result_array();
+		return $data;
+	}
+
+	public function updateTable($data, $user){
+		$checker = "SELECT b.card_id
+					FROM participant a
+					JOIN card b
+					ON a.participant_id = b.participant_id
+					AND a._status <> 'D'
+					AND b._status <> 'D'
+
+					WHERE b.card_id = ?
+				";
+		$update = "UPDATE participant a SET
+					a.title_id =  COALESCE((
+						SELECT title_id
+						FROM titles
+						WHERE LOWER(TRIM(title_name))  = LOWER(TRIM(?))
+						AND _status <> 'D'
+					),0),
+					a.participant_name = ?,
+					a.group_id =  COALESCE((
+						SELECT group_id
+						FROM groups
+						WHERE LOWER(TRIM(group_name))  = LOWER(TRIM(?))
+						AND _status <> 'D'
+					),0),
+					a.follower = ?,
+					a.event_id = ?,
+					a._user = ?,
+					a._date = NOW()
+					WHERE EXISTS(
+						SELECT * FROM card b
+					    WHERE b.card_id = ?
+                        AND b.participant_id = a.participant_id
+                        AND b._status <> 'D'
+                    )";
+		foreach ($data as $row) {
+			$check = $this->db->query($checker,array(array_key_exists('A',$row)? $row['A']: ''))->result_array();
+			$title_id = $this->getTitleID(array_key_exists('B',$row)? $row['B']: '');
+			$group_id = $this->getGroupID(array_key_exists('D',$row)? $row['D']: '');
+
+			if(empty($check) && array_key_exists('A',$row))
+			{
+				$param = array(
+					'name' => array_key_exists('C',$row)? $row['C']: '',
+					'title' => empty($title_id)? 0 : $title_id[0]['title_id'],
+					'delegate' => 'null',
+					'follower' => array_key_exists('E',$row)? $row['E']: 0,
+					'group' => empty($group_id)? 0 : $group_id[0]['group_id'],
+					'userID' => $user['userID'],
+					'eventID' => $user['eventID']
+				);
+
+				$result = $this->createParticipant1($param);
+
+				$param = array(
+					'participantID' => $result,
+					'userID' => $user['userID'],
+					'eventID' => $user['eventID'],
+					'cardID' => $row['A']
+				);
+
+				$this->createCardWithID($param);
+			}
+			else
+			{
+				$this->db->query($update,array(
+					array_key_exists('B',$row)? $row['B']: '',
+					array_key_exists('C',$row)? $row['C']: '',
+					array_key_exists('D',$row)? $row['D']: '',
+					array_key_exists('E',$row)? $row['E']: '',
+					$user['eventID'],
+					$user['userID'],
+					array_key_exists('A',$row)? $row['A']: ''
+				));
+			}
+		}
+	}
+
+	//old function
 	public function getParticipant($search){
 		$query = "SELECT participant_id,participant_name,title_name,delegate_to,group_name,follower
 					FROM participant a
