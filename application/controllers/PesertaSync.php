@@ -1,12 +1,39 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Peserta extends Main_Controller {
+class PesertaSync extends Main_Controller {
+	
+	public $model_2;
+	public $model_3;
+	public $model_4;
+	public $model_5;
 
    	public function __construct()
 	{
-		parent::__construct();	
+		parent::__construct();
+		$this->model_2 = FALSE;
+		$this->model_3 = FALSE;
+		$this->model_4 = FALSE;
+		$this->model_5 = FALSE;
+		
 		$this->load->model("Peserta_model","peserta");
+
+		if($this->ping('192.168.0.100')) {
+			$this->load->model("Peserta_model_2","peserta_2");
+			$this->model_2 = TRUE;
+		}
+		if($this->ping('192.168.0.102')) {
+			$this->load->model("Peserta_model_3","peserta_3");
+			$this->model_3 = TRUE;
+		}
+		if($this->ping('192.168.0.103')) {
+			$this->load->model("Peserta_model_4","peserta_4");
+			$this->model_4 = TRUE;
+		}
+		if($this->ping('192.168.0.104')) {
+			$this->load->model("Peserta_model_5","peserta_5");
+			$this->model_5 = TRUE;
+		}
 	}
 
 	public function index()
@@ -20,11 +47,23 @@ class Peserta extends Main_Controller {
 		$this->view('admin/peserta');
 	}
 
+	// Function to check response time
+	public function ping($host,$port=80,$timeout=10) {
+	    $fsock = fsockopen($host, $port, $errno, $errstr, $timeout);
+	    if (!$fsock) {
+	    	// fclose();
+	    	return FALSE;
+	    }
+	    else {
+	    	// fclose();
+			return TRUE;
+	    }
+	}
 
 	public function getForm()
 	{
 		$this->load->helper('form');
-		echo form_open_multipart('Peserta/upload');
+		echo form_open_multipart('PesertaSync/upload');
 	}
 
 	public function upload()
@@ -92,6 +131,18 @@ class Peserta extends Main_Controller {
 			'eventID' => $this->getSession('event_id')
 		);
 
+		if($this->model_2) {
+			$this->peserta_2->updateTable($data,$user);		
+		}
+		if($this->model_3) {
+			$this->peserta_3->updateTable($data,$user);		
+		}
+		if($this->model_4) {
+			$this->peserta_4->updateTable($data,$user);		
+		}
+		if($this->model_5) {
+			$this->peserta_5->updateTable($data,$user);		
+		}
 		$this->peserta->updateTable($data,$user);
 	}
 
@@ -138,10 +189,142 @@ class Peserta extends Main_Controller {
 		echo json_encode($data);
 	}
 
+	public function saveParticipant()
+	{
+		$id = $this->input->post_get('id');
+
+		if($id == '')
+		{
+			$data = array(
+				'title' => $this->input->post_get('title'),
+				'name' => $this->input->post_get('name'),
+				'group' => $this->input->post_get('group'),
+				'follower' => $this->input->post_get('follower'),
+				'delegate' => $this->input->post_get('delegate'),
+				'userID' => $this->getSession('user_id'),
+				'eventID' => $this->getSession('event_id')
+			);
+
+			$result = $this->peserta->createParticipant1($data);
+			if($this->model_2) {
+				$this->peserta_2->createParticipant1($data);
+			}
+			if($this->model_3) {
+				$this->peserta_3->createParticipant1($data);		
+			}
+			if($this->model_4) {
+				$this->peserta_4->createParticipant1($data);		
+			}
+			if($this->model_5) {
+				$this->peserta_5->createParticipant1($data);		
+			}
+
+ 			$newID = $this->getNewID();
+
+			$data = array(
+				'newID' => $newID,
+				'participantID' => $result,
+				'userID' => $this->getSession('user_id'),
+				'eventID' => $this->getSession('event_id')
+			);
+
+			$result = $this->peserta->createCard($data);
+			if($this->model_2) {
+				$this->peserta_2->createCard($data);
+			}
+			if($this->model_3) {
+				$this->peserta_3->createCard($data);		
+			}
+			if($this->model_4) {
+				$this->peserta_4->createCard($data);		
+			}
+			if($this->model_5) {
+				$this->peserta_5->createCard($data);		
+			}
+			echo $result;
+		}
+		else
+		{
+			$data = array(
+				'id' => $this->input->post_get('id'),
+				'title' => $this->input->post_get('title'),
+				'name' => $this->input->post_get('name'),
+				'group' => $this->input->post_get('group'),
+				'follower' => $this->input->post_get('follower'),
+				'delegate' => $this->input->post_get('delegate'),
+				'userID' => $this->getSession('user_id'),
+				'eventID' => $this->getSession('event_id')
+			);
+
+			$result = $this->peserta->editParticipant($data);
+			if($this->model_2) {
+				$this->peserta_2->editParticipant($data);
+			}
+			if($this->model_3) {
+				$this->peserta_3->editParticipant($data);		
+			}
+			if($this->model_4) {
+				$this->peserta_4->editParticipant($data);		
+			}
+			if($this->model_5) {
+				$this->peserta_5->editParticipant($data);		
+			}
+			echo $result;
+		}
+	}
+
 	public function getNewID()
 	{
 		$newid = $this->peserta->getNewID();
 		return $newid;
+	}
+
+	public function resetCardID()
+	{
+		$newID = $this->getNewID();
+
+		$data = array(
+			'newID' => $newID,
+			'cardID' => $this->input->post_get('cardID'),
+			'userID' => $this->getSession('user_id') 
+		);
+
+		$result = $this->peserta->resetCardID($data);
+		if($this->model_2) {
+			$this->peserta_2->resetCardID($data);
+		}
+		if($this->model_3) {
+			$this->peserta_3->resetCardID($data);		
+		}
+		if($this->model_4) {
+			$this->peserta_4->resetCardID($data);		
+		}
+		if($this->model_5) {
+			$this->peserta_5->resetCardID($data);		
+		}
+		echo $result;
+	}
+
+	public function deleteParticipantById()
+	{
+		$data = array(
+			'participantID' => $this->input->post_get('id'),
+			'userID' => $this->getSession('user_id')
+		);
+		$result = $this->peserta->deactiveParticipantById($data);
+		if($this->model_2) {
+			$this->peserta_2->deactiveParticipantById($data);
+		}
+		if($this->model_3) {
+			$this->peserta_3->deactiveParticipantById($data);
+		}
+		if($this->model_4) {
+			$this->peserta_4->deactiveParticipantById($data);
+		}
+		if($this->model_5) {
+			$this->peserta_5->deactiveParticipantById($data);		
+		}
+		echo $result;
 	}
 
 	public function getAvailDelegateParticipant()
@@ -241,4 +424,8 @@ class Peserta extends Main_Controller {
         unset($this->excel);
 	}
 
+	public function import(){
+		$file = $_FILES;
+		echo json_encode($file);
+	}
 }

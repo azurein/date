@@ -1,9 +1,8 @@
 var string = [];
 var map = {};
 
-$( document ).ready(function() {
+$(document).ready(function() {
 	getParticipant();
-
 
 	$.ajax({
 		type : 'GET',
@@ -11,33 +10,32 @@ $( document ).ready(function() {
 		success : function(data){
 			$("#t").append(data+'<input type="file" name="userfile" size="20" /><br /><br /><input type="submit" value="upload" /></form>');
 		}
-	});
+	});	
 
 	$("#addButton").click(function(){
 		loadAddEditModal('Tambah Peserta');
 	});
 
-	$("#search").bind('input propertychange',function(){
-		getParticipant($(this).val());
+	$(".fa-refresh").click(function(){
+		getParticipant();
 	});
 
 	$('#participantDelegate').typeahead({
 		source: string
 	});
 
-
 	$("#exportButton").click(function(){
-		exportExcel();
+		exportExcelParticipant();
 	});
 
 	$("#importInput").click(function(){
 		$(this).val(null);
 	}).change(function(){
-		importExcel($(this));
+		importExcelParticipant($(this));
 	});
 });
 
-function importExcel(input){
+function importExcelParticipant(input){
 	var data = new FormData()
 	data.append('uploadXls',input[0].files[0]);
 	$.ajax({
@@ -62,7 +60,7 @@ function importExcel(input){
 	});
 }
 
-function exportExcel(){
+function exportExcelParticipant(){
 	var url = BASE_URL+'Peserta/export';
 	$.ajax({
 		type : 'GET',
@@ -93,6 +91,7 @@ function getAvailDelegate(id=''){
 }
 
 function getParticipant(key=''){
+	$(".fa-refresh").addClass('fa-spin');
 	$.ajax({
 		type : 'POST',
 		url : BASE_URL + 'Peserta/getParticipant',
@@ -101,9 +100,49 @@ function getParticipant(key=''){
 			'key' : key
 		},
 		success : function(data){
-			populateTable(data);
+			populateTableParticipant(data);
+			$(".fa-refresh").removeClass('fa-spin');
 		}
-	})
+	});
+}
+
+function getParticipantSummary(key=''){
+		var TotalVerified = 0;
+		var TotalParticipant = 0;
+		var TotalUnverified = 0;
+
+		$.ajax({
+		type : 'POST',
+		url : BASE_URL + 'Kehadiran/getTotalVerified',
+		dataType : 'json',
+		data : {
+			'key' : key
+		},
+		success : function(data){
+			if(data.length > 0)
+			{
+				TotalVerified = data[0].TotalVerified;
+				$('#totalVerified').html(TotalVerified);
+			}
+		}
+	});
+
+	$.ajax({
+		type : 'POST',
+		url : BASE_URL + 'Peserta/getTotalParticipant',
+		dataType : 'json',
+		data : {
+			'key' : key
+		},
+		success : function(data){
+			if(data.length > 0)
+			{
+				TotalParticipant = data[0].TotalParticipant;
+				TotalUnverified = TotalParticipant - TotalVerified;
+				$('#totalUnverified').html(TotalUnverified);
+			}
+		}
+	});
 }
 
 function loadAddEditModal(param , participantData=''){
@@ -161,7 +200,7 @@ function saveParticipant(id){
 
 	$.ajax({
 		type : 'POST',
-		url : BASE_URL + 'Peserta/saveParticipant',
+		url : BASE_URL + 'PesertaSync/saveParticipant',
 		dataType : 'json',
 		data : {
 			'id'		: id,
@@ -174,32 +213,35 @@ function saveParticipant(id){
 		success : function(data){
 			getParticipant();
 		}
-	})
+	});
 }
 
-function populateTable(data){
+function populateTableParticipant(data){
+	$('#participantDataTable').DataTable().destroy();
 	$('#contentTable').empty();
-	if(data.length > 0)
-	{
-		for(var i = 0 ; i < data.length ; i++)
-		{
-			$('#contentTable').append('<tr value="'+data[i].participant_id+'"><td><span class="card" style="cursor:hand;">'+ data[i].card_id +'</span></td><td class="name">'+ data[i].title_name + data[i].participant_name +'</td><td id="hah" value="'+data[i].group_id+'">'+ data[i].group_name +'</td><td>'+ data[i].follower +'</td><td>'+ data[i].status_kehadiran +'</td><td> <i class="editButton glyphicon glyphicon-pencil"></i><i class="deleteButton glyphicon glyphicon-trash"></i></td></tr>');
-		}
-		$(".card").click(function(){
-			resetCardID($(this).text(),$(this).parent().siblings(".name").text());
-		});
-		$(".deleteButton").click(function(){
-			deleteParticipant($(this).parent().parent().attr("value"),$(this).parent().siblings(".name").text());
-		});
 
-		$(".editButton").click(function(){
-			getParticipantByID($(this).parent().parent().attr("value"));
-		});
-	}
-	else
+	for(var i = 0 ; i < data.length ; i++)
 	{
-		$('#contentTable').append('<tr><td colspan="6" align="center">Tidak ada data</td></tr>');
+		$('#contentTable').append('<tr value="'+data[i].participant_id+'"><td><span class="card" style="cursor:hand;">'+ data[i].card_id +'</span></td><td class="name">'+ data[i].title_name + data[i].participant_name +'</td><td id="hah" value="'+data[i].group_id+'">'+ data[i].group_name +'</td><td>'+ data[i].follower +'</td><td>'+ data[i].status_kehadiran +'</td><td> <i class="editButton glyphicon glyphicon-pencil"></i><i class="deleteButton glyphicon glyphicon-trash"></i></td></tr>');
 	}
+
+	$(".card").click(function(){
+		resetCardID($(this).text(),$(this).parent().siblings(".name").text());
+	});
+
+	$(".deleteButton").click(function(){
+		deleteParticipant($(this).parent().parent().attr("value"),$(this).parent().siblings(".name").text());
+	});
+
+	$(".editButton").click(function(){
+		getParticipantByID($(this).parent().parent().attr("value"));
+	});
+	
+	$('#participantDataTable').DataTable({
+		"order"		: [[ 5, "desc" ]]
+	});
+
+	getParticipantSummary();
 }
 
 function resetCardID(cardID,name){
@@ -208,7 +250,7 @@ function resetCardID(cardID,name){
 	$("#resetButton").unbind('click').click(function(){
 		$.ajax({
 			type : 'POST',
-			url : BASE_URL + 'Peserta/resetCardID',
+			url : BASE_URL + 'PesertaSync/resetCardID',
 			dataType : 'json',
 			data : {
 				'cardID' : cardID
@@ -226,7 +268,7 @@ function deleteParticipant(id,name){
 	$("#deleteButton").unbind('click').click(function(){
 		$.ajax({
 			type : 'POST',
-			url : BASE_URL + 'Peserta/deleteParticipantByID',
+			url : BASE_URL + 'PesertaSync/deleteParticipantByID',
 			dataType : 'json',
 			data : {
 				'id' : id
@@ -234,8 +276,8 @@ function deleteParticipant(id,name){
 			success : function(data){
 				getParticipant();
 			}
-		})
-	})
+		});
+	});
 }
 
 function getParticipantByID(id){

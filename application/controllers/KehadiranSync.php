@@ -1,12 +1,39 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Kehadiran extends Main_Controller {
+class KehadiranSync extends Main_Controller {
+	
+	public $model_2;
+	public $model_3;
+	public $model_4;
+	public $model_5;
 
    	public function __construct()
 	{
 		parent::__construct();
+		$this->model_2 = FALSE;
+		$this->model_3 = FALSE;
+		$this->model_4 = FALSE;
+		$this->model_5 = FALSE;
+
 		$this->load->model("Kehadiran_model","kehadiran");
+
+		if($this->ping('192.168.0.101')) {
+			$this->load->model("Kehadiran_model_2","kehadiran_2");
+			$this->model_2 = TRUE;
+		}
+		if($this->ping('192.168.0.102')) {
+			$this->load->model("Kehadiran_model_3","kehadiran_3");
+			$this->model_3 = TRUE;
+		}
+		if($this->ping('192.168.0.103')) {
+			$this->load->model("Kehadiran_model_4","kehadiran_4");
+			$this->model_4 = TRUE;
+		}
+		if($this->ping('192.168.0.104')) {
+			$this->load->model("Kehadiran_model_5","kehadiran_5");
+			$this->model_5 = TRUE;
+		}
 	}
 	
 	public function index()
@@ -18,6 +45,19 @@ class Kehadiran extends Main_Controller {
 		$this->session->set_userdata('userdata', $user_array);
 		
 		$this->view('admin/kehadiran');
+	}
+
+	// Function to check response time
+	public function ping($host,$port=80,$timeout=1) {
+	    $fsock = fsockopen($host, $port, $errno, $errstr, $timeout);
+	    if (!$fsock) {
+	    	// fclose();
+	    	return FALSE;
+	    }
+	    else {
+	    	// fclose();
+			return TRUE;
+	    }
 	}
 
 	protected function getSession($key=null){
@@ -68,6 +108,76 @@ class Kehadiran extends Main_Controller {
 	{
 		$newdate = $this->kehadiran->getNewDate();
 		return $newdate;
+	}
+
+	public function saveVerificationLog()
+	{
+		$newDate = $this->getNewDate();
+
+		$data = array(
+			'newDate' => $newDate,
+			'card_id' => $this->input->post_get('card_id'),
+			'userID' => $this->getSession('user_id')
+		);
+
+		$result = $this->kehadiran->saveVerificationLog($data);
+		if($this->model_2) {
+			$this->kehadiran_2->saveVerificationLog($data);		
+		}
+		if($this->model_3) {
+			$this->kehadiran_3->saveVerificationLog($data);		
+		}
+		if($this->model_4) {
+			$this->kehadiran_4->saveVerificationLog($data);		
+		}
+		if($this->model_5) {
+			$this->kehadiran_5->saveVerificationLog($data);		
+		}
+		echo $result;
+	}
+
+	public function deactiveVerificationLog()
+	{
+		$data = array(
+			'log_id' => $this->input->post_get('id'),
+			'userID' => $this->getSession('user_id')
+		);
+		$result = $this->kehadiran->deactiveVerificationLog($data);
+		if($this->model_2) {
+			$this->kehadiran_2->deactiveVerificationLog($data);		
+		}
+		if($this->model_3) {
+			$this->kehadiran_3->saveVerificationLog($data);		
+		}
+		if($this->model_4) {
+			$this->kehadiran_4->saveVerificationLog($data);		
+		}
+		if($this->model_5) {
+			$this->kehadiran_5->saveVerificationLog($data);		
+		}
+		echo $result;
+	}
+
+	public function deactiveVerificationCard()
+	{
+		$data = array(
+			'card_id' => $this->input->post_get('card_id'),
+			'userID' => $this->getSession('user_id')
+		);
+		$result = $this->kehadiran->deactiveVerificationCard($data);
+		if($this->model_2) {
+			$this->kehadiran_2->deactiveVerificationCard($data);		
+		}
+		if($this->model_3) {
+			$this->kehadiran_3->deactiveVerificationCard($data);		
+		}
+		if($this->model_4) {
+			$this->kehadiran_4->deactiveVerificationCard($data);		
+		}
+		if($this->model_5) {
+			$this->kehadiran_5->deactiveVerificationCard($data);		
+		}
+		echo $result;
 	}
 
 	public function export()

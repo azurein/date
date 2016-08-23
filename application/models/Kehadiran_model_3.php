@@ -1,9 +1,9 @@
 <?php
-class Kehadiran_model extends CI_Model {
+class Kehadiran_model_3 extends CI_Model {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->db = $this->load->database('default',TRUE);
+		$this->db = $this->load->database('model_3',TRUE);
 	}
 
 	public function getVerificationLog($key=''){
@@ -173,22 +173,6 @@ class Kehadiran_model extends CI_Model {
                     ORDER BY
                     verification_time DESC
 					";
-		$data = $this->db->query($query)->result_array();
-		return $data;
-	}
-
-	public function getTotalVerified() {
-		$user_id = $this->session->userdata('user_id');
-		$query = "	SELECT COUNT(card_id) AS TotalVerified
-					FROM verification WHERE _status <> 'D'";
-		$data = $this->db->query($query)->result_array();
-		return $data;
-	}
-
-	public function getTotalVerifiedByUser($user_id) {
-		$query = "	SELECT COUNT(card_id) AS TotalVerified
-					FROM verification
-					WHERE _user = $user_id AND _status <> 'D'";
 		$data = $this->db->query($query)->result_array();
 		return $data;
 	}

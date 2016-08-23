@@ -1,8 +1,20 @@
 <script type="text/javascript" src="{assets}js/jquery.min.js"></script>
+<script type="text/javascript" src="{assets}js/dataTables.min.js"></script>
 <script type="text/javascript" src="{assets}bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="{assets}js/scripts.js"></script>
 <script type="text/javascript" src="{assets}js/plugin/bootstrap3-typeahead.min.js"></script>
 <script type="text/javascript" src="{assets}js/page/{page}.js"></script>
+
+<!-- <script type="text/javascript" src="{assets}js/jquery.bootpag.min.js"></script> -->
+<script type="text/javascript" src="{assets}js/filereader.js"></script>
+<script type="text/javascript" src="{assets}js/qrcodelib.js"></script>
+<script type="text/javascript" src="{assets}js/webcodecamjquery.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $.getScript("{assets}js/mainjquery.js");
+    });
+</script>
+
 <script>
 	var BASE_URL = "<?=base_url()?>";
 </script>
@@ -26,6 +38,7 @@
                 <ul class="nav navbar-nav navbar-left">
                     <li class="main-menu" role="presentation"><a href="<?php echo base_url(); ?>kehadiran"> Kehadiran</a></li>
                     <li class="main-menu" role="presentation"><a href="<?php echo base_url(); ?>peserta">Peserta</a></li>
+                    <li id="lastupdate" class="main-menu" role="presentation"><a href="<?php echo base_url(); ?>update">Update Terakhir</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#">Selamat datang, Admin <i class="fa fa-caret-down"></i></a>

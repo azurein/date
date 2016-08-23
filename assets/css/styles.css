@@ -13,6 +13,9 @@ nav.navbar.navbar-default{
 }
 
 input.search{
+  background: #1c1e22;
+  color: #FFFFFF;
+  border: 1px solid #0c0d0e;
 }
 
 i.glyphicon.glyphicon-pencil{
@@ -35,3 +38,18 @@ nav.pagination{
   margin:0px;
 }
 
+.summary-right {
+  text-align: right;
+}
+
+.summary-spacing {
+  margin-right: 20px;
+}
+
+.fa-refresh {
+  margin-left: 10px;
+}
+
+.table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {
+  vertical-align: middle; 
+}

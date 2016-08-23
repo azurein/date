@@ -1,9 +1,9 @@
 <?php
-class Peserta_model extends CI_Model {
+class Peserta_model_3 extends CI_Model {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->db = $this->load->database('default',TRUE);
+		$this->db = $this->load->database('model_3',TRUE);
 	}
 
 	public function getParticipant1($key=''){
@@ -15,7 +15,7 @@ class Peserta_model extends CI_Model {
 					a.group_id,
 					d.group_name,
 					a.follower,
-					CASE WHEN e.card_id IS NULL THEN 'Tidak Hadir' ELSE 'Hadir' END AS status_kehadiran
+					'Tidak Hadir' as status_kehadiran
 
 					FROM participant a
 
@@ -31,11 +31,6 @@ class Peserta_model extends CI_Model {
 					JOIN groups d
 					ON a.group_id = d.group_id
 					AND d._status <> 'D'
-                    
-                    LEFT JOIN verification e
-                    ON c.card_id = e.card_id
-                    AND e._status <> 'D'
-                    
 					WHERE c.card_id LIKE '%".$key."%'
 					OR CONCAT(b.title_name ,a.participant_name) LIKE '%".$key."%'
 					OR d.group_name LIKE '%".$key."%'
@@ -424,13 +419,4 @@ class Peserta_model extends CI_Model {
 		$result = $this->db->query($query)->result();
 		return count($result)==0?array():$result[0];
 	}
-
-	public function getTotalParticipant() {
-		$user_id = $this->session->userdata('user_id');
-		$query = "	SELECT COUNT(participant_id) AS TotalParticipant
-					FROM participant WHERE _status <> 'D'";
-		$data = $this->db->query($query)->result_array();
-		return $data;
-	}
-
 }
