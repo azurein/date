@@ -11,12 +11,6 @@ class Peserta extends Main_Controller {
 
 	public function index()
 	{
-		$user_array = array(
-			'event_id' => '1',
-			'user_id' => '0'
-		);
-		$this->session->set_userdata('userdata', $user_array);
-
 		$this->view('admin/peserta');
 	}
 
@@ -88,21 +82,11 @@ class Peserta extends Main_Controller {
 		delete_files('./uploads');
 
 		$user = array(
-			'userID' => $this->getSession('user_id'),
-			'eventID' => $this->getSession('event_id')
+			'userID' => $_SESSION['user_id'],
+			'eventID' => $_SESSION['event_id']
 		);
 
 		$this->peserta->updateTable($data,$user);
-	}
-
-	protected function getSession($key=null){
-		$user_data = $this->session->userdata('userdata');
-
-		if(isset($key))
-		{
-			$user_data = $user_data[$key];
-		}
-		return $user_data;
 	}
 
 	public function getParticipant()

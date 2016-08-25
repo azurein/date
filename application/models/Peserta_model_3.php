@@ -351,7 +351,7 @@ class Peserta_model_3 extends CI_Model {
 					WHERE a.wht <> 'D' AND 
 						(participant_name LIKE '%".$search."%' OR c.group_name LIKE '%".$search."%' 
 						OR a.delegate_to LIKE '%".$search."%' OR a.follower LIKE '%".$search."%')
-						AND event_id='".$this->session->userdata('active_event')."'";
+						AND event_id='".$_SESSION['event_id']."'";
 		$data = $this->db->query($query)->result();
 		return $data;
 	}
@@ -392,7 +392,7 @@ class Peserta_model_3 extends CI_Model {
 
 		$this->db->query($query,array($newData['name'],$newData['title'],$newData['delegate'],$newData['card'],
 			$newData['follower'],$newData['group'],
-								$this->session->userdata('active_event'),$this->session->userdata('user_id')));
+								$_SESSION['event_id'],$_SESSION['user_id']));
 		$data = $this->db->insert_id();
 
 		return $data;
@@ -403,13 +403,13 @@ class Peserta_model_3 extends CI_Model {
 			$query = "INSERT INTO contact (participant_id,contact_type,contact, wht, whn, who, how) 
 						VALUES(?,?,?,'A',NOW(),?,'Application')";
 
-			$this->db->query($query,array($participantId,$contactList[$i]['type'],$contactList[$i]['detail'],$this->session->userdata('user_id')));
+			$this->db->query($query,array($participantId,$contactList[$i]['type'],$contactList[$i]['detail'],$_SESSION['user_id']));
 		}
 	}
 
 	public function loadParticipant($participant){
 		$query = "SELECT participant_id,title_id,participant_name,delegate_to,follower,card_code FROM participant 
-					WHERE wht <> 'D' AND event_id='".$this->session->userdata('active_event')."' AND participant_id IN (".$participant.")";
+					WHERE wht <> 'D' AND event_id='".$_SESSION['event_id']."' AND participant_id IN (".$participant.")";
 		return $this->db->query($query)->result();
 	}
 

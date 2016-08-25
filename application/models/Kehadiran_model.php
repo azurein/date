@@ -6,7 +6,7 @@ class Kehadiran_model extends CI_Model {
 		$this->db = $this->load->database('default',TRUE);
 	}
 
-	public function getVerificationLog($key=''){
+	public function getVerificationLog($key='', $user_id='', $event_id=''){
 		$query = 	"SELECT DISTINCT
 					CONCAT(DATE_FORMAT(a.verification_date, '%Y%m%d%H%i%s'), a.card_id) as log_id,
 					a.card_id,
@@ -32,8 +32,8 @@ class Kehadiran_model extends CI_Model {
                     AND	d._status <> 'D'
                     
 					WHERE
-					b.event_id = 1
-					AND a._user = 0
+					b.event_id = '".$event_id."'
+					AND a._user = '".$user_id."'
 					AND (a.card_id LIKE '%".$key."%'
 					OR c.participant_name LIKE '%".$key."%'
 					OR a.verification_date LIKE '%".$key."%')
@@ -178,7 +178,7 @@ class Kehadiran_model extends CI_Model {
 	}
 
 	public function getTotalVerified() {
-		$user_id = $this->session->userdata('user_id');
+		$user_id = $_SESSION['user_id'];
 		$query = "	SELECT COUNT(card_id) AS TotalVerified
 					FROM verification WHERE _status <> 'D'";
 		$data = $this->db->query($query)->result_array();

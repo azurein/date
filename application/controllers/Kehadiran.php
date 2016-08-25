@@ -11,29 +11,19 @@ class Kehadiran extends Main_Controller {
 	
 	public function index()
 	{
-		$user_array = array(
-			'event_id' => '1',
-			'user_id' => '0'
-		);
-		$this->session->set_userdata('userdata', $user_array);
-		
-		$this->view('admin/kehadiran');
-	}
-
-	protected function getSession($key=null){
-		$user_data = $this->session->userdata('userdata');
-
-		if(isset($key))
-		{
-			$user_data = $user_data[$key];
+		if(isset($_SESSION['user_id']) && isset($_SESSION['event_id'])) {
+			$this->view('admin/kehadiran');
+		} else {
+			$this->view('admin/acara/pengaturan_acara');
 		}
-		return $user_data;
 	}
 
 	public function getVerificationLog()
 	{
 		$key = $this->input->post_get('key');
-		$data = $this->kehadiran->getVerificationLog($key);
+		$user_id = $_SESSION['user_id'];
+		$event_id = $_SESSION['event_id'];
+		$data = $this->kehadiran->getVerificationLog($key, $user_id, $event_id);
 		echo json_encode($data);
 	}
 
@@ -45,7 +35,7 @@ class Kehadiran extends Main_Controller {
 
 	public function getTotalVerifiedByUser()
 	{
-		$user_id = $this->getSession('user_id');
+		$user_id = $_SESSION['user_id'];
 		$result = $this->kehadiran->getTotalVerifiedByUser($user_id);
 		echo json_encode($result);
 	}

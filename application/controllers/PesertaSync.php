@@ -38,12 +38,6 @@ class PesertaSync extends Main_Controller {
 
 	public function index()
 	{
-		$user_array = array(
-			'event_id' => '1',
-			'user_id' => '0'
-		);
-		$this->session->set_userdata('userdata', $user_array);
-
 		$this->view('admin/peserta');
 	}
 
@@ -127,8 +121,8 @@ class PesertaSync extends Main_Controller {
 		delete_files('./uploads');
 
 		$user = array(
-			'userID' => $this->getSession('user_id'),
-			'eventID' => $this->getSession('event_id')
+			'userID' => $_SESSION['user_id'],
+			'eventID' => $_SESSION['event_id']
 		);
 
 		if($this->model_2) {
@@ -144,16 +138,6 @@ class PesertaSync extends Main_Controller {
 			$this->peserta_5->updateTable($data,$user);		
 		}
 		$this->peserta->updateTable($data,$user);
-	}
-
-	protected function getSession($key=null){
-		$user_data = $this->session->userdata('userdata');
-
-		if(isset($key))
-		{
-			$user_data = $user_data[$key];
-		}
-		return $user_data;
 	}
 
 	public function getParticipant()
@@ -201,8 +185,8 @@ class PesertaSync extends Main_Controller {
 				'group' => $this->input->post_get('group'),
 				'follower' => $this->input->post_get('follower'),
 				'delegate' => $this->input->post_get('delegate'),
-				'userID' => $this->getSession('user_id'),
-				'eventID' => $this->getSession('event_id')
+				'userID' => $_SESSION['user_id'],
+				'eventID' => $_SESSION['event_id']
 			);
 
 			$result = $this->peserta->createParticipant1($data);
@@ -224,8 +208,8 @@ class PesertaSync extends Main_Controller {
 			$data = array(
 				'newID' => $newID,
 				'participantID' => $result,
-				'userID' => $this->getSession('user_id'),
-				'eventID' => $this->getSession('event_id')
+				'userID' => $_SESSION['user_id'],
+				'eventID' => $_SESSION['event_id']
 			);
 
 			$result = $this->peserta->createCard($data);
@@ -252,8 +236,8 @@ class PesertaSync extends Main_Controller {
 				'group' => $this->input->post_get('group'),
 				'follower' => $this->input->post_get('follower'),
 				'delegate' => $this->input->post_get('delegate'),
-				'userID' => $this->getSession('user_id'),
-				'eventID' => $this->getSession('event_id')
+				'userID' => $_SESSION['user_id'],
+				'eventID' => $_SESSION['event_id']
 			);
 
 			$result = $this->peserta->editParticipant($data);
@@ -286,7 +270,7 @@ class PesertaSync extends Main_Controller {
 		$data = array(
 			'newID' => $newID,
 			'cardID' => $this->input->post_get('cardID'),
-			'userID' => $this->getSession('user_id') 
+			'userID' => $_SESSION['user_id'] 
 		);
 
 		$result = $this->peserta->resetCardID($data);
@@ -309,7 +293,7 @@ class PesertaSync extends Main_Controller {
 	{
 		$data = array(
 			'participantID' => $this->input->post_get('id'),
-			'userID' => $this->getSession('user_id')
+			'userID' => $_SESSION['user_id']
 		);
 		$result = $this->peserta->deactiveParticipantById($data);
 		if($this->model_2) {

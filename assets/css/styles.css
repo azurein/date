@@ -1,5 +1,6 @@
 body{
   font-family:"Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  overflow: hidden;
 }
 
 img.img-responsive{
@@ -12,30 +13,8 @@ nav.navbar.navbar-default{
   border-right:none;
 }
 
-input.search{
-  background: #1c1e22;
-  color: #FFFFFF;
-  border: 1px solid #0c0d0e;
-}
-
-i.glyphicon.glyphicon-pencil{
-  margin:0px 5px;
-}
-
-i.glyphicon.glyphicon-trash{
-  margin:0px 5px;
-}
-
-i{
-  cursor:pointer;
-}
-
 input.form-control.search{
   margin-bottom:1em;
-}
-
-nav.pagination{
-  margin:0px;
 }
 
 .summary-right {
@@ -43,13 +22,38 @@ nav.pagination{
 }
 
 .summary-spacing {
-  margin-right: 20px;
+  margin-right: 2em;
 }
 
 .fa-refresh {
-  margin-left: 10px;
+  margin-left: 1em;
 }
 
 .table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {
   vertical-align: middle; 
+}
+
+td div.form-group{
+  margin: 0em 0em 0em 0em;
+}
+
+i{
+  cursor:pointer;
+}
+
+i.glyphicon.glyphicon-pencil, 
+i.glyphicon.glyphicon-trash, 
+i.glyphicon.glyphicon-gift, 
+i.glyphicon.glyphicon-question-sign
+i.glyphicon.glyphicon-gift,
+i.glyphicon.glyphicon-question-sign,
+i.glyphicon.glyphicon-plus
+{
+  margin:0em 0.5em;
+}
+
+i.glyphicon.glyphicon-trash.icon-middle,
+i.glyphicon.glyphicon-plus.icon-middle
+{
+  margin-top:0.5em;
 }

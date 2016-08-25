@@ -37,13 +37,7 @@ class KehadiranSync extends Main_Controller {
 	}
 	
 	public function index()
-	{
-		$user_array = array(
-			'event_id' => '1',
-			'user_id' => '0'
-		);
-		$this->session->set_userdata('userdata', $user_array);
-		
+	{	
 		$this->view('admin/kehadiran');
 	}
 
@@ -58,16 +52,6 @@ class KehadiranSync extends Main_Controller {
 	    	// fclose();
 			return TRUE;
 	    }
-	}
-
-	protected function getSession($key=null){
-		$user_data = $this->session->userdata('userdata');
-
-		if(isset($key))
-		{
-			$user_data = $user_data[$key];
-		}
-		return $user_data;
 	}
 
 	public function getVerificationLog()
@@ -85,7 +69,7 @@ class KehadiranSync extends Main_Controller {
 
 	public function getTotalVerifiedByUser()
 	{
-		$user_id = $this->getSession('user_id');
+		$user_id = $_SESSION['user_id'];
 		$result = $this->kehadiran->getTotalVerifiedByUser($user_id);
 		echo json_encode($result);
 	}
@@ -117,7 +101,7 @@ class KehadiranSync extends Main_Controller {
 		$data = array(
 			'newDate' => $newDate,
 			'card_id' => $this->input->post_get('card_id'),
-			'userID' => $this->getSession('user_id')
+			'userID' => $_SESSION['user_id']
 		);
 
 		$result = $this->kehadiran->saveVerificationLog($data);
@@ -140,7 +124,7 @@ class KehadiranSync extends Main_Controller {
 	{
 		$data = array(
 			'log_id' => $this->input->post_get('id'),
-			'userID' => $this->getSession('user_id')
+			'userID' => $_SESSION['user_id']
 		);
 		$result = $this->kehadiran->deactiveVerificationLog($data);
 		if($this->model_2) {
@@ -162,7 +146,7 @@ class KehadiranSync extends Main_Controller {
 	{
 		$data = array(
 			'card_id' => $this->input->post_get('card_id'),
-			'userID' => $this->getSession('user_id')
+			'userID' => $_SESSION['user_id']
 		);
 		$result = $this->kehadiran->deactiveVerificationCard($data);
 		if($this->model_2) {
