@@ -11,7 +11,7 @@
 <script type="text/javascript" src="{assets}js/webcodecamjquery.js"></script>
 <script type="text/javascript" src="{assets}js/localemoment.js"></script>
 <script src="{assets}js/datetimepicker.full.js"></script>
-<!-- <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script> -->
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 
 <script type="text/javascript">
     $(document).ready(function() {
