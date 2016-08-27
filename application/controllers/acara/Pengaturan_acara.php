@@ -12,7 +12,6 @@ class Pengaturan_acara extends Main_Controller {
 	public function index()
 	{
 		$_SESSION['user_id'] = '0';
-		$_SESSION['event_id'] = '1';
 
 		$this->view('admin/acara/pengaturan_acara');
 	}
@@ -27,6 +26,13 @@ class Pengaturan_acara extends Main_Controller {
 	{
 		$id = $this->input->post_get('id');
 		$data = $this->pengaturan_acara->getEventByID($id);
+		echo json_encode($data);
+	}
+
+	public function getSouvenir()
+	{
+		$id = $this->input->post_get('id');
+		$data = $this->pengaturan_acara->getSouvenir($id);
 		echo json_encode($data);
 	}
 
@@ -82,11 +88,35 @@ class Pengaturan_acara extends Main_Controller {
 
 		if($id == '') {
 			$result = $this->pengaturan_acara->createEvent($data);
-			echo $result;
+			
 		} else {
 			$result = $this->pengaturan_acara->editEvent($data);
-			echo $result;
 		}
+		echo $result;
+	}
+
+	public function saveSouvenir()
+	{
+		$user_id = $_SESSION['user_id'];
+		$event_id = $this->input->post_get('id');
+
+		$data = array(
+			'user_id' => $user_id,
+			'event_id' => $event_id
+		);
+		$result = $this->pengaturan_acara->clearSouvenir($data);
+
+		for ($i=0; $i < $this->input->post_get('length'); $i++) { 
+			$counter = "$i";
+			$data = array(
+				'souvenir_name' => $this->input->post_get('souvenir_name_'.$i),
+				'souvenir_qty' => $this->input->post_get('souvenir_qty_'.$i),
+				'user_id' => $user_id,
+				'event_id' => $event_id
+			);
+			$result = $this->pengaturan_acara->createSouvenir($data);
+		}
+		echo $result;
 	}
 
 	public function deleteEventByID()

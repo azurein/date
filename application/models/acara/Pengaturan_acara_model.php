@@ -61,6 +61,20 @@ class Pengaturan_acara_model extends CI_Model {
 		return $data;
 	}
 
+	public function getSouvenir($id)
+	{
+		$query = 	"SELECT
+					souvenir_id,
+					souvenir_name,
+					souvenir_qty
+
+					FROM souvenir
+					WHERE event_id = '".$id."' AND _status <> 'D'";
+
+		$data = $this->db->query($query)->result();
+		return $data;
+	}
+
 	public function checkAvailableEvent(){
 
 		$query = 	"SELECT EXISTS (
@@ -69,6 +83,17 @@ class Pengaturan_acara_model extends CI_Model {
 						WHERE is_active = 1
     					AND _status <> 'D'
 					) AS status_active";
+		
+		$data = $this->db->query($query)->result_array();
+		return $data;
+	}
+
+	public function getActiveEvent(){
+
+		$query = 	"SELECT event_id 
+					FROM event 
+					WHERE is_active = 1
+					AND _status <> 'D'";
 		
 		$data = $this->db->query($query)->result_array();
 		return $data;
@@ -115,7 +140,7 @@ class Pengaturan_acara_model extends CI_Model {
 						_user, 
 						_date
 					) 
-					VALUES(?,?,?,?,?,?,?,0,?,0,'A',?,NOW())";
+					VALUES(?,?,?,?,?,?,?,0,?,0,'I',?,NOW())";
 
 		$this->db->query($query,array(	
 			$data['event_type_id'], 
@@ -177,6 +202,44 @@ class Pengaturan_acara_model extends CI_Model {
 			$data['user_id'],
 			$data['event_id']
 		));
+		return $data;
+	}
+
+	public function clearSouvenir($data)
+	{
+		$query = 	"UPDATE souvenir SET
+					_status = 'D',
+					_user = ?,
+					_date = NOW()
+					WHERE event_id = ?
+					";
+
+		$data = $this->db->query($query,array(
+			$data['user_id'],
+			$data['event_id']
+		));
+		return $data;
+	}
+
+	public function createSouvenir($data){
+		$query = "	INSERT INTO souvenir (
+						event_id, 
+						souvenir_name, 
+						souvenir_qty, 
+						_status, 
+						_user, 
+						_date
+					) 
+					VALUES(?,?,?,'I',?,NOW())";
+
+		$this->db->query($query,array(	
+			$data['event_id'], 
+			$data['souvenir_name'],
+			$data['souvenir_qty'], 
+			$data['user_id']
+		));
+
+		$data = $this->db->insert_id();
 		return $data;
 	}
 }

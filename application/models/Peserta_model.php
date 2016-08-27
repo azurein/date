@@ -6,7 +6,7 @@ class Peserta_model extends CI_Model {
 		$this->db = $this->load->database('default',TRUE);
 	}
 
-	public function getParticipant1($key=''){
+	public function getParticipant1($key='', $event_id=''){
 		$query = 	"SELECT
 					c.card_id,
 					a.participant_id,
@@ -36,11 +36,13 @@ class Peserta_model extends CI_Model {
                     ON c.card_id = e.card_id
                     AND e._status <> 'D'
                     
-					WHERE c.card_id LIKE '%".$key."%'
+					WHERE 
+					a.event_id = '".$event_id."'
+					AND (c.card_id LIKE '%".$key."%'
 					OR CONCAT(b.title_name ,a.participant_name) LIKE '%".$key."%'
 					OR d.group_name LIKE '%".$key."%'
 					OR a.follower LIKE '%".$key."%'
-					OR 'tidak hadir' = '".$key."'
+					OR 'tidak hadir' = '".$key."')
 
 					ORDER BY e.verification_date DESC
 					";

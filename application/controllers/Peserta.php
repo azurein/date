@@ -7,11 +7,20 @@ class Peserta extends Main_Controller {
 	{
 		parent::__construct();	
 		$this->load->model("Peserta_model","peserta");
+		$this->load->model("acara/Pengaturan_acara_model","pengaturan_acara");
 	}
 
 	public function index()
 	{
-		$this->view('admin/peserta');
+		$status = $this->pengaturan_acara->checkAvailableEvent();
+		$id = $this->pengaturan_acara->getActiveEvent();
+
+		if($status[0]['status_active'] == 1 && isset($id)) {
+			$_SESSION['event_id'] = $id[0]['event_id'];
+			$this->view('admin/peserta');
+		} else {
+			$this->view('admin/acara/pengaturan_acara');
+		}
 	}
 
 
@@ -92,7 +101,8 @@ class Peserta extends Main_Controller {
 	public function getParticipant()
 	{
 		$key = $this->input->post_get('key');
-		$data = $this->peserta->getParticipant1($key);
+		$event_id = $_SESSION['event_id'];
+		$data = $this->peserta->getParticipant1($key, $event_id);
 		echo json_encode($data);
 	}
 

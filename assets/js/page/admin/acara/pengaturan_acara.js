@@ -1,10 +1,12 @@
 $(document).ready(function() {
-
+	$('#StartDate').datetimepicker();
+	$('#EndDate').datetimepicker();
 	getEvent();
 	$("#addButton").click(function(){
 		loadAddEditModal("Tambah Acara");
 	});
 
+	var souvenirValue = 0;
 });
 
 function getEvent(key=''){
@@ -25,11 +27,14 @@ function populateTableEvent(data){
 
 	moment.locale("id");
 
+	var hasActive = 0;
+
 	for(var i = 0 ; i < data.length ; i++)
 	{
 		var activeflag = "";
 		if(data[i].is_active == 1) {
 			activeflag = '<i class="fa fa-check"></i>';
+			hasActive = 1;
 		} else {
 			activeflag = '<i class="fa fa-remove"></i>';
 		}
@@ -55,6 +60,9 @@ function populateTableEvent(data){
 			title: '<p align="left">Jadwal:<br>'+ finaldt +'<br><br>Deskripsi:<br>'+ data[i].event_descr +'</p>'
 		}); 
 	}
+	if(hasActive == 0) {
+		$('#warningModal').modal('show');
+	}
 
 	$(".fa-check").click(function(e){
 		var text = "Anda yakin menyelesaikan Acara "+ $(this).parent().siblings(".name").text() +"?";
@@ -69,7 +77,7 @@ function populateTableEvent(data){
 	});
 
 	$(".souvenirButton").click(function(){
-		loadSouvenirForm($(this).parent().parent().attr("value"));
+		getSouvenir($(this).parent().parent().attr("value"));
 	});
 
 	$(".editButton").click(function(){
@@ -85,7 +93,100 @@ function populateTableEvent(data){
 	});
 }
 
-function changeEventStatus(text="", status=0, id=0) {
+function getSouvenir(id=''){
+	$.ajax({
+		type : 'POST',
+		url : BASE_URL + 'acara/Pengaturan_acara/getSouvenir',
+		dataType : 'json',
+		data: {id},
+		success : function(data){
+			populateTableSouvenir(id, data);
+		}
+	});
+}
+
+function populateTableSouvenir(id='', data=''){
+	$("#souvenirModal").modal("show");
+	$('#contentSouvenir').empty();
+	souvenirValue = 0;
+	var flagLoop = 0;
+
+	for(var i = 0 ; i < data.length ; i++)
+	{
+		$('#contentSouvenir').append(
+			'<tr value="'+ data[i].souvenir_id +'">' +
+			'<td><input name="souvenir_name_'+i+'" class="form-control input-sm" type="text" value="'+data[i].souvenir_name+'"></td>' +
+			'<td><input name="souvenir_qty_'+i+'" class="form-control input-sm" type="text" value="'+data[i].souvenir_qty+'"></td>' +
+			'<td class="actionSouvenir"><i class="glyphicon glyphicon-trash deleteSouvenir"></i></td>' +
+			'</tr>'
+		);
+		souvenirValue = i;
+		flagLoop = 1;
+	}
+	if(flagLoop == 1) {
+		souvenirValue++;
+	}
+
+	$('#contentSouvenir').append(
+		'<tr>' +
+		'<td><input name="souvenir_name_'+souvenirValue+'" class="form-control input-sm" type="text"></td>' +
+		'<td><input name="souvenir_qty_'+souvenirValue+'" class="form-control input-sm" type="text"></td>' +
+		'<td class="actionSouvenir"><i class="glyphicon glyphicon-plus addSouvenir"></i></td>' +
+		'</tr>'
+	);
+
+	$(document).off('click', '.addSouvenir');
+	$(document).on('click', '.addSouvenir', function(){
+		souvenirValue++;
+		$('.actionSouvenir').html('<i class="glyphicon glyphicon-trash deleteSouvenir"></i>');
+		$('#contentSouvenir').append(
+			'<tr>' +
+			'<td><input name="souvenir_name_'+souvenirValue+'" class="form-control input-sm" type="text"></td>' +
+			'<td><input name="souvenir_qty_'+souvenirValue+'" class="form-control input-sm" type="text"></td>' +
+			'<td class="actionSouvenir"><i class="glyphicon glyphicon-plus addSouvenir"></i></td>' +
+			'</tr>'
+		);
+	});
+
+	$(document).off('click', '.deleteSouvenir');
+	$(document).on('click', '.deleteSouvenir', function(){
+		$(this).parent().parent().remove();
+	});
+
+	$(document).off('click', '#saveSouvenirButton');
+	$(document).on('click', '#saveSouvenirButton', function(){
+		if($('.addSouvenir').parent().siblings().children().val() == "") {
+			$(".addSouvenir").parent().parent().remove();
+		}
+		if($('.actionSouvenir').length > 0) {
+			var formSerialize = $('#souvenirForm').serializeArray();
+			var event_id = {
+			      name: "id",
+			      value: id
+			};
+			var length = {
+			      name: "length",
+			      value: $('#contentSouvenir tr').length
+			};
+			formSerialize.push(event_id);
+			formSerialize.push(length);
+
+			$.ajax({
+				type : 'POST',
+				url : BASE_URL + 'acara/Pengaturan_acara/saveSouvenir',
+				dataType : 'json',
+				data : formSerialize,
+				success : function(data){
+					$("#souvenirModal").modal("hide");
+				}
+			});
+		} else {
+			$("#souvenirModal").modal("hide");
+		}
+	});
+}
+
+function changeEventStatus(text='', status=0, id=0) {
 	if(status==1) {
 		$.ajax({
 			type : 'POST',
@@ -105,8 +206,19 @@ function changeEventStatus(text="", status=0, id=0) {
 								'id'		: id
 							},
 							success : function(data){
-								getEvent();
-								$("#activateModal").modal("hide");
+								href = window.location.href;
+					            curr_page = href.substr(href.lastIndexOf('/') + 1);
+
+					            if(curr_page == "peserta") {
+									redirect = href.replace(/\/[^\/]*$/, '/peserta');
+									window.location = redirect;
+								} else if(curr_page == "kehadiran") {
+									redirect = href.replace(/\/[^\/]*$/, '/kehadiran');
+									window.location = redirect;
+					            } else {
+									getEvent();
+									$("#activateModal").modal("hide");
+					            }
 							}
 						});
 					});
@@ -200,10 +312,6 @@ function saveEvent(id){
 			getEvent();
 		}
 	});
-}
-
-function loadSouvenirForm() {
-	$("#souvenirModal").modal("show");
 }
 
 function deleteEvent(id='', text='') {

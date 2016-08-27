@@ -7,11 +7,18 @@ class Kehadiran extends Main_Controller {
 	{
 		parent::__construct();
 		$this->load->model("Kehadiran_model","kehadiran");
+		$this->load->model("acara/Pengaturan_acara_model","pengaturan_acara");
 	}
 	
 	public function index()
 	{
-		if(isset($_SESSION['user_id']) && isset($_SESSION['event_id'])) {
+		$_SESSION['user_id'] = '0';
+
+		$status = $this->pengaturan_acara->checkAvailableEvent();
+		$id = $this->pengaturan_acara->getActiveEvent();
+
+		if($status[0]['status_active'] == 1 && isset($id)) {
+			$_SESSION['event_id'] = $id[0]['event_id'];
 			$this->view('admin/kehadiran');
 		} else {
 			$this->view('admin/acara/pengaturan_acara');

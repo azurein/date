@@ -10,8 +10,8 @@
 <script type="text/javascript" src="{assets}js/qrcodelib.js"></script>
 <script type="text/javascript" src="{assets}js/webcodecamjquery.js"></script>
 <script type="text/javascript" src="{assets}js/localemoment.js"></script>
-
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<script src="{assets}js/datetimepicker.full.js"></script>
+<!-- <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script> -->
 
 <script type="text/javascript">
     $(document).ready(function() {
@@ -41,7 +41,7 @@
             <div class="collapse navbar-collapse" id="navcol-2">
                 <ul class="nav navbar-nav navbar-left">
                     <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true" href="#">Acara <span class="caret"></span></a>
+                        <a id="titleAcara" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true" href="#">Acara <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
                             <li role="presentation"><a href="<?php echo base_url(); ?>acara/denah_acara">Denah</a></li>
                             <li role="presentation"><a href="<?php echo base_url(); ?>acara/kartu_acara">Kartu</a></li>

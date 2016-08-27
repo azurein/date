@@ -25,13 +25,13 @@
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                 <div class="form-group">
                                     <label class="control-label">Waktu Mulai </label>
-                                    <input id="StartDate" class="form-control" type="date">
+                                    <input id="StartDate" class="form-control">
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                 <div class="form-group">
                                     <label class="control-label">Waktu Selesai </label>
-                                    <input id="EndDate" class="form-control" type="date">
+                                    <input id="EndDate" class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -69,9 +69,9 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                     <h4 class="modal-title">Souvenir </h4></div>
                 <div class="modal-body">
-                    <form>
-                        <div class="table-responsive">
-                            <table class="table table-striped table-hover table-condensed">
+                    <div class="table-responsive">
+                        <form id="souvenirForm">
+                            <table id="souvenirTable" class="table table-striped table-hover table-condensed">
                                 <thead>
                                     <tr>
                                         <th>Nama Souvenir</th>
@@ -79,54 +79,14 @@
                                         <th>Tindakan </th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <div class="form-group">
-                                                <input class="form-control input-sm" type="text">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="form-group">
-                                                <input class="form-control input-sm" type="text">
-                                            </div>
-                                        </td>
-                                        <td> <i class="glyphicon glyphicon-trash icon-middle"></i></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="form-group">
-                                                <input class="form-control input-sm" type="text">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="form-group">
-                                                <input class="form-control input-sm" type="text">
-                                            </div>
-                                        </td>
-                                        <td> <i class="glyphicon glyphicon-trash icon-middle"></i></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="form-group">
-                                                <input class="form-control input-sm" type="text">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="form-group">
-                                                <input class="form-control input-sm" type="text">
-                                            </div>
-                                        </td>
-                                        <td> <i class="glyphicon glyphicon-plus icon-middle"></i></td>
-                                    </tr>
-                                </tbody>
+                                <tbody id="contentSouvenir"></tbody>
                             </table>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-primary" type="button" data-dismiss="modal">Tutup </button>
-                    <button id="saveSouvenirButton"class="btn btn-success" type="button" data-dismiss="modal">Simpan </button>
+                    <button id="saveSouvenirButton" class="btn btn-success" type="button" data-dismiss="modal">Simpan </button>
                 </div>
             </div>
         </div>
@@ -162,6 +122,18 @@
             <div class="modal-content">
                 <div class="modal-body">
                     <p>Sudah ada acara yang aktif</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="button" data-dismiss="modal">Tutup </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="warningModal" class="modal fade" role="dialog" tabindex="-1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p>Silahkan aktifkan salah satu acara untuk operasional.</p>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-primary" type="button" data-dismiss="modal">Tutup </button>
