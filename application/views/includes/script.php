@@ -1,17 +1,16 @@
 <script type="text/javascript" src="{assets}js/jquery.min.js"></script>
+<script src="{assets}/bootstrap/js/bootstrap.min.js"></script>
+<script src="{assets}/bootstrap/js/bootstrap.full.min.js"></script>
 <script type="text/javascript" src="{assets}js/dataTables.min.js"></script>
-<script type="text/javascript" src="{assets}bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="{assets}js/scripts.js"></script>
 <script type="text/javascript" src="{assets}js/plugin/bootstrap3-typeahead.min.js"></script>
 <script type="text/javascript" src="{assets}js/page/{page}.js"></script>
-
 <!-- <script type="text/javascript" src="{assets}js/jquery.bootpag.min.js"></script> -->
 <script type="text/javascript" src="{assets}js/filereader.js"></script>
 <script type="text/javascript" src="{assets}js/qrcodelib.js"></script>
 <script type="text/javascript" src="{assets}js/webcodecamjquery.js"></script>
 <script type="text/javascript" src="{assets}js/localemoment.js"></script>
-<script src="{assets}js/datetimepicker.full.js"></script>
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="{assets}js/datetimepicker.full.js"></script>
 
 <script type="text/javascript">
     $(document).ready(function() {

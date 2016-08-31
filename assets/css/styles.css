@@ -1,19 +1,19 @@
-body{
+body {
   font-family:"Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif;
   overflow: hidden;
 }
 
-img.img-responsive{
+img.img-responsive {
   margin:auto;
 }
 
-nav.navbar.navbar-default{
+nav.navbar.navbar-default {
   border-radius:0;
   border-left:none;
   border-right:none;
 }
 
-input.form-control.search{
+input.form-control.search {
   margin-bottom:1em;
 }
 
@@ -33,7 +33,7 @@ input.form-control.search{
   vertical-align: middle; 
 }
 
-td div.form-group{
+td div.form-group {
   margin: 0em 0em 0em 0em;
 }
 
@@ -47,13 +47,17 @@ i.glyphicon.glyphicon-gift,
 i.glyphicon.glyphicon-question-sign
 i.glyphicon.glyphicon-gift,
 i.glyphicon.glyphicon-question-sign,
-i.glyphicon.glyphicon-plus
-{
+i.glyphicon.glyphicon-plus,
+i.glyphicon.glyphicon-cog,
+i.fa.fa-trophy {
   margin:0em 0.5em;
 }
 
 i.glyphicon.glyphicon-trash.icon-middle,
-i.glyphicon.glyphicon-plus.icon-middle
-{
+i.glyphicon.glyphicon-plus.icon-middle {
   margin-top:0.5em;
+}
+
+li.list-group-item {
+  padding:0px 20px;
 }
