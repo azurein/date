@@ -1,7 +1,11 @@
 body {
   font-family:"Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  overflow: hidden;
+  /*overflow: hidden;*/
 }
+
+button:focus {
+  outline: none !important;
+}   
 
 img.img-responsive {
   margin:auto;
@@ -49,7 +53,8 @@ i.glyphicon.glyphicon-gift,
 i.glyphicon.glyphicon-question-sign,
 i.glyphicon.glyphicon-plus,
 i.glyphicon.glyphicon-cog,
-i.fa.fa-trophy {
+i.fa.fa-trophy,
+i.glyphicon-screenshot {
   margin:0em 0.5em;
 }
 
@@ -61,3 +66,41 @@ i.glyphicon.glyphicon-plus.icon-middle {
 li.list-group-item {
   padding:0px 20px;
 }
+
+span.collapse-action {
+  float:right;
+}
+
+.input-group.input-group-denah {
+  margin-top:15px;
+}
+
+.input-group input {
+  height: 32px;
+}
+
+.th-mini {
+  text-align: center;
+}
+
+.canvas-container {
+  margin:0 auto ;
+}
+
+.hide{
+  display: none;
+}
+
+div.top-buffer{
+  margin-top:10px;
+}
+
+div.bottom-buffer{
+  margin-bottom:30px;
+}
+
+input.input-file{
+  color:white;
+}
+
+
