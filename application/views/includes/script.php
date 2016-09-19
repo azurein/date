@@ -1,18 +1,21 @@
 <script type="text/javascript" src="{assets}js/jquery.min.js"></script>
-<script type="text/javascript" src="{assets}/bootstrap/js/bootstrap.min.js"></script>
-<script src="{assets}/bootstrap/js/bootstrap.full.min.js"></script>
+<script type="text/javascript" src="{assets}bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="{assets}js/plugin/bootstrap3-typeahead.min.js"></script>
 <script type="text/javascript" src="{assets}js/plugin/BootstrapFormHelpers/js/bootstrap-formhelpers.min.js"></script>
-<script type="text/javascript" src="{assets}js/scripts.js"></script>
-<script type="text/javascript" src="{assets}js/page/{page}.js"></script>
-<script type="text/javascript" src="{assets}js/dataTables.min.js"></script>
+<script type="text/javascript" src="{assets}js/jquery-ui.js"></script>
+<script type="text/javascript" src="{assets}js/plugin/fabric.min.js"></script>
+<script type="text/javascript" src="{assets}js/plugin/jquery-minicolors-master/jquery.minicolors.js"></script>
+<script type="text/javascript" src="{assets}js/plugin/bootstrap3-typeahead.min.js"></script>
+<script type="text/javascript" src="{assets}js/plugin/BootstrapFormHelpers/js/bootstrap-formhelpers.min.js"></script>
 <script type="text/javascript" src="{assets}js/filereader.js"></script>
 <script type="text/javascript" src="{assets}js/qrcodelib.js"></script>
 <script type="text/javascript" src="{assets}js/webcodecamjquery.js"></script>
+<script type="text/javascript" src="{assets}js/dataTables.min.js"></script>
 <script type="text/javascript" src="{assets}js/localemoment.js"></script>
 <script type="text/javascript" src="{assets}js/datetimepicker.full.js"></script>
-<script type="text/javascript" src="{assets}js/plugin/fabric.min.js"></script>
 <script type="text/javascript" src="{assets}js/webfont.js"></script>
+<script type="text/javascript" src="{assets}js/scripts.js"></script>
+<script type="text/javascript" src="{assets}js/page/{page}.js"></script>
 
 <script type="text/javascript">
     $(document).ready(function() {
@@ -37,7 +40,7 @@
 <body>
     <nav class="navbar navbar-default">
         <div class="container-fluid">
-            <div class="navbar-header"><a class="navbar-brand navbar-link" href="#">D.A.T.E </a>
+            <div class="navbar-header"><a class="navbar-brand navbar-link" href="<?php echo base_url(); ?>kehadiran">D.A.T.E </a>
                 <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-2"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
             </div>
             <div class="collapse navbar-collapse" id="navcol-2">

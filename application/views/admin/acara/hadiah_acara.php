@@ -1,43 +1,46 @@
-
-    <div id="addEditModal" class="modal fade" role="dialog" tabindex="-1">
+    
+    <div id="insertUpdateModal" class="modal fade" role="dialog" tabindex="-1">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title">Tambah/Ubah Acara</h4></div>
+                    <h4 class="modal-title" id="insertUpdateTitle">Tambah/Ubah Hadiah</h4>
+                </div>
                 <div class="modal-body">
-                    <form>
+                    <form enctype="multipart/form-data" name="formPrize" id="formPrize" method="post" action="">
                         <div class="form-group">
                             <label class="control-label">Nama Hadiah</label>
-                            <input class="form-control" type="text">
+                            <input class="form-control" type="text" id="prizeName">
                         </div>
                         <div class="form-group">
                             <label class="control-label">Deskripsi</label>
-                            <textarea class="form-control"></textarea>
+                            <textarea class="form-control" id="prizeDescription"></textarea>
                         </div>
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                 <div class="form-group">
-                                    <label class="control-label">Urutan </label>
-                                    <input class="form-control" type="text">
+                                    <label class="control-label">Urutan</label>
+                                    <input class="form-control" type="text" id="prizePriority">
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                 <div class="form-group">
                                     <label class="control-label">Total Pemenang</label>
-                                    <input class="form-control" type="text">
+                                    <input class="form-control" type="text" id="totalWinner">
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label">Gambar </label>
-                            <input type="file">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label class="control-label">Gambar</label>
+                                    <input type="file" name="userfile" id="prizeFile" class="input-file" data-placeholder="Gambar">
+                                </div>
+                            </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" type="button" data-dismiss="modal">Batal </button>
-                    <button class="btn btn-success" type="button">Simpan </button>
+                    <button class="btn btn-primary" type="button" data-dismiss="modal">Batal</button>
+                    <button id="btnSavePrize" class="btn btn-success" type="button">Simpan</button>
                 </div>
             </div>
         </div>
@@ -47,10 +50,13 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title">Gambar Hadiah xxxxx xxxxx</h4></div>
-                <div class="modal-body"><img class="img-responsive" src="../../assets/img/prize-sample.jpg"></div>
+                    <h4 class="modal-title" id="imageText"></h4>
+                </div>
+                <div class="modal-body">
+                    <img class="img-responsive" src="" id="imagePrize">
+                </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" type="button" data-dismiss="modal">Tutup </button>
+                    <button class="btn btn-primary" type="button" data-dismiss="modal">Tutup</button>
                 </div>
             </div>
         </div>
@@ -60,41 +66,27 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title">Pemenang Hadiah xxxxx xxxxx</h4></div>
+                    <h4 class="modal-title" id="winnerText"></h4>
+                </div>
                 <div class="modal-body">
                     <form>
                         <div class="table-responsive">
-                            <table class="table table-striped table-hover table-condensed">
+                            <table class="table table-striped table-hover table-condensed" id="winnerDataTable">
                                 <thead>
                                     <tr>
                                         <th>Kode Kartu</th>
                                         <th>Nama Peserta</th>
-                                        <th>Grup </th>
+                                        <th>Group</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>xxxxx xxxxx </td>
-                                        <td>xxxxx xxxxx&nbsp; </td>
-                                        <td>xxxxx</td>
-                                    </tr>
-                                    <tr>
-                                        <td>xxxxx xxxxx&nbsp; </td>
-                                        <td>xxxxx xxxxx&nbsp; </td>
-                                        <td>xxxxx </td>
-                                    </tr>
-                                    <tr>
-                                        <td>xxxxx xxxxx&nbsp; </td>
-                                        <td>xxxxx xxxxx&nbsp; </td>
-                                        <td>xxxxx </td>
-                                    </tr>
+                                <tbody id="contentWinner">
                                 </tbody>
                             </table>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" type="button" data-dismiss="modal">Tutup </button>
+                    <button class="btn btn-primary" type="button" data-dismiss="modal">Tutup</button>
                 </div>
             </div>
         </div>
@@ -104,38 +96,64 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title">Pengaturan Pemenang</h4></div>
+                    <h4 class="modal-title">Pengaturan Pemenang</h4>
+                </div>
                 <div class="modal-body">
                     <form>
                         <div class="form-group">
                             <div class="radio">
                                 <label class="control-label">
-                                    <input type="radio">Berdasarkan Peserta</label>
+                                <input type="radio" name="settingWinner" id="rbParticipants" value="0">Berdasarkan Peserta</label>
                             </div>
-                            <input class="form-control" type="text" disabled="">
+                            <div class="templateParticipant">
+                            </div>
                         </div>
                         <div class="form-group">
                             <div class="radio">
                                 <label class="control-label">
-                                    <input type="radio" checked="">Berdasarkan Grup</label>
+                                <input type="radio" name="settingWinner" id="rbGroups" value="1">Berdasarkan Grup</label>
                             </div>
-                            <ul class="list-group">
+                            <ul class="list-group" disabled="">
                                 <li class="list-group-item">
                                     <div class="checkbox">
                                         <label class="control-label">
-                                            <input type="checkbox">VIP</label>
+                                        <input type="checkbox" class="groups" value="1">VVIP</label>
                                     </div>
                                 </li>
                                 <li class="list-group-item">
                                     <div class="checkbox">
                                         <label class="control-label">
-                                            <input type="checkbox">Keluarga</label>
+                                        <input type="checkbox" class="groups" value="2">VIP</label>
                                     </div>
                                 </li>
                                 <li class="list-group-item">
                                     <div class="checkbox">
                                         <label class="control-label">
-                                            <input type="checkbox">Teman</label>
+                                        <input type="checkbox" class="groups" value="3">Keluarga</label>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="checkbox">
+                                        <label class="control-label">
+                                        <input type="checkbox" class="groups" value="4">Teman</label>
+                                    </div>
+                                </li>
+                                 <li class="list-group-item">
+                                    <div class="checkbox">
+                                        <label class="control-label">
+                                        <input type="checkbox" class="groups" value="5">Tamu</label>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="checkbox">
+                                        <label class="control-label">
+                                        <input type="checkbox" class="groups" value="6">Lainnya</label>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="checkbox">
+                                        <label class="control-label">
+                                        <input type="checkbox" class="groups" value="7">Tambahan</label>
                                     </div>
                                 </li>
                             </ul>
@@ -143,8 +161,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" type="button" data-dismiss="modal">Tutup </button>
-                    <button class="btn btn-success" type="button" data-dismiss="modal">Simpan </button>
+                    <button class="btn btn-primary" type="button" data-dismiss="modal">Tutup</button>
+                    <button id="btnSaveParticipantsOrGroups" class="btn btn-success" type="button">Simpan</button>
                 </div>
             </div>
         </div>
@@ -153,16 +171,27 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-body">
-                    <p>Anda yakin menghapus Hadiah xxxxx xxxxx?</p>
+                    <p id="deleteTitle"></p>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" type="button" data-dismiss="modal">Tidak </button>
-                    <button class="btn btn-success" type="button">Ya </button>
+                    <button class="btn btn-primary" type="button" data-dismiss="modal">Tidak</button>
+                    <button id="btnDeletePrize" class="btn btn-success" type="button">Ya</button>
                 </div>
             </div>
         </div>
     </div>
-
+    <div id="messageModal" class="modal fade" role="dialog" tabindex="-1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p id="messageTitle"></p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="button" data-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
@@ -205,52 +234,28 @@
                 <p id="scanned-QR"></p>
             </div>
             <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                <fieldset>
+                <fieldset style="margin-top: 10px;">
                     <legend>Hadiah Acara</legend>
                 </fieldset>
                 <div class="table-responsive">
-                    <table class="table table-striped table-hover">
+                    <table class="table table-striped table-hover" id="prizeDataTable">
                         <thead>
                             <tr>
                                 <th>Nama Hadiah</th>
                                 <th>Gambar</th>
                                 <th>Urutan</th>
                                 <th>Total Pemenang</th>
-                                <th>Pemenang </th>
-                                <th>Tindakan </th>
+                                <th>Pemenang</th>
+                                <th>Tindakan</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>xxxxx xxxxx </td>
-                                <td> <i class="fa fa-image showImage"></i></td>
-                                <td>xx </td>
-                                <td>xx </td>
-                                <td> <i class="fa fa-trophy showWinner"></i></td>
-                                <td><i class="glyphicon glyphicon-cog showSetting"></i> <i class="glyphicon glyphicon-pencil editButton"></i><i class="glyphicon glyphicon-trash deleteButton"></i></td>
-                            </tr>
-                            <tr>
-                                <td>xxxxx xxxxx </td>
-                                <td> <i class="fa fa-image showImage"></i></td>
-                                <td>xx </td>
-                                <td>xx </td>
-                                <td> <i class="fa fa-trophy showWinner"></i></td>
-                                <td><i class="glyphicon glyphicon-cog showSetting"></i> <i class="glyphicon glyphicon-pencil editButton"></i><i class="glyphicon glyphicon-trash deleteButton"></i></td>
-                            </tr>
-                            <tr>
-                                <td>xxxxx xxxxx </td>
-                                <td> <i class="fa fa-image showImage"></i></td>
-                                <td>xx </td>
-                                <td>xx </td>
-                                <td> <i class="fa fa-trophy showWinner"></i></td>
-                                <td><i class="glyphicon glyphicon-cog showSetting"></i> <i class="glyphicon glyphicon-pencil editButton"></i><i class="glyphicon glyphicon-trash deleteButton"></i></td>
-                            </tr>
+                        <tbody id="contentTable">
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td class="active" colspan="7">
+                                <td class="active" colspan="6">
                                     <div class="btn-group" role="group">
-                                        <button id="addButton" class="btn btn-primary" type="button">Tambah Hadiah</button>
+                                        <button id="btnInsert" class="btn btn-primary" type="button">Tambah Hadiah</button>
                                     </div>
                                 </td>
                             </tr>
@@ -261,6 +266,5 @@
         </div>
     </div>
     <footer></footer>
-</body>
-
+    </body>
 </html>

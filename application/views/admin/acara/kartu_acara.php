@@ -1,13 +1,4 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kartu</title>
-</head>
-
-<body>
+    
     <div class="modal fade" role="dialog" tabindex="-1" id="deleteModal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -29,33 +20,40 @@
                     <h4 class="modal-title">Tambah Komponen</h4></div>
                 <div class="modal-body">
                     <form id="addForm">
-                        <div class="form-group"><span class="label label-default">Nama Komponen</span>
+                        <div class="form-group"><label>Nama Komponen</label>
                             <input id="compName" maxlength="30" class="form-control" type="text" required="">
                         </div>
-                        <div class="form-group"><span class="label label-default">Jenis Komponen</span>
+                        <div class="form-group"><label>Jenis Komponen</label>
                             <select id="compType" class="form-control"></select>
                         </div>
                         <div id="Img-Upload" class="hide">
-                            <div class="form-group"><span class="label label-default">Gambar</span></div>
+                            <div class="form-group"><label>Gambar</label></div>
                             <input id="compFile" type="file" class="input-file">
                         </div>
                         <div id="Text" class="hide">
-                            <div class="form-group"><span class="label label-default">Text</span>
+                            <div class="form-group"><label>Text</label>
                                 <input id="compText" class="form-control" type="text" required="">
+                            </div>
+                        </div>
+
+                        <div id="Color" class="form-group"><label>Warna</label>
+                            <input id="addColor" type="text" class="form-control minicolors-input">
+                        </div>
+
+                        <div id="FontFam" class="hide">
+                            <div class="form-group"><label>Font Type</label>
+                                <div class="bfh-selectbox bfh-fonts addFonts" data-font="Arial" data-blank="false">
+                                </div>
+                                <div class="bfh-selectbox bfh-googlefonts addGoogleFonts" data-font="Lato" data-blank="false" style="display:none;">
+                                </div>
                             </div>
                             <div class="btn-group" data-toggle="buttons">
                                 <label class="btn btn-primary active addStandard">
-                                    <input type="radio" name="options" id="option1" autocomplete="off" checked>Standard
+                                    <input type="radio" name="options" id="option1" autocomplete="off" checked>Standard Font
                                 </label>
                                 <label class="btn btn-primary addGoogle">
                                     <input type="radio" name="options" id="option2" autocomplete="off">Google Font
                                 </label>
-                            </div>
-                            <div class="form-group"><span class="label label-default">Font Type</span>
-                                <div class="bfh-selectbox bfh-fonts addFonts" data-font="Arial" data-blank="false">
-                                </div>
-                                <div class="bfh-selectbox bfh-googlefonts addGoogleFonts" data-font="Arial" data-blank="false" style="display:none;">
-                                </div>
                             </div>
                         </div>
                     </form>
@@ -76,19 +74,34 @@
                 </div>
                 <div class="modal-body">
                     <form  id="editForm">
-                        <div class="form-group"><span class="label label-default">Nama Komponen</span>
+                        <div class="form-group"><label>Nama Komponen</label>
                             <input id="editCompName" maxlength="30" class="form-control" type="text" required="">
                         </div>
-                        <div class="form-group"><span class="label label-default">Jenis Komponen</span>
+                        <div class="form-group"><label>Jenis Komponen</label>
                             <select id="editCompType" class="form-control"></select>
                         </div>
+
                         <div id="Img-Upload" class="hide">
-                            <div class="form-group"><span class="label label-default">Gambar</span></div>
+                            <div class="form-group"><label>Gambar</label></div>
                             <input id="editCompFile" type="file" class="input-file">
                         </div>
+
                         <div id="Text" class="hide">
-                            <div class="form-group"><span class="label label-default">Text</span>
+                            <div class="form-group"><label>Text</label>
                                 <input id="editCompText" class="form-control" type="text" required="">
+                            </div>
+                        </div>
+
+                        <div id="Color" class="form-group"><label>Warna</label>
+                            <input id="editColor" type="text" class="form-control minicolors-input">
+                        </div>
+
+                        <div id="FontFam" class="hide">
+                            <div class="form-group"><label>Font Type</label>
+                                <div class="bfh-selectbox bfh-fonts editFonts" data-font="Arial" data-blank="false">
+                                </div>
+                                <div class="bfh-selectbox bfh-googlefonts editGoogleFonts" data-font="Lato" data-blank="false" style="display:none;">
+                                </div>
                             </div>
                             <div class="btn-group" data-toggle="buttons">
                                 <label class="btn btn-primary active editStandard">
@@ -97,12 +110,6 @@
                                 <label class="btn btn-primary editGoogle">
                                     <input type="radio" name="options" id="option2" autocomplete="off">Google Font
                                 </label>
-                            </div>
-                            <div class="form-group"><span class="label label-default">Font Type</span>
-                                <div class="bfh-selectbox bfh-fonts editFonts" data-font="Arial" data-blank="false">
-                                </div>
-                                <div class="bfh-selectbox bfh-googlefonts editGoogleFonts" data-font="Arial" data-blank="false" style="display:none;">
-                                </div>
                             </div>
                         </div>
                     </form>
@@ -114,6 +121,7 @@
             </div>
         </div>
     </div>
+
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
@@ -171,12 +179,10 @@
                             <tr>
                                 <th>Nama Komponen</th>
                                 <th>Jenis Komponen</th>
-                                <th>Jenis Font</th>
-                                <th>Ukuran Font</th>
                                 <th class="th-mini"> <i class="fa fa-rotate-right"></i></th>
                                 <th class="th-mini"> <i class="fa fa-clone"></i></th>
                                 <th>Tindakan </th>
-                            </tr><span id="currStat" class="label label-default"></span>
+                            </tr><label id="currStat"></label>
                         </thead>
                         <tbody id="editorTable">
                         </tbody>
@@ -184,9 +190,9 @@
                             <tr>
                                 <td class="active" colspan="9">
                                     <div class="btn-group" role="group">
-                                        <button class="btn btn-primary" type="button" id="addButton">Tambah Komponen</button>
+                                        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#addModal">Tambah Komponen</button>
                                         <button class="btn btn-info" type="button" id="rotateCard">Mode Vertikal</button>
-                                        <button class="btn btn-info" type="button" id="flipCard">Ke Belakang</button>
+                                        <button class="btn btn-info" type="button" id="flipCard">Sebaliknya</button>
                                     </div>
                                 </td>
                             </tr>

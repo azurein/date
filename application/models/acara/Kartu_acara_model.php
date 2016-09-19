@@ -18,14 +18,23 @@ class Kartu_acara_model extends CI_Model {
 					cd.z_index,
 					cd.font_type,
 					cd.font_size,
-					cd.value,
+					cd.color,
+					cd.opacity,
+					CASE WHEN (default_img IS NULL && is_dynamic = 1)
+						THEN CONCAT(cd.value, dc.component_name)
+						ELSE COALESCE (cd.value,dc.default_img)
+					END AS value,
 					cd.side,
 					cd.comp_name,
-					dc.component_name
+					dc.component_name,
+					dc.is_dynamic
+
 					FROM card_design cd
+
 					JOIN design_component dc
 					ON cd.component_id = dc.component_id
 					AND dc._status <> 'D'
+
 					WHERE cd.event_id = ?
 					AND cd._status <> 'D'
 					ORDER BY cd.z_index";
@@ -39,17 +48,53 @@ class Kartu_acara_model extends CI_Model {
 		$query = "SELECT
 					component_id,
 					component_name,
-					default_img
+					CASE WHEN (default_img IS NULL && is_dynamic = 1)
+						THEN component_name
+						ELSE default_img
+					END AS value,
+					is_dynamic
 					FROM design_component
 					WHERE _status <> 'D'";
+		return $this->db->query($query)->result();
+	}
+
+	public function getParticipantByID($id)
+	{
+		$query = "SELECT
+					T.title_name,
+					P.participant_name,
+					G.group_name,
+					P.follower
+
+					FROM participant P
+
+					JOIN groups G
+					ON P.group_id = G.group_id
+					AND G._status <> 'D'
+
+					JOIN titles T
+					ON P.title_id = T.title_id
+					AND T._status <> 'D'
+
+					WHERE participant_id = '".$id."'
+					AND P._status <> 'D'";
+		$data = $this->db->query($query)->result();
+		return $data;
+	}
+
+	public function getComponentDefaultByID($id){
+		$query = "SELECT default_img
+					FROM design_component
+					WHERE _status <> 'D'
+					AND component_id = ".$id;
 		return $this->db->query($query)->result();
 	}
 
 	public function insertDesign($data)
 	{
 		$query = "INSERT INTO card_design
-			(event_id,component_id,size,x_axis,y_axis,rotation,z_index,font_type,font_size,value,side,comp_name,_status,_user,_date)
-			VALUES(?,?,?,?,?,?,?,?,?,?,?,?,'I',?,NOW())";
+			(event_id,component_id,size,x_axis,y_axis,rotation,z_index,font_type,font_size,_status,_user,_date,value,side,comp_name,color,opacity)
+			VALUES(?,?,?,?,?,?,?,?,?,'I',?,NOW(),?,?,?,?,?)";
 
 		$this->db->query($query,array(
 			$data['event_id'],
@@ -61,10 +106,12 @@ class Kartu_acara_model extends CI_Model {
 			$data['z-index'],
 			$data['font_type'],
 			$data['font_size'],
+			$data['_user'],
 			$data['val'],
 			$data['side'],
 			$data['comp_name'],
-			$data['_user']
+			$data['color'],
+			$data['opacity']
 		));
 		return $this->db->insert_id();
 	}
@@ -80,11 +127,13 @@ class Kartu_acara_model extends CI_Model {
 			z_index = ?,
 			font_type = ?,
 			font_size = ?,
-			value = ?,
-			comp_name = ?,
 			_status ='U',
 			_user = ?,
-			_date = NOW()
+			_date = NOW(),
+			value = ?,
+			comp_name = ?,
+			color = ?,
+			opacity = ?
 			WHERE design_id = ?
 			AND event_id = ?
 			AND side = ?";
@@ -98,9 +147,11 @@ class Kartu_acara_model extends CI_Model {
 			$data['z-index'],
 			$data['font_type'],
 			$data['font_size'],
+			$data['_user'],
 			$data['val'],
 			$data['comp_name'],
-			$data['_user'],
+			$data['color'],
+			$data['opacity'],
 			$data['dbid'],
 			$data['event_id'],
 			$data['side']

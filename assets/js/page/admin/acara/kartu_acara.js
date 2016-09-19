@@ -38,19 +38,22 @@ $(document).ready(function(){
 	//create canvas
 	__canvas[0] = new fabric.Canvas(__canvas.id[0],{
 		backgroundColor : "white",
-		width : 500,
-		height : 300
+		width 		: 500,
+		height 		: 300,
+		selection 	: false
 	});
 	__canvas[1] = new fabric.Canvas(__canvas.id[1],{
 		backgroundColor : "white",
-		width : 500,
-		height : 300
+		width 		: 500,
+		height 		: 300,
+		selection 	: false
 	});
 	setInterval(function(){
 		fabric.util.clearFabricFontCache();
 		__canvas[__curr].forEachObject(function(obj,i){
-			if(__map[__curr][i].type == 6)
+			if(__map[__curr][i].fontType !== null){
 				obj._initDimensions();
+			}
 		});
 		__canvas[__curr].renderAll();
 		__canvas[__curr].renderAll();
@@ -59,54 +62,49 @@ $(document).ready(function(){
 	$("#currStat").text(__canvas.status[__curr]+' - '+(__canvas.rotation[__curr] == 0 ? 'Mode Horizontal' : 'Mode Vertikal'));
 	$('#'+__canvas.id[1]).parent().addClass('hide');
 
-
-	// $.ajax({
-	// 	url : BASE_URL + 'acara/Kartu_acara/getForm',
-	// 	success:function(data){
-	// 		$("#Img-Upload").append(data+'<div class="form-group">'
-	// 		+'<span class="label label-default">Gambar</span>'
-	// 		+'</div><input id="compFile" name="compFile" type="file" class="input-file"></form>');
-	// 	}
-	// });
-
 	initEvents();
 	loadDesign();
 });
 
 function initInput(e,form){
-	if($('option:selected',e).text() == 'Text')
-	{
+	if($('option:selected',e).text().trim() == 'QR Code'){
 		$('#Img-Upload',form).addClass('hide');
-		$('#Text',form).removeClass('hide');
-		$('.bfh-selectbox').val('Arial');
+		$('#Text',form).addClass('hide');
+		$('#FontFam',form).addClass('hide');
+		$('#Color',form).addClass('hide');
 	}
-	else if($('option:selected',e).attr('source') == 'null')
-	{
+	else if($('option:selected',e).text().trim() == 'Gambar' && $('option:selected',e).data().source === null){
 		$('#Img-Upload',form).removeClass('hide');
 		$('#Text',form).addClass('hide');
+		$('#FontFam',form).addClass('hide');
+		$('#Color',form).addClass('hide');
 	}
-	else
-	{
+	else {
+		$('.bfh-selectbox').val('Arial');
 		$('#Img-Upload',form).addClass('hide');
-		$('#Text',form).addClass('hide');
+		$('#Color',form).removeClass('hide');
+		$('#FontFam',form).removeClass('hide');
+		if($('option:selected',e).data().dynamic)
+		{
+			$('#Text',form).addClass('hide');
+		}
+		else {
+			$('#Text',form).removeClass('hide');
+		}
 	}
 }
 
 function initEvents(){
-
+	$('.minicolors-input').minicolors({
+		opacity : true,
+		theme: 'bootstrap',
+		defaultValue : '#000000'
+	});
 	$('#compType').change(function(e){
 		initInput(e.target,$('#addForm'));
 	});
 	$('#editCompType').change(function(e){
 		initInput(e.target,$('#editForm'));
-	});
-	$('.editGoogle').click(function(){
-		$(this).parent().parent().parent().find('.bfh-fonts').hide();
-		$(this).parent().parent().parent().find('.bfh-googlefonts').show();
-	});
-	$('.editStandard').click(function(){
-		$(this).parent().parent().parent().find('.bfh-fonts').show();
-		$(this).parent().parent().parent().find('.bfh-googlefonts').hide();
 	});
 	$('.addGoogle').click(function(){
 		$(this).parent().parent().parent().find('.bfh-fonts').hide();
@@ -116,24 +114,38 @@ function initEvents(){
 		$(this).parent().parent().parent().find('.bfh-fonts').show();
 		$(this).parent().parent().parent().find('.bfh-googlefonts').hide();
 	});
-	$("#addButton").click(function(e){
-		$("#addModal").modal("show");
+	$('.editGoogle').click(function(){
+		$(this).parent().parent().parent().find('.bfh-fonts').hide();
+		$(this).parent().parent().parent().find('.bfh-googlefonts').show();
+	});
+	$('.editStandard').click(function(){
+		$(this).parent().parent().parent().find('.bfh-fonts').show();
+		$(this).parent().parent().parent().find('.bfh-googlefonts').hide();
+	});
+	$("#addModal").on('show.bs.modal',function(e){
 		$('.addStandard').click();
+		$('#addColor').minicolors('value','#000000');
+		$('#addColor').minicolors('opacity',1);
 		$.ajax({
 			url : BASE_URL + 'acara/Kartu_acara/getComponents',
 			dataType : 'json',
 			success : function(data){
-				$('#compType').empty();
+
+				$('#compType',e.target).empty();
 				for(var i = 0 ; i < data.length ; i++)
 				{
-					$('#compType').append('<option value="'+data[i].component_id+'" source="'+data[i].default_img+'">'+data[i].component_name+'</option>');
+					$('#compType',e.target).append('<option value="'+data[i].component_id+'" source="'+data[i].value+'">'+data[i].component_name+'</option>');
+					$('#compType option:last-child').data({
+						source  : data[i].value,
+						dynamic : parseInt(data[i].is_dynamic)
+					});
 				}
 				$("#compFile").val('');
-				$('#compText').val('');
-				$('#compName').val('');
-				$('#compType').val($("#compType option:first").val());
+				$('#compText',e.target).val('');
+				$('#compName',e.target).val('');
+				$('#compType',e.target).val($("#compType option:first",e.target).val());
 
-				initInput($('#compType'),$('#addForm'));
+				initInput($('#compType',e.target),$('#addForm'));
 			}
 		});
 	});
@@ -142,12 +154,70 @@ function initEvents(){
 		var d = new Date();
 		var nnama = ('0' + d.getHours()).slice(-2) + ('0' + d.getMinutes()).slice(-2) + ('0' + d.getSeconds()).slice(-2);
 		nama = nama === '' ? 'comp_'+ nnama : nama;
-		if($('#compType').val() == 6)
-		{
+		var id = nama.split(' ').join('-');
+
+		var dynamic = $('#compType option:selected').data().dynamic;
+
+		if($('#compType option:selected').text().trim() == 'Gambar'){
+
+			var newData = new FormData();
+			newData.append('newImg',$("#compFile").get(0).files[0]);
+
+			$.ajax({
+				type: 'POST',
+				url : BASE_URL + 'acara/Kartu_acara/uploadImg/'+id,
+				contentType : false,
+				processData : false,
+				cache: false,
+				data : newData,
+				dataType:'json',
+				error: function(e){
+					alert('Error Uploading Image.');
+				},
+				success: function(data){
+					if(data.status)
+						createObj({
+							type 		: $('#compType').val(),
+							data 		: data.val,
+							nama 		: nama,
+							id 			: id,
+							img 		: true,
+							compTypeName: $('#compType option:selected').text(),
+							newObj		: true,
+							dynamic		: dynamic
+						});
+				}
+			});
+		}
+		else if ($('#compType option:selected').text().trim() == 'QR Code') {
+			createObj({
+				type 		: $('#compType').val(),
+				data 		: $('option:selected',$('#compType','#addModal')).data().source,
+				nama 		: nama,
+				id			: id,
+				img 		: true,
+				compTypeName: $('#compType option:selected').text(),
+				newObj		: true,
+				dynamic		: dynamic
+			});
+		}
+		else{
+			var data;
+			if(dynamic){
+				data = $('option:selected',$('#compType','#addModal')).data().source;
+			}
+			else {
+				data = $('#compText').val();
+			}
+
 			var fontType;
+			var type;
 			if($('.addStandard').hasClass('active')){
+				type = 's';
 				fontType = $('.addFonts').val();
-			}else {
+			}
+			else{
+				type = 'g';
 				fontType = $('.addGoogleFonts').val();
 				WebFont.load({
 		        	google: {
@@ -155,15 +225,19 @@ function initEvents(){
 		        	}
 			  	});
 			}
-			createObj($('#compType').val(),$('#compText').val(),nama,3,$('#compType option:selected').text(),fontType);
-		}
-		else if($('option:selected',$('#compType','#addModal')).attr('source') == 'null')
-		{
-			createObj($('#compType').val(),$("#compFile").get(0).files[0],nama,2,$('#compType option:selected').text());
-		}
-		else
-		{
-			createObj($('#compType').val(),$('option:selected',$('#compType','#addModal')).attr('source'),nama,1,$('#compType option:selected').text());
+			createObj({
+				type 		: $('#compType').val(),
+				data 		: type + data,
+				nama 		: nama,
+				id 			: id,
+				img 		: false,
+				compTypeName: $('#compType option:selected').text(),
+				fontFam		: fontType,
+				color 		: $('#addColor').minicolors('value'),
+				opacity		: $('#addColor').minicolors('opacity'),
+				newObj		: true,
+				dynamic		: dynamic
+			});
 		}
 		$("#addModal").modal('hide');
 	});
@@ -216,8 +290,119 @@ function flipCard(){
 	$("#editorTable").empty();
 
 	for (var i = 0; i < Object.keys(__map[__curr]).length ; i++) {
-		createControl(__map[__curr][i].name,__map[__curr][i].id,i,__map[__curr][i].type,__map[__curr][i].compname,__map[__curr][i].fontType);
+		createControl({
+			id			: __map[__curr][i].id,
+			nama		: __map[__curr][i].name,
+			compTypeName: __map[__curr][i].compname,
+			img			: __map[__curr][i].fontType === null ? true : false,
+			fontFam		: __map[__curr][i].fontType,
+			idx			: i,
+		});//__map[__curr][i].name,__map[__curr][i].id,i,__map[__curr][i].type,__map[__curr][i].compname,__map[__curr][i].fontType);
 	}
+}
+
+
+
+// obj related function
+
+function createObj(param,resolve){
+	var promise = new Promise(function(resolve,reject){
+		if(param.img) {
+			createImg(param,resolve);
+		}
+		else {
+			createText(param,resolve);
+		}
+	}).then(function(obj){
+		var curr = param.newObj ? __curr : param.oldState.side;
+		var idx = param.newObj ? __idx[curr] : param.oldState.z_index;
+		__idx[curr]++;
+
+		__canvas[curr].insertAt(obj,idx);
+
+		__map[curr][idx] =
+		{
+			id 		: param.id,
+			name 	: param.nama,
+			type 	: param.type,
+			scale 	: obj.getScaleX(),
+			x 		: __canvas.rotation[__curr] == 0 ? obj.getTop() : 300 - obj.getLeft(),
+			y 		: __canvas.rotation[__curr] == 0 ? obj.getLeft() : obj.getTop(),
+			rotation: __canvas.rotation[__curr] == 0 ? obj.getAngle() : obj.getAngle() + 270,
+			fontType: null,
+			fontSize: null,
+			val 	: param.data,
+			dbid 	: param.newObj ? null : param.oldState.dbid,
+			compname: param.compTypeName,
+			color	: null,
+			dynamic	: param.dynamic
+		};
+
+		if(!param.img){
+			fabric.util.clearFabricFontCache(param.font_type);
+			__map[curr][idx].fontType = obj.getFontFamily();
+			__map[curr][idx].fontSize = obj.getFontSize();
+			__map[curr][idx].color = obj.getFill();
+			__map[curr][idx].opacity = obj.getOpacity();
+		}
+
+		if(curr == __curr)
+			createControl({
+				nama		: param.nama,
+				id			: param.id,
+				idx  		: idx,
+				compTypeName: param.compTypeName,
+				img	 		: param.img
+			});
+
+		if(param.newObj != undefined && param.newObj)
+		{
+			registerObj(idx,curr);
+		}
+
+		if(resolve != undefined)
+			resolve(parseInt(param.idx)+1);
+	});
+}
+
+function createImg(param,resolve){
+	fabric.Image.fromURL(ASSETS_URL + param.data, function(oImg) {
+		oImg.resizeFilters.push(
+			new fabric.Image.filters.Resize({
+				resizeType : 'sliceHack'
+			})
+		);
+		resolve(oImg);
+	},{
+		lockUniScaling 	: true,
+		originX			: 'center',
+		originY			: 'center',
+		top				: param.newObj ? __canvas[__curr].getHeight()/2 : param.oldState.top,
+		left			: param.newObj ? __canvas[__curr].getWidth()/2 : param.oldState.left,
+		angle			: param.newObj ? 0 : parseFloat(__canvas.rotation[param.oldState.side]) + parseFloat(param.oldState.angle),
+		scaleX			: param.newObj ? 1 : param.oldState.scale,
+		scaleY			: param.newObj ? 1 : param.oldState.scale
+	});
+}
+
+function createText(param,resolve){
+	var text = param.data.substr(1);
+	var textObj  = new fabric.Text(text,{
+		caching  		: false,
+		lockUniScaling	: true,
+		originX			: 'center',
+		originY			: 'center',
+		top				: param.newObj ? __canvas[__curr].getHeight()/2 : param.oldState.top,
+		left			: param.newObj ? __canvas[__curr].getWidth()/2 : param.oldState.left,
+		scaleX			: param.newObj ? 1 : param.oldState.scale,
+		scaleY			: param.newObj ? 1 : param.oldState.scale,
+		angle			: param.newObj ? 0 : parseFloat(__canvas.rotation[param.oldState.side]) + parseFloat(param.oldState.angle),
+		fontSize		: param.newObj ? 12 : param.oldState.fontSize,
+		fontFamily		: param.fontFam,
+		fill			: param.color,
+		opacity			: param.opacity
+	});
+	resolve(textObj);
 }
 
 function loadDesign(){
@@ -225,10 +410,8 @@ function loadDesign(){
 		type: 'GET',
 		url : BASE_URL + 'acara/Kartu_acara/getDesign',
 		dataType: 'json',
-		error: function(e){
-			console.log(e.responseText);
-			//try again
-			loadDesign();
+		error: function(){
+			alert("Failed to load data!");
 		},
 		success: function(data){
 			if(data.length > 0)
@@ -237,261 +420,96 @@ function loadDesign(){
 	});
 }
 
-function loadObj(data,i){
-	if(data[i].component_id == 6){
-		loadText(data[i]);
-		if(i+1 < data.length)
-			loadObj(data,i+1);
-	}else{
-		loadImg(data,data[i],i);
-	}
-}
+function loadObj(data,idx){
+	var loadPromise = new Promise(function(resolve, reject) {
 
-function loadText(data){
-	WebFont.load({
-		google: {
-			families: [data.font_type]
+		if(data[idx].value.substr(0,1) == 'g'){
+			WebFont.load({
+				google: {
+					families: [data[idx].font_type]
+				}
+			});
+		}
+
+		var id = data[idx].comp_name.split(' ').join('-');
+		var param = {
+			type 		: data[idx].component_id,
+			data 		: data[idx].value,
+			nama 		: data[idx].comp_name,
+			id 			: id,
+			img 		: false,
+			compTypeName: data[idx].component_name,
+			fontFam		: data[idx].font_type,
+			color 		: data[idx].color,
+			opacity		: parseFloat(data[idx].opacity),
+			newObj		: false,
+			oldState	: {
+				dbid	: parseInt(data[idx].design_id),
+				scale	: parseFloat(data[idx].size),
+				top 	: parseFloat(data[idx].x_axis),
+				left 	: parseFloat(data[idx].y_axis),
+				angle	: parseFloat(data[idx].rotation),
+				fontSize: parseFloat(data[idx].font_size),
+				side	: parseInt(data[idx].side),
+				z_index	: parseInt(data[idx].z_index)
+			},
+			idx			: parseInt(idx),
+			dynamic		: data[idx].is_dynamic == 1 ? true : false
+		};
+
+		if(data[idx].component_name.trim() == 'Gambar' || data[idx].component_name.trim() == 'QR Code') {
+			param.img = true;
+			param.fontFam = null;
+			param.color = null;
+			param.opacity = null;
+			param.oldState.fontSize = null;
+		}
+
+		createObj(param,resolve);
+	}).then(function(idx){
+		if(idx < data.length){
+			loadObj(data,idx);
 		}
 	});
-	var nama = data.comp_name;
-	id = nama.split(' ').join('-');
-	var textObj = new fabric.Text(data.value,{
-		caching  : false
-	});
-
-	textObj.lockUniScaling = true;
-	textObj.setOriginX('center');
-	textObj.setOriginY('center');
-	textObj.scale(data.size);
-	textObj.setFontFamily(data.font_type);
-	textObj.setAngle(data.rotation + __canvas.rotation[data.side]);
-	fabric.util.clearFabricFontCache(data.font_type);
-	textObj.setFontSize(data.font_size);
-	textObj.setTop(data.x_axis);
-	textObj.setLeft(data.y_axis);
-
-	__canvas[data.side].insertAt(textObj,data.z_index);
-
-	// setTimeout(function(){
-	// 	__canvas[data.side].setTop(data.x_axis);
-	// 	__canvas[data.side].setLeft(data.y_axis);
-	// },50);
-
-	__map[data.side][data.z_index] =
-	{
-		id : id,
-		name : nama,
-		type : data.component_id,
-		scale : data.size,
-		x : data.x_axis,
-		y : data.x_axis,
-		rotation : data.rotation,
-		fontType : data.font_type,
-		fontSize : data.font_size,
-		val : data.value,
-		dbid : data.design_id,
-		compname : data.component_name
-	};
-	if(__curr == data.side)
-		createControl(nama,id,data.z_index,data.component_id,data.component_name,data.font_type);
-	__idx[data.side]++;
 }
 
-function loadImg(allData,data,idx){
-	var name = data.comp_name;
-	var id = name.split(' ').join('-');
-	fabric.Image.fromURL(data.value, function(oImg) {
-		oImg.lockUniScaling = true;
 
-		oImg.resizeFilters.push(
-			new fabric.Image.filters.Resize({
-				resizeType : 'sliceHack'
-			})
-		);
-
-		oImg.setOriginX('center');
-		oImg.setOriginY('center');
-		oImg.setTop(data.x_axis);
-		oImg.setLeft(data.y_axis);
-		oImg.setAngle(data.rotation + __canvas.rotation[data.side]);
-		oImg.scale(data.size);
-		__canvas[data.side].insertAt(oImg,data.z_index);
-
-		__map[data.side][data.z_index] =
-		{
-			id : id,
-			name : data.comp_name,
-			type : data.component_id,
-			scale : oImg.getScaleX(),
-			x : oImg.getTop(),
-			y : oImg.getLeft(),
-			rotation : oImg.getAngle(),
-			fontType : null,
-			fontSize : null,
-			val : data.value,
-			dbid : data.design_id,
-			compname : data.component_name
-		};
-		if(__curr == data.side)
-			createControl(data.comp_name,id,data.z_index,data.component_id,data.component_name);
-		__idx[data.side]++;
-		if(idx+1 < allData.length)
-			loadObj(allData,idx+1);
-	});
-}
-
-function createObj(type,data,nama,objtype,compType,fontType){
-	if(objtype == '1')
-	{
-		data = ASSETS_URL + data;
-		createImg(data,nama,type,compType);
-	}
-	else if(objtype == '2')
-	{
-		var newData = new FormData();
-		newData.append('newImg',data);
-		var name = nama.split(' ').join('-');
-		$.ajax({
-			type: 'POST',
-			url : BASE_URL + 'acara/Kartu_acara/uploadImg/'+name,
-			contentType : false,
-			processData : false,
-			cache: false,
-			data : newData,
-			dataType:'json',
-			success: function(data){
-				if(data.status)
-					createImg(data.val,nama,type,compType);
-			}
-		});
-	}
-	else
-	{
-		createText(data,nama,type,compType,fontType);
-	}
-}
-
-function createImg(src,nama,type,compname){
-	var title = nama;
-	nama = nama.split(' ').join('-');
-	fabric.Image.fromURL(src, function(oImg) {
-		oImg.lockUniScaling = true;
-
-		oImg.resizeFilters.push(
-			new fabric.Image.filters.Resize({
-				resizeType : 'sliceHack'
-			})
-		);
-
-		oImg.setOriginX('center');
-		oImg.setOriginY('center');
-		oImg.setTop(__canvas[__curr].getHeight()/2);
-		oImg.setLeft(__canvas[__curr].getWidth()/2);
-		oImg.setAngle(__canvas.rotation[__curr]);
-
-		__canvas[__curr].insertAt(oImg,__idx[__curr]);
-
-		var idx = __idx[__curr];
-
-		__map[__curr][idx] =
-		{
-			id : nama,
-			name : title,
-			type : type,
-			scale : oImg.getScaleX(),
-			x : oImg.getTop(),
-			y : oImg.getLeft(),
-			rotation : oImg.getAngle(),
-			fontType : null,
-			fontSize : null,
-			val : src,
-			dbid : null,
-			compname : compname
-		};
-		createControl(title,nama,__idx[__curr],type,compname);
-		__idx[__curr]++;
-		registerObj(idx,__curr);
-	});
-}
-
-function createText(text,nama,type,fontType,compname){
-	var title = nama;
-	nama = nama.split(' ').join('-');
-	var textObj = new fabric.Text(text,{
-		caching  : false
-	});
-
-	textObj.lockUniScaling = true;
-	textObj.setOriginX('center');
-	textObj.setOriginY('center');
-	textObj.setTop(__canvas[__curr].getHeight()/2);
-	textObj.setLeft(__canvas[__curr].getWidth()/2);
-	textObj.setFontSize(12);
-	textObj.setFontFamily(fontType);
-	textObj.setAngle(__canvas.rotation[__curr]);
-
-	__canvas[__curr].insertAt(textObj,__idx[__curr]);
-
-	var idx = __idx[__curr];
-
-	__map[__curr][idx] =
-	{
-		id : nama,
-		name : title,
-		type : type,
-		scale : textObj.getScaleX(),
-		x : textObj.getTop(),
-		y : textObj.getLeft(),
-		rotation : textObj.getAngle(),
-		fontType : textObj.getFontFamily(),
-		fontSize : textObj.getFontSize(),
-		val : text,
-		dbid : null,
-		compname : compname
-	};
-
-	createControl(title,nama,__idx[__curr],type,compname,fontType);
-	__idx[__curr]++;
-	registerObj(idx,__curr);
-}
-
-function createControl(title,nama,idx,type,compname,fontType){
-	var ctrl = '<tr id="control'+ nama +'">';
-	ctrl += '<td class="title">' + title + '</td>';
-	ctrl += '<td class="type">' + compname + '</td>';
-	if(type != 6)
-	{
-		ctrl += '<td class="font">-</td>';
-		ctrl += '<td><input type="number" disabled="true" class="fontSize form-control input-sm"></td>'
-	}
-	else
-	{
-		ctrl += '<td class="font">' + fontType + '</td>';
-		ctrl += '<td><input type="number" class="fontSize form-control input-sm" min="2"></td>'
-	}
+function createControl(param){//title,nama,idx,type,compname,fontType){
+	var ctrl = '<tr id="control'+ param.id +'">';
+	ctrl += '<td class="title">' + param.nama + '</td>';
+	ctrl += '<td class="type">' + param.compTypeName + '</td>';
+	// if(param.img)
+	// {
+	// 	ctrl += '<td class="font">-</td>';
+	// 	ctrl += '<td><input type="number" disabled="true" class="fontSize form-control input-sm"></td>'
+	// }
+	// else
+	// {
+	// 	ctrl += '<td class="font">' + param.fontFam + '</td>';
+	// 	ctrl += '<td><input type="number" class="fontSize form-control input-sm" min="2"></td>'
+	// }
 	ctrl += '<td><input type="number" class="rotation form-control input-sm" step="0.5"></td>';
-	ctrl += '<td><span><i class="back glyphicon glyphicon-chevron-left"></i><span class="zidx"></span><i class="front glyphicon glyphicon-chevron-right"></i></span></td><td><i class="centering glyphicon glyphicon-screenshot"></i><i class="edit glyphicon glyphicon-pencil"></i><i class="remove glyphicon glyphicon-trash"></i></td></tr>';
+	ctrl += '<td style="text-align:center"><span><i class="back glyphicon glyphicon-chevron-left"></i><span class="zidx"></span><i class="front glyphicon glyphicon-chevron-right"></i></span></td><td><i class="centering glyphicon glyphicon-screenshot"></i><i class="edit glyphicon glyphicon-pencil"></i><i class="remove glyphicon glyphicon-trash"></i></td></tr>';
 
 	$("#editorTable").append(ctrl);
 
-	var td = $("#control"+nama);
-	td.val(idx);
+	var td = $("#control"+param.id);
+	td.val(param.idx);
+	// if(!param.img){
+	// 	$(".fontSize",td).val(__map[__curr][param.idx].fontSize).bind('input propertychange',function(){
+	// 		$(this).val(parseInt($(this).val()));
+	// 		changeFontSize($(this).parent().parent().val(),parseInt($(this).val()));
+	// 	});
+	// }
 
-	if(type == 6){
-		$(".fontSize",td).val(__map[__curr][idx].fontSize).bind('input propertychange',function(){
-			$(this).val(parseInt($(this).val()));
-			changeFontSize($(this).parent().parent().val(),parseInt($(this).val()));
-		});
-	}
-
-	$(".rotation",td).val(__map[__curr][idx].rotation).bind('input propertychange',function(){
+	$(".rotation",td).val(__map[__curr][param.idx].rotation).bind('input propertychange',function(){
 		var val = parseFloat($(this).val());
 		val = (val < 0 ? 360 + val : val) % 360;
 		$(this).val(val);
 		rotateImg($(this).parent().parent().val(),parseFloat($(this).val()));
 	});
 
-	$(".zidx",td).text(' '+idx+' ');
+	$(".zidx",td).text(' '+param.idx+' ');
 
 	$(".back",td).click(function(){
 		changeIdxZ($(this).parent().parent().parent().val(),-1);
@@ -516,209 +534,261 @@ function createControl(title,nama,idx,type,compname,fontType){
 			deleteComp(idx);
 			$("#deleteModal").modal('hide');
 		});
-		$("#deleteText").text('Anda yakin manghapus komponen '+ __map[__curr][idx].name +' ?')
+		$("#deleteText").text('Anda yakin manghapus komponen '+ __map[__curr][idx].name +' ?');
 		$("#deleteModal").modal('show');
 	});
 }
 
+
 function editModal(idx){
 	$.ajax({
+		type: 'GET',
 		url : BASE_URL + 'acara/Kartu_acara/getComponents',
 		dataType : 'json',
 		success : function(data){
 			$('#editCompType',"#editModal").empty();
 			for(var i = 0 ; i < data.length ; i++)
 			{
-				$('#editCompType',"#editModal").append('<option value="'+data[i].component_id+'" source="'+data[i].default_img+'">'+data[i].component_name+'</option>');
+				$('#editCompType',"#editModal").append('<option value="'+data[i].component_id+'" source="'+data[i].value+'">'+data[i].component_name+'</option>');
+				$('#editCompType option:last-child').data({
+					source  : data[i].value,
+					dynamic : parseInt(data[i].is_dynamic)
+				});
 			}
 			$('input',"#editModal").val('');
+
 			$('#editCompType').val(__map[__curr][idx].type);
-			$('.editStandard').click();
+
 			$("#editCompName").val(__map[__curr][idx].name);
+
 			initInput($('#editCompType',"#editModal"),$('#editForm'));
+
 			$("#editCompFile").val('');
-			$('#editCompText').val(__map[__curr][idx].fontType !== null ? __map[__curr][idx].val : '');
+
+			$('#editColor').minicolors('value',__map[__curr][idx].fontType !== null ? __map[__curr][idx].color : '#000000');
+			$('#editColor').minicolors('opacity',__map[__curr][idx].fontType !== null ? __map[__curr][idx].opacity : 1);
+
+			$('#editCompText').val(__map[__curr][idx].fontType !== null ? __map[__curr][idx].val.substr(1) : '');
+
+			if(__map[__curr][idx].fontType != null){
+				var type = __map[__curr][idx].val.substr(0,1);
+				var fontFam = __map[__curr][idx].fontType;
+
+				if(type == 's'){
+					$('.editStandard').click();
+					$('.editFonts').val(fontFam);
+				}
+				else{
+					$('.editGoogle').click();
+					$('.editGoogleFonts').val(fontFam).children('a').children('.bfh-selectbox-option').text(fontFam);
+				}
+			}
+
 			$("#compEdit").unbind('click').click(function(){
 				editComp(idx);
 				$("#editModal").modal('hide');
 			});
+
 			$("#editModal").modal('show');
 		}
 	});
 }
 
 function editComp(idx){
-	if($("#editCompName").val() == '')
-		$("#editCompName").val(__map[__curr][idx].name);
-	var nama = $("#editCompName").val();
-	if($('#editCompType').val() == 6)
-	{
-		var fontType;
-		if($('.editStandard').hasClass('active')){
-			fontType = $('.editFonts').val();
-		}else {
-			fontType = $('.editGoogleFonts').val();
-			WebFont.load({
-	        	google: {
-	        		families: [fontType]
-	        	}
-		  	});
-		}
-		changeObj($("#editCompType").val(),$('#editCompText').val(),nama,3,idx,$('#editCompType option:selected').text(),fontType);
-	}
-	else if($('option:selected',$('#editCompType','#editModal')).attr('source') == 'null')
-	{
-		changeObj($("#editCompType").val(),$("#editCompFile").get(0).files[0],nama,2,idx,$('#editCompType option:selected').text());
-	}
-	else
-	{
-		changeObj($("#editCompType").val(),$('option:selected',$('#editCompType','#editModal')).attr('source'),nama,1,idx,$('#editCompType option:selected').text());
-	}
-}
 
-function changeObj(type,data,nama,objtype,idx,compType,fontType){
-	if(objtype == '1')
-	{
-		data = ASSETS_URL + data;
-		changeImg(data,nama,type,idx,compType);
-	}
-	else if(objtype == '2')
-	{
+	var nama = $("#editCompName").val() == '' ? __map[__curr][idx].name : $("#editCompName").val();
+	var id = nama.split(' ').join('-');
+	var dynamic = $('#editCompType option:selected').data().dynamic;
+
+	if($('#editCompType option:selected').text().trim() == 'Gambar'){
+
 		var newData = new FormData();
-		newData.append('newImg',data);
-		var name = nama.split(' ').join('-');
+		newData.append('newImg',$("#editCompFile").get(0).files[0]);
+
 		$.ajax({
 			type: 'POST',
-			url : BASE_URL + 'acara/Kartu_acara/uploadImg/'+name,
+			url : BASE_URL + 'acara/Kartu_acara/uploadImg/'+id,
 			contentType : false,
 			processData : false,
 			cache: false,
 			data : newData,
 			dataType:'json',
+			error: function(e){
+				alert('Error Uploading Image.');
+			},
 			success: function(data){
 				if(data.status)
-					changeImg(data.val,nama,type,idx,compType);
+					changeObj({
+						type 		: $('#editCompType').val(),
+						data 		: data.val,
+						nama 		: nama,
+						id 			: id,
+						img 		: true,
+						compTypeName: $('#editCompType option:selected').text(),
+						newObj		: false,
+						idx			: idx,
+						side		: __curr,
+						dynamic		: dynamic,
+						oldState	: {
+							dbid	: __map[__curr][idx].dbid,
+							id 		: __map[__curr][idx].id,
+							top		: __map[__curr][idx].x,
+							left	: __map[__curr][idx].y,
+							scale	: __map[__curr][idx].scale,
+							angle	: __map[__curr][idx].rotation,
+							side	: __curr
+						}
+					});
 			}
 		});
 	}
-	else
-	{
-		changeText(data,nama,type,fontType,idx,compType);
+	else if ($('#editCompType option:selected').text().trim() == 'QR Code') {
+		changeObj({
+			type 		: $('#editCompType').val(),
+			data 		: $('option:selected',$('#editCompType','#editModal')).data().source,
+			nama 		: nama,
+			id			: id,
+			img 		: true,
+			compTypeName: $('#editCompType option:selected').text(),
+			newObj		: false,
+			idx			: idx,
+			side		: __curr,
+			dynamic		: dynamic,
+			oldState	: {
+				dbid	: __map[__curr][idx].dbid,
+				id 		: __map[__curr][idx].id,
+				top		: __map[__curr][idx].x,
+				left	: __map[__curr][idx].y,
+				scale	: __map[__curr][idx].scale,
+				angle	: __map[__curr][idx].rotation,
+				side	: __curr
+			}
+		});
 	}
-}
-
-function changeImg(src,nama,type,idx,compType){
-	var title = nama;
-	nama = nama.split(' ').join('-');
-	fabric.Image.fromURL(src, function(oImg) {
-		oImg.lockUniScaling = true;
-
-		oImg.resizeFilters.push(
-			new fabric.Image.filters.Resize({
-				resizeType : 'sliceHack'
-			})
-		);
-
-		oImg.setOriginX('center');
-		oImg.setOriginY('center');
-
-		if(__canvas.rotation[__curr] === 0)
-		{
-			oImg.setTop(__map[__curr][idx].x);
-			oImg.setLeft(__map[__curr][idx].y);
+	else{
+		var data;
+		if($('#editCompType option:selected').data().dynamic){
+			data = $('option:selected',$('#editCompType','#editModal')).data().source;
 		}
 		else {
-			oImg.setTop(__map[__curr][idx].y);
-			oImg.setLeft(300-__map[__curr][idx].x);
+			data = $('#editCompText').val();
 		}
 
-
-		oImg.setAngle(__map[__curr][idx].rotation + __canvas.rotation[__curr]);
-		oImg.scale(__map[__curr][idx].scale);
-
-		__canvas[__curr].item(idx).remove();
-		__canvas[__curr].insertAt(oImg,idx);
-
-		idLama = __map[__curr][idx].id;
-		__map[__curr][idx].id = nama;
-		__map[__curr][idx].name = title;
-		__map[__curr][idx].type = type;
-		__map[__curr][idx].fontType = null;
-		__map[__curr][idx].fontSize = null;
-		__map[__curr][idx].val = src;
-		__map[__curr][idx].compname = compType;
-
-		updateControl(idLama,title,idx,type,compType);
-		updateState(idx);
-	});
-}
-
-function changeText(text,nama,type,fontType,idx,compType){
-	var title = nama;
-	nama = nama.split(' ').join('-');
-	var textObj = new fabric.Text(text,{
-		caching  : false
-	});
-
-	textObj.lockUniScaling = true;
-	textObj.setOriginX('center');
-	textObj.setOriginY('center');
-	if(__canvas.rotation[__curr] === 0)
-	{
-		textObj.setTop(__map[__curr][idx].x);
-		textObj.setLeft(__map[__curr][idx].y);
-	}
-	else {
-		textObj.setLeft(__map[__curr][idx].y);
-		textObj.setTop(300-__map[__curr][idx].x);
-	}
-
-
-	textObj.setFontFamily(fontType);
-	fabric.util.clearFabricFontCache(__map[__curr][idx].fontType);
-	textObj.setFontSize(__map[__curr][idx].fontSize === null ? 12 : __map[__curr][idx].fontSize);
-	textObj.setAngle(__map[__curr][idx].rotation + __canvas.rotation[__curr]);
-	textObj.scale(__map[__curr][idx].scale)
-
-	__canvas[__curr].item(idx).remove();
-	__canvas[__curr].insertAt(textObj,idx);
-
-	idLama = __map[__curr][idx].id;
-	__map[__curr][idx].id = nama;
-	__map[__curr][idx].name = title;
-	__map[__curr][idx].type = type;
-	__map[__curr][idx].fontType = fontType;
-	__map[__curr][idx].fontSize = __map[__curr][idx].fontSize === null ? 12 : __map[__curr][idx].fontSize;
-	__map[__curr][idx].val = text;
-	__map[__curr][idx].compname = compType;
-
-	updateControl(idLama,title,idx,type,compType,fontType);
-	updateState(idx);
-}
-
-function updateControl(idLama,title,idx,type,compname,fontType){
-	var td = $("#control"+idLama);
-	$(".title",td).text(title);
-	$(".type",td).text(compname);
-	if(type != 6)
-	{
-		$('.font',td).text('-');
-		$('.fontSize',td).prop('disabled',true);
-	}
-	else
-	{
-		$('.font',td).text(fontType);
-		$('.fontSize',td).prop('disabled',false);
-	}
-	if(type == 6){
-		$(".fontSize",td).val(__map[__curr][idx].fontSize).bind('input propertychange',function(){
-			$(this).val(parseInt($(this).val()));
-				changeFontSize($(this).parent().parent().val(),parseInt($(this).val()));
+		var fontType;
+		var type;
+		if($('.editStandard').hasClass('active')){
+			type = 's';
+			fontType = $('.editFonts').val();
+		}
+		else{
+			type = 'g';
+			fontType = $('.editGoogleFonts').val();
+			WebFont.load({
+				google: {
+					families: [fontType]
+				}
+			});
+		}
+		changeObj({
+			type 		: $('#editCompType').val(),
+			data 		: type + data,
+			nama 		: nama,
+			id 			: id,
+			img 		: false,
+			compTypeName: $('#editCompType option:selected').text(),
+			fontFam		: fontType,
+			color 		: $('#editColor').minicolors('value'),
+			opacity		: $('#editColor').minicolors('opacity'),
+			newObj		: false,
+			idx			: idx,
+			side		: __curr,
+			dynamic		: dynamic,
+			oldState	: {
+				dbid	: __map[__curr][idx].dbid,
+				id 		: __map[__curr][idx].id,
+				top		: __map[__curr][idx].x,
+				left	: __map[__curr][idx].y,
+				scale	: __map[__curr][idx].scale,
+				angle	: __map[__curr][idx].rotation,
+				fontSize: __map[__curr][idx].fontSize,
+				color	: __map[__curr][idx].color,
+				opacity	: __map[__curr][idx].opacity,
+				side	: __curr
+			}
 		});
-	}else{
-		$(".fontSize",td).val('').unbind();
 	}
-	td.attr('id','control'+__map[__curr][idx].id);
+}
+
+function changeObj(param){
+	var promise = new Promise(function(resolve,reject){
+		if(param.img) {
+			createImg(param,resolve);
+		}
+		else {
+			createText(param,resolve);
+		}
+	}).then(function(obj){
+		__canvas[param.side].item(param.idx).remove();
+		__canvas[param.side].insertAt(obj,param.idx);
+
+		__map[param.side][param.idx] =
+		{
+			id 		: param.id,
+			name 	: param.nama,
+			type 	: param.type,
+			scale 	: obj.getScaleX(),
+			x 		: obj.getTop(),
+			y 		: obj.getLeft(),
+			rotation: obj.getAngle(),
+			fontType: null,
+			fontSize: null,
+			val 	: param.data,
+			dbid 	: param.oldState.dbid,
+			compname: param.compTypeName,
+			color	: null,
+			dynamic	: param.dynamic
+		};
+
+		if(!param.img){
+			fabric.util.clearFabricFontCache(param.font_type);
+			__map[param.side][param.idx].fontType = obj.getFontFamily();
+			__map[param.side][param.idx].fontSize = obj.getFontSize();
+			__map[param.side][param.idx].color = obj.getFill();
+			__map[param.side][param.idx].opacity = obj.getOpacity();
+		}
+
+		updateControl({
+			idx			: param.idx,
+			oldID		: param.oldState.id,
+			img			: param.img,
+			side		: param.side
+		});
+		updateState(param.idx);
+	});
+}
+
+function updateControl(param){
+	var td = $("#control"+param.oldID);
+	$(".title",td).text(__map[param.side][param.idx].nama);
+	$(".type",td).text(__map[param.side][param.idx].compname);
+
+	// if(param.img)
+	// {
+	// 	$('.font',td).text('-');
+	// 	$('.fontSize',td).prop('disabled',true);
+	// 	$(".fontSize",td).val('').unbind();
+	// }
+	// else
+	// {
+	// 	$('.font',td).text(__map[param.side][param.idx].fontType);
+	// 	$('.fontSize',td).prop('disabled',false);
+	// 	$(".fontSize",td).val(__map[param.side][param.idx].fontSize).bind('input propertychange',function(){
+	// 		$(this).val(parseInt($(this).val()));
+	// 			changeFontSize($(this).parent().parent().val(),parseInt($(this).val()));
+	// 	});
+	// }
+
+	td.attr('id','control'+__map[param.side][param.idx].id);
 }
 
 function deleteComp(idx){
@@ -764,12 +834,12 @@ function changeIdxZ(idx,diff){
 	updateState(targetIdx);
 }
 
-function changeFontSize(idx,fontSize){
-	fabric.util.clearFabricFontCache(__map[__curr][idx].fontType);
-	__canvas[__curr].item(idx).setFontSize(fontSize);
-	__map[__curr][idx].fontSize = fontSize;
-	updateState(idx);
-}
+// function changeFontSize(idx,fontSize){
+// 	fabric.util.clearFabricFontCache(__map[__curr][idx].fontType);
+// 	__canvas[__curr].item(idx).setFontSize(fontSize);
+// 	__map[__curr][idx].fontSize = fontSize;
+// 	updateState(idx);
+// }
 
 function rotateImg(idx,rotation){
 	__canvas[__curr].item(idx).setAngle(rotation + __canvas.rotation[__curr]);
@@ -816,6 +886,7 @@ function rotateCard(){
 		obj.setAngle(d);
 		obj.setCoords();
 	});
+	__canvas[__curr].renderAll();
 	__canvas[__curr].calcOffset();
 }
 
@@ -852,6 +923,15 @@ function updateControls(data){
 
 function registerObj(idx,side){
 	var obj = __map[side][idx];
+	var dataToDB = obj.val;
+	if(obj.dynamic){
+		if(obj.fontType == undefined) {
+			dataToDB = null;
+		}
+		else {
+			dataToDB = obj.val.substr(0,1);
+		}
+	}
 	$.ajax({
 		type: 'POST',
 		url : BASE_URL + 'acara/Kartu_acara/saveObj',
@@ -864,12 +944,15 @@ function registerObj(idx,side){
 			idx : idx,
 			fontType : obj.fontType,
 			fontSize : obj.fontSize,
-			val : obj.val,
+			val : dataToDB,
 			name: obj.name,
-			side: side
+			side: side,
+			color: obj.color,
+			opacity : obj.opacity
 		},
-		error: function(e){
-			console.log(e.responseText);
+		error :function(){
+			alert('Error : cannot save canvas object state to database');
+			location.reload();
 		},
 		success: function(id){
 			obj.dbid = id;
@@ -896,6 +979,15 @@ function afterInteract(data){
 
 function updateState(idx){
 	var obj = __map[__curr][idx];
+	var dataToDB = obj.val;
+	if(obj.dynamic){
+		if(obj.fontType == undefined) {
+			dataToDB = null;
+		}
+		else {
+			dataToDB = obj.val.substr(0,1);
+		}
+	}
 	$.ajax({
 		type: 'POST',
 		url : BASE_URL + 'acara/Kartu_acara/updateObjState',
@@ -908,16 +1000,16 @@ function updateState(idx){
 			idx : idx,
 			fontType : obj.fontType,
 			fontSize : obj.fontSize,
-			val : obj.val,
+			val : dataToDB,
 			name: obj.name,
 			side: __curr,
-			dbid : obj.dbid
+			dbid : obj.dbid,
+			color: obj.color,
+			opacity:obj.opacity
 		},
-		error:function(e){
-			console.log(e.responseText);
-		},
-		success: function(s){
-			console.log(s);
+		error: function(){
+			alert('Error : cannot update canvas object state to database');
+			location.reload();
 		}
 	});
 }
@@ -931,7 +1023,8 @@ function deactiveState(idx){
 			dbid : obj.dbid
 		},
 		error:function(e){
-			return 0;
+			alert('Error : cannot remove canvas object from database');
+			location.reload();
 		},
 		success: function(s){
 			return true;
