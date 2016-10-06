@@ -20,6 +20,14 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label>Kontak</label>
+                            <div class="row">
+                                <div class="col-md-12 col-xs-12">
+                                    <input id="participantContact" type="text" class="form-control" name="participantContact">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <div class="row">
                                 <div class="col-md-9 col-xs-12">
                                     <label>Grup</label>
@@ -27,7 +35,7 @@
                                 </div>
                                 <div class="col-md-3 col-xs-12">
                                     <label>Follower</label>
-                                    <input id="participantFollower" type="text" class="form-control" name="participantFollower">
+                                    <input id="participantFollower" type="number" class="form-control" name="participantFollower">
                                 </div>
                             </div>
                         </div>
@@ -99,12 +107,12 @@
                     <div class="scanner-laser laser-rightBottom" style="opacity: 0.5;"></div>
                     <div class="scanner-laser laser-rightTop" style="opacity: 0.5;"></div>
                     <div class="scanner-laser laser-leftBottom" style="opacity: 0.5;"></div>
-                    <div class="scanner-laser laser-leftTop" style="opacity: 0.5;"></div>                                        
+                    <div class="scanner-laser laser-leftTop" style="opacity: 0.5;"></div>
 
                     <div class="well">
                         <div class="row">
                             <div class="col-xs-8">
-                                <select class="form-control" id="camera-select" style="height: 25px;"></select>                                
+                                <select class="form-control" id="camera-select" style="height: 25px;"></select>
                             </div>
                             <div class="col-xs-4">
                                 <button title="Play" class="btn btn-success btn-sm" id="play" type="button" data-toggle="tooltip"><span class="glyphicon glyphicon-play"></span></button>
@@ -136,10 +144,10 @@
                 <fieldset>
                     <legend>Peserta <i class="fa fa-refresh icon-refresh-animate"></i></legend>
                 </fieldset>
-                <!--                                
+                <!--
                 <form>
                     <input id="search" class="form-control search" type="text" placeholder="Pencarian terkait peserta" autocomplete="off">
-                </form> 
+                </form>
                 s-->
 
                 <div class="table-responsive">
@@ -148,6 +156,7 @@
                             <tr>
                                 <th>Kode Kartu</th>
                                 <th>Nama Peserta</th>
+                                <th>Kontak</th>
                                 <th>Group </th>
                                 <th> <i class="fa fa-users"></i></th>
                                 <th>Status Kehadiran</th>
@@ -157,7 +166,7 @@
                         <tbody id="contentTable"></tbody>
                         <tfoot>
                             <tr>
-                                <td class="active" colspan="5">
+                                <td class="active" colspan="6">
                                     <div class="btn-group" role="group">
                                         <button id="addButton" class="btn btn-primary" type="button">Tambah Peserta</button>
                                         <label id="importButton" class="btn btn-success" type="button">

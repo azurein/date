@@ -4,10 +4,10 @@
             <!-- <h2 class="text-uppercase text-center">D.A.T.E. Login</h2> -->
             <div class="illustration"><i class="icon ion-ios-locked"></i></div>
             <div class="form-group">
-                <input class="form-control" type="text" name="username" required="" placeholder="Username" autofocus>
+                <input class="form-control" type="text" name="username" required="" placeholder="Username" autocomplete="new-username" autofocus >
             </div>
             <div class="form-group">
-                <input class="form-control" type="password" name="password" required="" placeholder="Password">
+                <input class="form-control" type="password" name="password" required="" placeholder="Password" autocomplete="new-password">
             </div>
             <div class="form-group">
                 <button class="btn btn-primary btn-block" type="submit">Masuk</button>

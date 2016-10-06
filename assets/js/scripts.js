@@ -24,13 +24,10 @@ function checkCard(card_id){
             'card_id'       : card_id
         },
         success : function(data){
-            for(var i = 0 ; i < data.length ; i++)
-            {
-                if(data[i].checkCard == 1)
-                    checkVerification(card_id);
-                else
-                    alert("Kartu tidak terdaftar.");
-            }
+            if(data[0].checkCard == 1)
+                checkVerification(card_id);
+            else
+                alert("Kartu tidak terdaftar.");
         }
     });
 }
@@ -44,16 +41,13 @@ function checkVerification(card_id){
             'card_id'       : card_id
         },
         success : function(data){
-            for(var i = 0 ; i < data.length ; i++)
-            {
-                if(data[i].checkVerification == 0)
-                    saveVerificationLog(card_id);
-                else
-                    var r = confirm("Kartu sudah diverfikasi, apakah ingin perbarui verifikasi?");
-                
-                if (r == true)
-                    replaceVerificationLog(card_id);
-            }
+            if(data[0].checkVerification == 0)
+                saveVerificationLog(card_id);
+            else
+                var r = confirm("Kartu sudah diverfikasi, apakah ingin perbarui verifikasi?");
+
+            if (r == true)
+                replaceVerificationLog(card_id);
         }
     });
 }

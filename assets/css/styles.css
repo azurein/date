@@ -5,7 +5,7 @@ body {
 
 button:focus {
   outline: none !important;
-}   
+}
 
 img.img-responsive {
   margin:auto;
@@ -34,7 +34,7 @@ input.form-control.search {
 }
 
 .table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {
-  vertical-align: middle; 
+  vertical-align: middle;
 }
 
 td div.form-group {
@@ -45,9 +45,9 @@ i{
   cursor:pointer;
 }
 
-i.glyphicon.glyphicon-pencil, 
-i.glyphicon.glyphicon-trash, 
-i.glyphicon.glyphicon-gift, 
+i.glyphicon.glyphicon-pencil,
+i.glyphicon.glyphicon-trash,
+i.glyphicon.glyphicon-gift,
 i.glyphicon.glyphicon-question-sign
 i.glyphicon.glyphicon-gift,
 i.glyphicon.glyphicon-question-sign,
@@ -103,4 +103,7 @@ input.input-file{
   color:white;
 }
 
-
+.well {
+    border: transparent !important;
+    background-color: transparent !important;
+}

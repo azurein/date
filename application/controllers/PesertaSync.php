@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class PesertaSync extends Main_Controller {
-	
+
 	public $model_2;
 	public $model_3;
 	public $model_4;
@@ -15,25 +15,25 @@ class PesertaSync extends Main_Controller {
 		$this->model_3 = FALSE;
 		$this->model_4 = FALSE;
 		$this->model_5 = FALSE;
-		
+
 		$this->load->model("Peserta_model","peserta");
 
-		if($this->ping('192.168.0.100')) {
-			$this->load->model("Peserta_model_2","peserta_2");
-			$this->model_2 = TRUE;
-		}
-		if($this->ping('192.168.0.102')) {
-			$this->load->model("Peserta_model_3","peserta_3");
-			$this->model_3 = TRUE;
-		}
-		if($this->ping('192.168.0.103')) {
-			$this->load->model("Peserta_model_4","peserta_4");
-			$this->model_4 = TRUE;
-		}
-		if($this->ping('192.168.0.104')) {
-			$this->load->model("Peserta_model_5","peserta_5");
-			$this->model_5 = TRUE;
-		}
+		// if($this->ping('192.168.0.100')) {
+		// 	$this->load->model("Peserta_model_2","peserta_2");
+		// 	$this->model_2 = TRUE;
+		// }
+		// if($this->ping('192.168.0.102')) {
+		// 	$this->load->model("Peserta_model_3","peserta_3");
+		// 	$this->model_3 = TRUE;
+		// }
+		// if($this->ping('192.168.0.103')) {
+		// 	$this->load->model("Peserta_model_4","peserta_4");
+		// 	$this->model_4 = TRUE;
+		// }
+		// if($this->ping('192.168.0.104')) {
+		// 	$this->load->model("Peserta_model_5","peserta_5");
+		// 	$this->model_5 = TRUE;
+		// }
 	}
 
 	public function index()
@@ -91,7 +91,7 @@ class PesertaSync extends Main_Controller {
         }
 	}
 
-	private function uploadData($filename){		
+	private function uploadData($filename){
 		$this->load->library('excel');
 		$this->load->helper('file');
 
@@ -125,19 +125,19 @@ class PesertaSync extends Main_Controller {
 			'eventID' => $_SESSION['event_id']
 		);
 
+		$this->peserta->updateTable($data,$user);
 		if($this->model_2) {
-			$this->peserta_2->updateTable($data,$user);		
+			$this->peserta_2->updateTable($data,$user);
 		}
 		if($this->model_3) {
-			$this->peserta_3->updateTable($data,$user);		
+			$this->peserta_3->updateTable($data,$user);
 		}
 		if($this->model_4) {
-			$this->peserta_4->updateTable($data,$user);		
+			$this->peserta_4->updateTable($data,$user);
 		}
 		if($this->model_5) {
-			$this->peserta_5->updateTable($data,$user);		
+			$this->peserta_5->updateTable($data,$user);
 		}
-		$this->peserta->updateTable($data,$user);
 	}
 
 	public function getParticipant()
@@ -182,6 +182,7 @@ class PesertaSync extends Main_Controller {
 			$data = array(
 				'title' => $this->input->post_get('title'),
 				'name' => $this->input->post_get('name'),
+				'phone_num' => $this->input->post_get('phone_num'),
 				'group' => $this->input->post_get('group'),
 				'follower' => $this->input->post_get('follower'),
 				'delegate' => $this->input->post_get('delegate'),
@@ -194,13 +195,13 @@ class PesertaSync extends Main_Controller {
 				$this->peserta_2->createParticipant1($data);
 			}
 			if($this->model_3) {
-				$this->peserta_3->createParticipant1($data);		
+				$this->peserta_3->createParticipant1($data);
 			}
 			if($this->model_4) {
-				$this->peserta_4->createParticipant1($data);		
+				$this->peserta_4->createParticipant1($data);
 			}
 			if($this->model_5) {
-				$this->peserta_5->createParticipant1($data);		
+				$this->peserta_5->createParticipant1($data);
 			}
 
  			$newID = $this->getNewID();
@@ -217,13 +218,13 @@ class PesertaSync extends Main_Controller {
 				$this->peserta_2->createCard($data);
 			}
 			if($this->model_3) {
-				$this->peserta_3->createCard($data);		
+				$this->peserta_3->createCard($data);
 			}
 			if($this->model_4) {
-				$this->peserta_4->createCard($data);		
+				$this->peserta_4->createCard($data);
 			}
 			if($this->model_5) {
-				$this->peserta_5->createCard($data);		
+				$this->peserta_5->createCard($data);
 			}
 			echo $result;
 		}
@@ -233,6 +234,7 @@ class PesertaSync extends Main_Controller {
 				'id' => $this->input->post_get('id'),
 				'title' => $this->input->post_get('title'),
 				'name' => $this->input->post_get('name'),
+				'phone_num' => $this->input->post_get('phone_num'),
 				'group' => $this->input->post_get('group'),
 				'follower' => $this->input->post_get('follower'),
 				'delegate' => $this->input->post_get('delegate'),
@@ -245,13 +247,13 @@ class PesertaSync extends Main_Controller {
 				$this->peserta_2->editParticipant($data);
 			}
 			if($this->model_3) {
-				$this->peserta_3->editParticipant($data);		
+				$this->peserta_3->editParticipant($data);
 			}
 			if($this->model_4) {
-				$this->peserta_4->editParticipant($data);		
+				$this->peserta_4->editParticipant($data);
 			}
 			if($this->model_5) {
-				$this->peserta_5->editParticipant($data);		
+				$this->peserta_5->editParticipant($data);
 			}
 			echo $result;
 		}
@@ -270,7 +272,7 @@ class PesertaSync extends Main_Controller {
 		$data = array(
 			'newID' => $newID,
 			'cardID' => $this->input->post_get('cardID'),
-			'userID' => $_SESSION['user_id'] 
+			'userID' => $_SESSION['user_id']
 		);
 
 		$result = $this->peserta->resetCardID($data);
@@ -278,13 +280,13 @@ class PesertaSync extends Main_Controller {
 			$this->peserta_2->resetCardID($data);
 		}
 		if($this->model_3) {
-			$this->peserta_3->resetCardID($data);		
+			$this->peserta_3->resetCardID($data);
 		}
 		if($this->model_4) {
-			$this->peserta_4->resetCardID($data);		
+			$this->peserta_4->resetCardID($data);
 		}
 		if($this->model_5) {
-			$this->peserta_5->resetCardID($data);		
+			$this->peserta_5->resetCardID($data);
 		}
 		echo $result;
 	}
@@ -306,7 +308,7 @@ class PesertaSync extends Main_Controller {
 			$this->peserta_4->deactiveParticipantById($data);
 		}
 		if($this->model_5) {
-			$this->peserta_5->deactiveParticipantById($data);		
+			$this->peserta_5->deactiveParticipantById($data);
 		}
 		echo $result;
 	}
@@ -342,7 +344,7 @@ class PesertaSync extends Main_Controller {
 		$data = $this->peserta->getParticipant1();
 		$dataLen = count($data);
 
-		for ($i=0; $i < $dataLen ; $i++) { 
+		for ($i=0; $i < $dataLen ; $i++) {
 			$this->excel->getActiveSheet()->setCellValueExplicit('A'.($i+2),$data[$i]['card_id'],PHPExcel_Cell_DataType::TYPE_STRING);
 			$this->excel->getActiveSheet()->setCellValueExplicit('B'.($i+2),$data[$i]['title_name'],PHPExcel_Cell_DataType::TYPE_STRING);
 			$this->excel->getActiveSheet()->setCellValueExplicit('C'.($i+2),$data[$i]['participant_name'],PHPExcel_Cell_DataType::TYPE_STRING);
@@ -382,7 +384,7 @@ class PesertaSync extends Main_Controller {
 		$this->excel->getActiveSheet()->setCellValue('A1','Group');
 
 		$colFill = $this->excel->getActiveSheet()->getStyle('A1')->getFill();
-		
+
 		$colFill->getStartColor()->setARGB('#ffff00');
 		$colFill->setFillType(PHPExcel_Style_Fill::FILL_SOLID);
 
@@ -395,11 +397,11 @@ class PesertaSync extends Main_Controller {
 		$filename="listpeserta.xls";
 
 		header('Content-Type: application/vnd.ms-excel');
- 
+
         header('Content-Disposition: attachment;filename="'.$filename.'"');
- 
+
         header('Cache-Control: max-age=0');
- 
+
         $objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel5');
 
         $objWriter->save('php://output');

@@ -5,7 +5,7 @@ class Peserta extends Main_Controller {
 
    	public function __construct()
 	{
-		parent::__construct();	
+		parent::__construct();
 		$this->load->model("Peserta_model","peserta");
 		$this->load->model("acara/Pengaturan_acara_model","pengaturan_acara");
 	}
@@ -61,7 +61,7 @@ class Peserta extends Main_Controller {
         }
 	}
 
-	private function uploadData($filename){		
+	private function uploadData($filename){
 		$this->load->library('excel');
 		$this->load->helper('file');
 
@@ -156,25 +156,28 @@ class Peserta extends Main_Controller {
 		$this->excel->getActiveSheet()->setCellValue('A1','Kode Kartu');
 		$this->excel->getActiveSheet()->setCellValue('B1','Title');
 		$this->excel->getActiveSheet()->setCellValue('C1','Nama Peserta');
-		$this->excel->getActiveSheet()->setCellValue('D1','Group');
-		$this->excel->getActiveSheet()->setCellValue('E1','Follower');
+		$this->excel->getActiveSheet()->setCellValue('D1','Kontak');
+		$this->excel->getActiveSheet()->setCellValue('E1','Group');
+		$this->excel->getActiveSheet()->setCellValue('F1','Follower');
 
-		for($col= 'A' ; $col !== 'F' ; $col++){
+		for($col= 'A' ; $col !== 'G' ; $col++){
 			$this->excel->getActiveSheet()->getColumnDimension($col)->setAutoSize(true);
 			$colFill = $this->excel->getActiveSheet()->getStyle($col.'1')->getFill();
 			$colFill->getStartColor()->setARGB('#ffff00');
 			$colFill->setFillType(PHPExcel_Style_Fill::FILL_SOLID);
 		}
 
-		$data = $this->peserta->getParticipant1();
+		$event_id = $_SESSION['event_id'];
+		$data = $this->peserta->getParticipant1('',$event_id);
 		$dataLen = count($data);
 
-		for ($i=0; $i < $dataLen ; $i++) { 
+		for ($i=0; $i < $dataLen ; $i++) {
 			$this->excel->getActiveSheet()->setCellValueExplicit('A'.($i+2),$data[$i]['card_id'],PHPExcel_Cell_DataType::TYPE_STRING);
 			$this->excel->getActiveSheet()->setCellValueExplicit('B'.($i+2),$data[$i]['title_name'],PHPExcel_Cell_DataType::TYPE_STRING);
 			$this->excel->getActiveSheet()->setCellValueExplicit('C'.($i+2),$data[$i]['participant_name'],PHPExcel_Cell_DataType::TYPE_STRING);
-			$this->excel->getActiveSheet()->setCellValueExplicit('D'.($i+2),$data[$i]['group_name'],PHPExcel_Cell_DataType::TYPE_STRING);
-			$this->excel->getActiveSheet()->setCellValue('E'.($i+2),$data[$i]['follower']);
+            $this->excel->getActiveSheet()->setCellValueExplicit('D'.($i+2),$data[$i]['phone_num'],PHPExcel_Cell_DataType::TYPE_STRING);
+            $this->excel->getActiveSheet()->setCellValueExplicit('E'.($i+2),$data[$i]['group_name'],PHPExcel_Cell_DataType::TYPE_STRING);
+			$this->excel->getActiveSheet()->setCellValue('F'.($i+2),$data[$i]['follower']);
 		}
 
 		$this->excel->createSheet();
@@ -209,7 +212,7 @@ class Peserta extends Main_Controller {
 		$this->excel->getActiveSheet()->setCellValue('A1','Group');
 
 		$colFill = $this->excel->getActiveSheet()->getStyle('A1')->getFill();
-		
+
 		$colFill->getStartColor()->setARGB('#ffff00');
 		$colFill->setFillType(PHPExcel_Style_Fill::FILL_SOLID);
 
@@ -222,11 +225,11 @@ class Peserta extends Main_Controller {
 		$filename="listpeserta.xls";
 
 		header('Content-Type: application/vnd.ms-excel');
- 
+
         header('Content-Disposition: attachment;filename="'.$filename.'"');
- 
+
         header('Cache-Control: max-age=0');
- 
+
         $objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel5');
 
         $objWriter->save('php://output');

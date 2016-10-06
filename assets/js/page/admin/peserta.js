@@ -10,7 +10,7 @@ $(document).ready(function() {
 		success : function(data){
 			$("#t").append(data+'<input type="file" name="userfile" size="20" /><br /><br /><input type="submit" value="upload" /></form>');
 		}
-	});	
+	});
 
 	$("#addButton").click(function(){
 		loadAddEditModal('Tambah Peserta');
@@ -56,7 +56,7 @@ function importExcelParticipant(input){
 				$("#messageModal").modal("show");
 				getParticipant();
 			}
-		} 
+		}
 	});
 }
 
@@ -149,6 +149,7 @@ function loadAddEditModal(param , participantData=''){
 	$("#addEditTitle").text(param);
 
 	$("#participantName").val('');
+	$("#participantContact").val('');
 	$("#participantFollower").val('');
 	$("#participantDelegate").val('');
 
@@ -162,7 +163,7 @@ function loadAddEditModal(param , participantData=''){
 			$("#titleDdl").empty();
 			$("#groupDdl").empty();
 			for (var i = 0 ; i < data.title.length ; i++) {
-				$("#titleDdl").append('<option value="'+data.title[i].title_id+'">'+data.title[i].title_name+'</option>');	
+				$("#titleDdl").append('<option value="'+data.title[i].title_id+'">'+data.title[i].title_name+'</option>');
 			}
 			for (var i = 0; i < data.group.length ; i++) {
 				$("#groupDdl").append('<option value="'+data.group[i].group_id+'">'+data.group[i].group_name+'</option>');
@@ -180,6 +181,7 @@ function loadAddEditModal(param , participantData=''){
 				}
 				$("#titleDdl").val(participantData.title_id);
 				$("#participantName").val(participantData.participant_name);
+				$("#participantContact").val(participantData.phone_num);
 				$("#groupDdl").val(participantData.group_id);
 				$("#participantFollower").val(participantData.follower);
 				$("#participantDelegate").val(delegateName);
@@ -206,6 +208,7 @@ function saveParticipant(id){
 			'id'		: id,
 			'title'		: $("#titleDdl").val(),
 			'name'		: $("#participantName").val(),
+			'phone_num'	: $("#participantContact").val(),
 			'group' 	: $("#groupDdl").val(),
 			'follower'	: $("#participantFollower").val(),
 			'delegate'	: delegateID
@@ -222,7 +225,7 @@ function populateTableParticipant(data){
 
 	for(var i = 0 ; i < data.length ; i++)
 	{
-		$('#contentTable').append('<tr value="'+data[i].participant_id+'"><td><span class="card" style="cursor:hand;">'+ data[i].card_id +'</span></td><td class="name">'+ data[i].title_name + data[i].participant_name +'</td><td value="'+data[i].group_id+'">'+ data[i].group_name +'</td><td>'+ data[i].follower +'</td><td>'+ data[i].status_kehadiran +'</td><td> <i class="editButton glyphicon glyphicon-pencil"></i><i class="deleteButton glyphicon glyphicon-trash"></i></td></tr>');
+		$('#contentTable').append('<tr value="'+data[i].participant_id+'"><td><span class="card" style="cursor:hand;">'+ data[i].card_id +'</span></td><td class="name">'+ data[i].title_name + data[i].participant_name +'</td><td>'+ data[i].phone_num +'</td><td value="'+data[i].group_id+'">'+ data[i].group_name +'</td><td>'+ data[i].follower +'</td><td>'+ data[i].status_kehadiran +'</td><td> <i class="editButton glyphicon glyphicon-pencil"></i><i class="deleteButton glyphicon glyphicon-trash"></i></td></tr>');
 	}
 
 	$(".card").click(function(){
@@ -236,9 +239,12 @@ function populateTableParticipant(data){
 	$(".editButton").click(function(){
 		getParticipantByID($(this).parent().parent().attr("value"));
 	});
-	
+
 	$('#participantDataTable').DataTable({
-		"order"		: [[ 5, "desc" ]]
+		"order"		: [[ 5, "desc" ]],
+		"columnDefs": [
+		    { "width": "17%", "targets": 0 }
+		  ]
 	});
 
 	getParticipantSummary();
