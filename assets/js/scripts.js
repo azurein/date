@@ -1,3 +1,12 @@
+$(document).ready(function() {
+
+    $("#scannerFormQr").submit(function(e){
+        e.preventDefault();
+        checkCard($("#scannerInputQr").val());
+    });
+    
+});
+
 $.fn.serializeObject = function()
 {
     var o = {};

@@ -7,7 +7,7 @@ class Login_model extends CI_Model {
 	}
 
 	public function checkLoginData($username, $password){
-		$query = 	"	SELECT user_id
+		$query = 	"	SELECT *
 						FROM users
 						WHERE
 						username like '".$username."'

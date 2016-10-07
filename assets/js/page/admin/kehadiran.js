@@ -9,11 +9,7 @@ $(document).ready(function() {
 	$(".fa-refresh").click(function(){
 		getVerificationLog();
 	});
-
-	$("#scannerFormQr").submit(function(e){
-		e.preventDefault();
-		checkCard($("#scannerInputQr").val());
-	});
+	
 });
 
 function getVerificationLog(key=''){

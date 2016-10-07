@@ -27,6 +27,8 @@ class Login extends Main_Controller {
 		$data = $this->login->checkLoginData($username, $password);
         if(count($data) > 0) {
             $_SESSION['user_id'] = $data[0]['user_id'];
+            $_SESSION['operator_name'] = $data[0]['operator_name'];
+            $_SESSION['privilege'] = $data[0]['privilege'];
             header('Location: '.base_url().'kehadiran');
         } else {
             $this->session->set_flashdata('login_status','failed');

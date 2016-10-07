@@ -54,18 +54,31 @@
                             <a id="titleAcara" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true" href="#">Acara <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
                                 <li role="presentation"><a href="<?php echo base_url(); ?>acara/denah_acara">Denah</a></li>
+                                <?php
+                                if ($_SESSION['privilege'] == 1) { ?>
                                 <li role="presentation"><a href="<?php echo base_url(); ?>acara/kartu_acara">Kartu</a></li>
+                                <?php
+                                } ?>
                                 <li role="presentation"><a href="<?php echo base_url(); ?>acara/hadiah_acara">Hadiah</a></li>
                                 <li role="presentation"><a href="<?php echo base_url(); ?>acara/pengaturan_acara">Pengaturan</a></li>
                             </ul>
                         </li>
+                        <?php
+                        if ($_SESSION['privilege'] == 1) { ?>
                         <li class="main-menu" role="presentation"><a href="<?php echo base_url(); ?>peserta">Peserta</a></li>
+                        <?php
+                        } ?>
                         <li class="main-menu" role="presentation"><a href="<?php echo base_url(); ?>kehadiran"> Kehadiran</a></li>
+                        <li class="main-menu" role="presentation"><a href="<?php echo base_url(); ?>peserta">Peserta</a></li>
+                        <?php
+                        if ($_SESSION['privilege'] == 1) { ?>
                         <li class="main-menu" role="presentation"><a href="<?php echo base_url(); ?>undian">Undian</a></li>
                         <li class="main-menu" role="presentation"><a href="<?php echo base_url(); ?>operator">Operator</a></li>
+                        <?php
+                        } ?>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#">Selamat datang, Admin <i class="fa fa-caret-down"></i></a>
+                        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#">Selamat datang, <?=$_SESSION['operator_name']?> <i class="fa fa-caret-down"></i></a>
                             <ul class="dropdown-menu" role="menu">
                                 <li id="lastupdate" role="presentation"><a href="<?php echo base_url(); ?>update">Update Terakhir</a></li>
                                 <li role="presentation"><a href="<?=base_url()?>login/logout">Keluar </a></li>

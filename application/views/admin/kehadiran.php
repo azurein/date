@@ -120,7 +120,7 @@
                             <div class="well" style="position: relative;display: inline-block;">
                                 <form id="scannerFormQr">
                                     <label>Kode</label>
-                                    <input style="min-width: 325px;" type="text" id="scannerInputQr" class="form-control" autofocus>
+                                    <input style="min-width: 325px;" type="text" id="scannerInputQr" class="form-control" autocomplete="off" autofocus>
                                 </form>
                             </div>
                         </div>
