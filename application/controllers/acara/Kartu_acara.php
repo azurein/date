@@ -11,13 +11,16 @@ class Kartu_acara extends Main_Controller {
 
     public function index()
     {
-        $user_array = array(
-            'event_id' => '1',
-            'user_id' => '2'
-        );
-        $this->session->set_userdata('userdata', $user_array);
-
-        $this->view('admin/acara/kartu_acara');
+        if(isset($_SESSION['user_id'])) {
+            $user_array = array(
+                'event_id' => $_SESSION['event_id'],
+                'user_id' => $_SESSION['user_id']
+            );
+            $this->session->set_userdata('userdata', $user_array);
+            $this->view('admin/acara/kartu_acara');
+        } else {
+            header('Location: '.base_url());
+        }
     }
 
     protected function getSession($key=null)

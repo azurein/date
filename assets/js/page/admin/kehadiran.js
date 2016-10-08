@@ -9,7 +9,7 @@ $(document).ready(function() {
 	$(".fa-refresh").click(function(){
 		getVerificationLog();
 	});
-	
+
 });
 
 function getVerificationLog(key=''){
@@ -64,9 +64,12 @@ function populateTableVerification(data){
 	$('#verification-log').DataTable().destroy();
 	$('#contentTable').empty();
 
+	var actions = '';
+	if(PRIVILEGE == 1) { actions = '<i class="deleteButton glyphicon glyphicon-trash"></i>'; }
+
 	for(var i = 0 ; i < data.length ; i++)
 	{
-		$('#contentTable').append('<tr value="'+ data[i].log_id +'"><td><span class="card">'+ data[i].card_id +'</span></td><td class="name">'+ data[i].title_name + data[i].participant_name +'</td><td class="time">'+ data[i].verification_time +'</td><td> <i class="deleteButton glyphicon glyphicon-trash"></i></td></tr>');
+		$('#contentTable').append('<tr value="'+ data[i].log_id +'"><td><span class="card">'+ data[i].card_id +'</span></td><td class="name">'+ data[i].title_name + data[i].participant_name +'</td><td class="time">'+ data[i].verification_time +'</td><td>'+ actions +'</td></tr>');
 	}
 
 	$(".deleteButton").click(function(){

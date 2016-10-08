@@ -17,7 +17,7 @@ class Kehadiran_model extends CI_Model {
 
 					FROM verification a
 
-					JOIN card b 
+					JOIN card b
 					ON a.card_id = b.card_id
 					AND a._status <> 'D'
 					AND b._status <> 'D'
@@ -26,11 +26,11 @@ class Kehadiran_model extends CI_Model {
 					ON b.participant_id = c.participant_id
 					AND b.event_id = c.event_id
 					AND c._status <> 'D'
-					
+
                     LEFT JOIN titles d
                     ON c.title_id = d.title_id
                     AND	d._status <> 'D'
-                    
+
 					WHERE
 					b.event_id = '".$event_id."'
 					AND a._user = '".$user_id."'
@@ -56,7 +56,7 @@ class Kehadiran_model extends CI_Model {
 						AND a._status <> 'D'
 						AND b._status <> 'D'
 
-						WHERE 
+						WHERE
 						card_id like '".$code."'
 						AND a._status <> 'D'
 
@@ -79,7 +79,7 @@ class Kehadiran_model extends CI_Model {
 						AND a._status <> 'D'
 						AND b._status <> 'D'
 
-						WHERE 
+						WHERE
 						a.card_id like '".$code."'
 
 					) AS checkVerification
@@ -142,7 +142,7 @@ class Kehadiran_model extends CI_Model {
 			$data['card_id']
 		));
 
-		return $data; 
+		return $data;
 	}
 
 	public function getParticipantAttendance(){
@@ -153,7 +153,7 @@ class Kehadiran_model extends CI_Model {
 
 					FROM participant a
 
-					JOIN card b 
+					JOIN card b
 					ON a.participant_id = b.participant_id
 					AND a.event_id = b.event_id
 					AND a._status <> 'D'
@@ -162,14 +162,14 @@ class Kehadiran_model extends CI_Model {
 					LEFT JOIN verification c
 					ON b.card_id = c.card_id
 					AND c._status <> 'D'
-					
+
                     LEFT JOIN titles d
                     ON a.title_id = d.title_id
                     AND	d._status <> 'D'
-                    
+
 					WHERE
 					b.event_id = 1
-                    
+
                     ORDER BY
                     verification_time DESC
 					";
@@ -179,16 +179,24 @@ class Kehadiran_model extends CI_Model {
 
 	public function getTotalVerified() {
 		$user_id = $_SESSION['user_id'];
-		$query = "	SELECT COUNT(card_id) AS TotalVerified
-					FROM verification WHERE _status <> 'D'";
+		$query = "	SELECT COUNT(a.card_id) AS TotalVerified
+					FROM verification a
+					JOIN card b
+					ON a.card_id = b.card_id
+					AND a._status <> 'D'
+					AND b._status <> 'D'";
 		$data = $this->db->query($query)->result_array();
 		return $data;
 	}
 
 	public function getTotalVerifiedByUser($user_id) {
-		$query = "	SELECT COUNT(card_id) AS TotalVerified
-					FROM verification
-					WHERE _user = $user_id AND _status <> 'D'";
+		$query = "	SELECT COUNT(a.card_id) AS TotalVerified
+					FROM verification a
+					JOIN card b
+					ON a.card_id = b.card_id
+					AND a._status <> 'D'
+					AND b._status <> 'D'
+					WHERE a._user = $user_id";
 		$data = $this->db->query($query)->result_array();
 		return $data;
 	}

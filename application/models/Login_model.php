@@ -10,8 +10,8 @@ class Login_model extends CI_Model {
 		$query = 	"	SELECT *
 						FROM users
 						WHERE
-						username like '".$username."'
-						AND password like '".$password."'
+						username = '".$username."'
+						AND password = '".$password."'
 						AND _status <> 'D'";
 
 		$data = $this->db->query($query)->result_array();

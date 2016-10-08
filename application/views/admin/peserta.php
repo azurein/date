@@ -190,11 +190,15 @@
                             <tr>
                                 <td class="active" colspan="6">
                                     <div class="btn-group" role="group">
+                                        <?php
+                                        if ($_SESSION['privilege'] == 1) { ?>
                                         <button id="addButton" class="btn btn-primary" type="button">Tambah Peserta</button>
                                         <label id="importButton" class="btn btn-success" type="button">
                                             Import Excel
                                             <input id="importInput" name="userfile" type="file" style="display:none;">
                                         </label>
+                                        <?php
+                                        } ?>
                                         <button id="exportButton" class="btn btn-success" type="button">Export Excel</button>
                                     </div>
                                 </td>

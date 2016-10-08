@@ -12,17 +12,20 @@ class Peserta extends Main_Controller {
 
 	public function index()
 	{
-		$status = $this->pengaturan_acara->checkAvailableEvent();
-		$id = $this->pengaturan_acara->getActiveEvent();
+        if(isset($_SESSION['user_id'])) {
+    		$status = $this->pengaturan_acara->checkAvailableEvent();
+    		$id = $this->pengaturan_acara->getActiveEvent();
 
-		if($status[0]['status_active'] == 1 && isset($id)) {
-			$_SESSION['event_id'] = $id[0]['event_id'];
-			$this->view('admin/peserta');
-		} else {
-			$this->view('admin/acara/pengaturan_acara');
-		}
+    		if($status[0]['status_active'] == 1 && isset($id)) {
+    			$_SESSION['event_id'] = $id[0]['event_id'];
+    			$this->view('admin/peserta');
+    		} else {
+    			$this->view('admin/acara/pengaturan_acara');
+    		}
+        } else {
+            header('Location: '.base_url());
+        }
 	}
-
 
 	public function getForm()
 	{

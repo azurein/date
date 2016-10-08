@@ -227,7 +227,11 @@
                             <tr>
                                 <td class="active" colspan="7">
                                     <div class="btn-group" role="group">
+                                        <?php
+                                        if ($_SESSION['privilege'] == 1) { ?>
                                         <button class="btn btn-primary" type="button" id="addButton">Tambah Acara</button>
+                                        <?php
+                                        } ?>
                                     </div>
                                 </td>
                             </tr>

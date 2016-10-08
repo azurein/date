@@ -11,13 +11,14 @@ class Hadiah_acara extends Main_Controller {
 
 		$this->load->helper(array('url','form'));
 	}
-	
+
 	public function index()
 	{
-		$_SESSION['user_id'] = '0';
-		$_SESSION['event_id'] = '1';
-
-		$this->view('admin/acara/hadiah_acara');
+        if(isset($_SESSION['user_id'])) {
+            $this->view('admin/acara/hadiah_acara');
+        } else {
+            header('Location: '.base_url());
+        }
 	}
 
 	public function getGroups()
@@ -113,10 +114,10 @@ class Hadiah_acara extends Main_Controller {
 			'total_winner' => $this->input->post_get('total_winner')
 		);
 
-		if($prize_id == '') 
+		if($prize_id == '')
 		{
 			$result = $this->hadiah_acara->insertPrize($data);
-		} 
+		}
 		else
 		{
 			$prizeImage = explode(".", $this->input->post_get('prize_img'));

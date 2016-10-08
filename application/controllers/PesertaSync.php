@@ -38,7 +38,11 @@ class PesertaSync extends Main_Controller {
 
 	public function index()
 	{
-		$this->view('admin/peserta');
+		if(isset($_SESSION['user_id'])) {
+			$this->view('admin/peserta');
+        } else {
+            header('Location: '.base_url());
+        }
 	}
 
 	// Function to check response time

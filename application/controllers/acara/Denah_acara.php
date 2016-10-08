@@ -9,13 +9,14 @@ class Denah_acara extends Main_Controller {
 		$this->load->model("acara/Denah_acara_model","denah_acara");
 		$this->load->helper(array('url','form'));
 	}
-	
+
 	public function index()
 	{
-		$_SESSION['user_id'] = '0';
-		$_SESSION['event_id'] = '1';
-
-		$this->view('admin/acara/denah_acara');
+        if(isset($_SESSION['user_id'])) {
+            $this->view('admin/acara/denah_acara');
+        } else {
+            header('Location: '.base_url());
+        }
 	}
 
 	public function getAutoCompleteParticipants()
@@ -74,7 +75,7 @@ class Denah_acara extends Main_Controller {
 		);
 
 		$result = $this->denah_acara->getFacilityType($param);
-		
+
 		echo json_encode($result);
 	}
 
@@ -85,7 +86,7 @@ class Denah_acara extends Main_Controller {
 
 	public function loadFacilityFrom(){
 		$param = array(
-			'canvas_id' => $this->input->post_get('canvas_id'), 
+			'canvas_id' => $this->input->post_get('canvas_id'),
 			'canvas_slideid' => $this->input->post_get('canvas_slideid')
 		);
 		$result = $this->denah_acara->loadFacilityFrom($param);
@@ -140,7 +141,7 @@ class Denah_acara extends Main_Controller {
 	}
 
 	public function saveCanvasImage()
-	{		
+	{
 		$param = array(
 			'canvas_id' => $this->input->post_get('canvas_id'),
 			'canvas_img' => $this->input->post_get('canvas_img')
@@ -152,7 +153,7 @@ class Denah_acara extends Main_Controller {
 	}
 
 	public function deleteFacility()
-	{		
+	{
 		$param = array(
 			'facility_id' => $this->input->post_get('facility_id')
 		);
@@ -174,7 +175,7 @@ class Denah_acara extends Main_Controller {
 		$result = $this->denah_acara->editFacility($param);
 
 		$param = array(
-			'facility_parent_id' => $this->input->post_get('facility_id'), 
+			'facility_parent_id' => $this->input->post_get('facility_id'),
 			'group_id' => $this->input->post_get('group_id')
 		);
 

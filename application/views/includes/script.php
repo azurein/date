@@ -26,6 +26,7 @@
 <script>
 	var BASE_URL = "<?=base_url()?>";
     var ASSETS_URL = "{assets}";
+    var PRIVILEGE = "<?=isset($_SESSION['privilege']) ? $_SESSION['privilege'] : 0?>";
 </script>
 
 <!DOCTYPE html>
@@ -42,7 +43,7 @@
     $path = trim($_SERVER['REQUEST_URI'], '/');
     $rank = count(explode('/', $path));
 
-    if ($rank > 2 && !strpos($path, 'login')) { ?>
+    if (isset($_SESSION['user_id']) && $rank > 2 && !strpos($path, 'login')) { ?>
         <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header"><a class="navbar-brand navbar-link" href="<?php echo base_url(); ?>kehadiran">D.A.T.E </a>
@@ -63,11 +64,6 @@
                                 <li role="presentation"><a href="<?php echo base_url(); ?>acara/pengaturan_acara">Pengaturan</a></li>
                             </ul>
                         </li>
-                        <?php
-                        if ($_SESSION['privilege'] == 1) { ?>
-                        <li class="main-menu" role="presentation"><a href="<?php echo base_url(); ?>peserta">Peserta</a></li>
-                        <?php
-                        } ?>
                         <li class="main-menu" role="presentation"><a href="<?php echo base_url(); ?>kehadiran"> Kehadiran</a></li>
                         <li class="main-menu" role="presentation"><a href="<?php echo base_url(); ?>peserta">Peserta</a></li>
                         <?php

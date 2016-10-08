@@ -9,20 +9,22 @@ class Kehadiran extends Main_Controller {
 		$this->load->model("Kehadiran_model","kehadiran");
 		$this->load->model("acara/Pengaturan_acara_model","pengaturan_acara");
 	}
-	
+
 	public function index()
 	{
-		$_SESSION['user_id'] = '0';
+        if(isset($_SESSION['user_id'])) {
+            $status = $this->pengaturan_acara->checkAvailableEvent();
+            $id = $this->pengaturan_acara->getActiveEvent();
 
-		$status = $this->pengaturan_acara->checkAvailableEvent();
-		$id = $this->pengaturan_acara->getActiveEvent();
-
-		if($status[0]['status_active'] == 1 && isset($id)) {
-			$_SESSION['event_id'] = $id[0]['event_id'];
-			$this->view('admin/kehadiran');
-		} else {
-			$this->view('admin/acara/pengaturan_acara');
-		}
+            if($status[0]['status_active'] == 1 && isset($id)) {
+                $_SESSION['event_id'] = $id[0]['event_id'];
+                $this->view('admin/kehadiran');
+            } else {
+                $this->view('admin/acara/pengaturan_acara');
+            }
+        } else {
+            header('Location: '.base_url());
+        }
 	}
 
 	public function getVerificationLog()
@@ -89,7 +91,7 @@ class Kehadiran extends Main_Controller {
 		$data = $this->kehadiran->getParticipantAttendance();
 		$dataLen = count($data);
 
-		for ($i=0; $i < $dataLen ; $i++) { 
+		for ($i=0; $i < $dataLen ; $i++) {
 			$this->excel->getActiveSheet()->setCellValueExplicit('A'.($i+2),$data[$i]['card_id'],PHPExcel_Cell_DataType::TYPE_STRING);
 			$this->excel->getActiveSheet()->setCellValueExplicit('B'.($i+2),$data[$i]['participant_name'],PHPExcel_Cell_DataType::TYPE_STRING);
 			$this->excel->getActiveSheet()->setCellValueExplicit('C'.($i+2),$data[$i]['verification_time'],PHPExcel_Cell_DataType::TYPE_STRING);
@@ -100,11 +102,11 @@ class Kehadiran extends Main_Controller {
 		$filename="listkehadiran.xls";
 
 		header('Content-Type: application/vnd.ms-excel');
- 
+
         header('Content-Disposition: attachment;filename="'.$filename.'"');
- 
+
         header('Cache-Control: max-age=0');
- 
+
         $objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel5');
 
         $objWriter->save('php://output');

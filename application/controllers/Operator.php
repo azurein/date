@@ -11,7 +11,11 @@ class Operator extends Main_Controller {
 
 	public function index()
 	{
-		$this->view('admin/operator');
+        if(isset($_SESSION['user_id'])) {
+			$this->view('admin/operator');
+        } else {
+            header('Location: '.base_url());
+        }
 	}
 
 	public function getOperator()

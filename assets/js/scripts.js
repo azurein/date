@@ -3,8 +3,9 @@ $(document).ready(function() {
     $("#scannerFormQr").submit(function(e){
         e.preventDefault();
         checkCard($("#scannerInputQr").val());
+        $("#scannerInputQr").val("");
     });
-    
+
 });
 
 $.fn.serializeObject = function()
@@ -36,7 +37,7 @@ function checkCard(card_id){
             if(data[0].checkCard == 1)
                 checkVerification(card_id);
             else
-                alert("Kartu tidak terdaftar.");
+                alert("Kartu "+card_id+" tidak terdaftar.");
         }
     });
 }
@@ -53,7 +54,7 @@ function checkVerification(card_id){
             if(data[0].checkVerification == 0)
                 saveVerificationLog(card_id);
             else
-                var r = confirm("Kartu sudah diverfikasi, apakah ingin perbarui verifikasi?");
+                var r = confirm("Kartu "+card_id+" sudah diverfikasi, apakah ingin perbarui verifikasi?");
 
             if (r == true)
                 replaceVerificationLog(card_id);

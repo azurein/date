@@ -8,12 +8,14 @@ class Pengaturan_acara extends Main_Controller {
 		parent::__construct();
 		$this->load->model("acara/Pengaturan_acara_model","pengaturan_acara");
 	}
-	
+
 	public function index()
 	{
-		$_SESSION['user_id'] = '0';
-
-		$this->view('admin/acara/pengaturan_acara');
+        if(isset($_SESSION['user_id'])) {
+            $this->view('admin/acara/pengaturan_acara');
+        } else {
+            header('Location: '.base_url());
+        }
 	}
 
 	public function getEvent()
@@ -88,7 +90,7 @@ class Pengaturan_acara extends Main_Controller {
 
 		if($id == '') {
 			$result = $this->pengaturan_acara->createEvent($data);
-			
+
 		} else {
 			$result = $this->pengaturan_acara->editEvent($data);
 		}
@@ -106,7 +108,7 @@ class Pengaturan_acara extends Main_Controller {
 		);
 		$result = $this->pengaturan_acara->clearSouvenir($data);
 
-		for ($i=0; $i < $this->input->post_get('length'); $i++) { 
+		for ($i=0; $i < $this->input->post_get('length'); $i++) {
 			$counter = "$i";
 			$data = array(
 				'souvenir_name' => $this->input->post_get('souvenir_name_'.$i),

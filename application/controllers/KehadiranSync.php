@@ -38,7 +38,11 @@ class KehadiranSync extends Main_Controller {
 
 	public function index()
 	{
-		$this->view('admin/kehadiran');
+		if(isset($_SESSION['user_id'])) {
+    		$this->view('admin/kehadiran');
+        } else {
+            header('Location: '.base_url());
+        }
 	}
 
 	// Function to check response time

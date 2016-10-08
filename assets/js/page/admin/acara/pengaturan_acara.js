@@ -29,6 +29,10 @@ function populateTableEvent(data){
 
 	var hasActive = 0;
 
+	var actions = '';
+	if(PRIVILEGE == 1) { activator = '<i class="editButton glyphicon glyphicon-pencil"></i><i class="deleteButton glyphicon glyphicon-trash"></i>'; }
+	if(PRIVILEGE == 1) { actions = '<i class="glyphicon glyphicon-gift souvenirButton"></i> <i class="glyphicon glyphicon-pencil editButton"></i><i class="glyphicon glyphicon-trash deleteButton"></i>'; }
+
 	for(var i = 0 ; i < data.length ; i++)
 	{
 		var activeflag = "";
@@ -39,8 +43,8 @@ function populateTableEvent(data){
 			activeflag = '<i class="fa fa-remove"></i>';
 		}
 
-		$('#contentTable').append('<tr value="'+ data[i].event_id +'"><td class="name"><a href="#" id="name'+i+'">'+ data[i].event_name +'</a></td><td>'+ data[i].event_type_name +'</td><td>'+ data[i].address +', '+ data[i].city +'</td><td>'+ data[i].duration +'</td><td>'+ data[i].total_invitation +'</td><td>'+ activeflag +'</td><td><i class="glyphicon glyphicon-gift souvenirButton"></i> <i class="glyphicon glyphicon-pencil editButton"></i><i class="glyphicon glyphicon-trash deleteButton"></i></td></tr>');
-		
+		$('#contentTable').append('<tr value="'+ data[i].event_id +'"><td class="name"><a href="#" id="name'+i+'">'+ data[i].event_name +'</a></td><td>'+ data[i].event_type_name +'</td><td>'+ data[i].address +', '+ data[i].city +'</td><td>'+ data[i].duration +'</td><td>'+ data[i].total_invitation +'</td><td>'+ activeflag +'</td><td>'+ actions +'</td></tr>');
+
 		var startdt = moment(data[i].start_at).format("dddd, DD MMMM YYYY");
 		var enddt = moment(data[i].end_at).format("dddd, DD MMMM YYYY");
 		var starttm = moment(data[i].start_at).format("HH:mm");
@@ -58,22 +62,26 @@ function populateTableEvent(data){
 			delay: 500,
 			placement: 'left',
 			title: '<p align="left">Jadwal:<br>'+ finaldt +'<br><br>Deskripsi:<br>'+ data[i].event_descr +'</p>'
-		}); 
+		});
 	}
 	if(hasActive == 0) {
 		$('#warningModal').modal('show');
 	}
 
 	$(".fa-check").click(function(e){
-		var text = "Anda yakin menyelesaikan Acara "+ $(this).parent().siblings(".name").text() +"?";
-		var id = $(this).parent().parent().attr("value");
-		changeEventStatus(text, 0, id)
+		if (PRIVILEGE == 1) {
+			var text = "Anda yakin menyelesaikan Acara "+ $(this).parent().siblings(".name").text() +"?";
+			var id = $(this).parent().parent().attr("value");
+			changeEventStatus(text, 0, id)
+		}
 	});
 
 	$(".fa-remove").click(function(){
-		var text = "Anda yakin mengaktifkan Acara "+ $(this).parent().siblings(".name").text();
-		var id = $(this).parent().parent().attr("value");
-		changeEventStatus(text, 1, id)
+		if (PRIVILEGE == 1) {
+			var text = "Anda yakin mengaktifkan Acara "+ $(this).parent().siblings(".name").text();
+			var id = $(this).parent().parent().attr("value");
+			changeEventStatus(text, 1, id)
+		}
 	});
 
 	$(".souvenirButton").click(function(){
@@ -83,11 +91,11 @@ function populateTableEvent(data){
 	$(".editButton").click(function(){
 		getEventByID($(this).parent().parent().attr("value"));
 	});
-	
+
 	$(".deleteButton").click(function(){
 		deleteEvent($(this).parent().parent().attr("value"), "Anda yakin menghapus acara "+ $(this).parent().siblings(".name").text() +"?");
 	});
-	
+
 	$('#eventDataTable').DataTable({
 		"order"		: [[ 4, "desc" ]]
 	});
@@ -224,7 +232,7 @@ function changeEventStatus(text='', status=0, id=0) {
 					});
 				} else {
 					$("#forbidModal").modal("show");
-				}			
+				}
 			}
 		});
 	} else {
@@ -266,7 +274,7 @@ function loadAddEditModal(text="Tambah/Ubah Acara", eventData='') {
 			$("#EventTypeDdl").empty();
 			$("#CityDdl").empty();
 			for (var i = 0 ; i < data.event_type.length ; i++) {
-				$("#EventTypeDdl").append('<option value="'+data.event_type[i].event_type_id+'">'+data.event_type[i].event_type_name+'</option>');	
+				$("#EventTypeDdl").append('<option value="'+data.event_type[i].event_type_id+'">'+data.event_type[i].event_type_name+'</option>');
 			}
 			for (var i = 0; i < data.city.length ; i++) {
 				$("#CityDdl").append('<option value="'+data.city[i].city+'">'+data.city[i].city+'</option>');
