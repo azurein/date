@@ -186,14 +186,15 @@
                             <tr>
                                 <th>Kode Kartu</th>
                                 <th>Nama Peserta</th>
-                                <th>Waktu </th>
-                                <th>Tindakan </th>
+                                <th>Waktu Hadir</th>
+                                <th>Nama Operator</th>
+                                <th>Tindakan</th>
                             </tr>
                         </thead>
                         <tbody id="contentTable"></tbody>
                         <tfoot>
                             <tr>
-                                <td class="active" colspan="3">
+                                <td class="active" colspan="4">
                                     <!--<div class="btn-group" role="group">
                                         <button class="btn btn-success" type="button">Import Excel</button>
                                         <button class="btn btn-success" type="button">Export Excel</button>

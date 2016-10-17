@@ -148,6 +148,19 @@ class Peserta extends Main_Controller {
 		echo json_encode($result);
 	}
 
+    public function changeParticipantStatus()
+	{
+		$is_confirm = $this->input->post_get('status');
+		$participant_id = $this->input->post_get('id');
+		$data = array(
+			'is_confirm' => $is_confirm,
+			'participant_id' => $participant_id
+		);
+
+		$result = $this->peserta->changeParticipantStatus($data);
+		echo $result;
+	}
+
 	public function export()
 	{
 		$this->load->library('excel');
@@ -162,8 +175,9 @@ class Peserta extends Main_Controller {
 		$this->excel->getActiveSheet()->setCellValue('D1','Kontak');
 		$this->excel->getActiveSheet()->setCellValue('E1','Group');
 		$this->excel->getActiveSheet()->setCellValue('F1','Follower');
+        $this->excel->getActiveSheet()->setCellValue('G1','Konfirmasi');
 
-		for($col= 'A' ; $col !== 'G' ; $col++){
+		for($col= 'A' ; $col !== 'H' ; $col++){
 			$this->excel->getActiveSheet()->getColumnDimension($col)->setAutoSize(true);
 			$colFill = $this->excel->getActiveSheet()->getStyle($col.'1')->getFill();
 			$colFill->getStartColor()->setARGB('#ffff00');
@@ -181,6 +195,7 @@ class Peserta extends Main_Controller {
             $this->excel->getActiveSheet()->setCellValueExplicit('D'.($i+2),$data[$i]['phone_num'],PHPExcel_Cell_DataType::TYPE_STRING);
             $this->excel->getActiveSheet()->setCellValueExplicit('E'.($i+2),$data[$i]['group_name'],PHPExcel_Cell_DataType::TYPE_STRING);
 			$this->excel->getActiveSheet()->setCellValue('F'.($i+2),$data[$i]['follower']);
+            $this->excel->getActiveSheet()->setCellValue('G'.($i+2),$data[$i]['is_confirm']);
 		}
 
 		$this->excel->createSheet();

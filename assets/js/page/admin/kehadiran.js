@@ -69,7 +69,7 @@ function populateTableVerification(data){
 
 	for(var i = 0 ; i < data.length ; i++)
 	{
-		$('#contentTable').append('<tr value="'+ data[i].log_id +'"><td><span class="card">'+ data[i].card_id +'</span></td><td class="name">'+ data[i].title_name + data[i].participant_name +'</td><td class="time">'+ data[i].verification_time +'</td><td>'+ actions +'</td></tr>');
+		$('#contentTable').append('<tr value="'+ data[i].log_id +'"><td><span class="card">'+ data[i].card_id +'</span></td><td class="name">'+ data[i].title_name + data[i].participant_name +'</td><td class="time">'+ data[i].verification_time +'</td><td>'+ data[i].operator_name +'</td><td>'+ actions +'</td></tr>');
 	}
 
 	$(".deleteButton").click(function(){

@@ -228,11 +228,34 @@ function populateTableParticipant(data){
 
 	for(var i = 0 ; i < data.length ; i++)
 	{
-		$('#contentTable').append('<tr value="'+data[i].participant_id+'"><td><span class="card" style="cursor:hand;">'+ data[i].card_id +'</span></td><td class="name">'+ data[i].title_name + data[i].participant_name +'</td><td>'+ data[i].phone_num +'</td><td value="'+data[i].group_id+'">'+ data[i].group_name +'</td><td>'+ data[i].follower +'</td><td>'+ data[i].status_kehadiran +'</td><td>'+ actions +'</td></tr>');
+		var activeflag = "";
+		if(data[i].is_confirm == 1) {
+			activeflag = '<i class="fa fa-check"></i>';
+		} else {
+			activeflag = '<i class="fa fa-remove"></i>';
+		}
+
+		$('#contentTable').append('<tr value="'+data[i].participant_id+'"><td><span class="card" style="cursor:hand;">'+ data[i].card_id +'</span></td><td class="name">'+ data[i].title_name + data[i].participant_name +'</td><td>'+ data[i].phone_num +'</td><td value="'+data[i].group_id+'">'+ data[i].group_name +'</td><td>'+ data[i].follower +'</td><td>'+ data[i].verification_time +'</td><td>'+ activeflag +'</td><td>'+ actions +'</td></tr>');
 	}
 
 	$(".card").click(function(){
 		resetCardID($(this).text(),$(this).parent().siblings(".name").text());
+	});
+
+	$(".fa-check").click(function(e){
+		if (PRIVILEGE == 1) {
+			var text = "Anda yakin  "+ $(this).parent().siblings(".name").text() +" tidak konfirmasi?";
+			var id = $(this).parent().parent().attr("value");
+			changeParticipantStatus(text, 0, id)
+		}
+	});
+
+	$(".fa-remove").click(function(){
+		if (PRIVILEGE == 1) {
+			var text = "Anda yakin "+ $(this).parent().siblings(".name").text() +" konfirmasi?";
+			var id = $(this).parent().parent().attr("value");
+			changeParticipantStatus(text, 1, id)
+		}
 	});
 
 	$(".deleteButton").click(function(){
@@ -301,4 +324,24 @@ function getParticipantByID(id){
 			loadAddEditModal('Ubah Peserta',data[0]);
 		}
 	})
+}
+
+function changeParticipantStatus(text='', status=0, id=0) {
+	$("#activateModal p").text(text);
+	$("#activateModal").modal("show");
+	$("#changeStatusButton").unbind('click').click(function(){
+		$.ajax({
+			type : 'POST',
+			url : BASE_URL + 'Peserta/changeParticipantStatus',
+			dataType : 'json',
+			data : {
+				'status' 	: status,
+				'id'		: id
+			},
+			success : function(data){
+				getParticipant();
+				$("#activateModal").modal("hide");
+			}
+		});
+	});
 }

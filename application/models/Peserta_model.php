@@ -16,7 +16,8 @@ class Peserta_model extends CI_Model {
 					a.group_id,
 					d.group_name,
 					a.follower,
-					CASE WHEN e.card_id IS NULL THEN 'Tidak Hadir' ELSE 'Hadir' END AS status_kehadiran
+					COALESCE(DATE_FORMAT(e.verification_date, '%H:%i'),'-') as verification_time,
+					a.is_confirm
 
 					FROM participant a
 
@@ -156,6 +157,17 @@ class Peserta_model extends CI_Model {
 		));
 
 	 	return $data;
+	}
+
+	public function changeParticipantStatus($data){
+
+		$query = 	"UPDATE participant SET is_confirm = ? WHERE participant_id = ?";
+
+		$data = $this->db->query($query,array(
+			$data['is_confirm'],
+			$data['participant_id']
+		));
+		return $data;
 	}
 
 	public function createCardWithID($data)
@@ -318,6 +330,7 @@ class Peserta_model extends CI_Model {
 						AND _status <> 'D'
 					),0),
 					a.follower = ?,
+					a.is_confirm = ?,
 					a.event_id = ?,
 					a._user = ?,
 					a._date = NOW()
@@ -341,6 +354,7 @@ class Peserta_model extends CI_Model {
 					'title' => empty($title_id)? 0 : $title_id[0]['title_id'],
 					'delegate' => 'null',
 					'follower' => array_key_exists('F',$row)? $row['F']: 0,
+					'follower' => array_key_exists('G',$row)? $row['G']: 0,
 					'group' => empty($group_id)? 0 : $group_id[0]['group_id'],
 					'userID' => $user['userID'],
 					'eventID' => $user['eventID']
@@ -365,6 +379,7 @@ class Peserta_model extends CI_Model {
 					array_key_exists('D',$row)? $row['D']: '',
 					array_key_exists('E',$row)? $row['E']: '',
 					array_key_exists('F',$row)? $row['F']: '',
+					array_key_exists('F',$row)? $row['G']: '',
 					$user['eventID'],
 					$user['userID'],
 					array_key_exists('A',$row)? $row['A']: ''

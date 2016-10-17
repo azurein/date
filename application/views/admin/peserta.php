@@ -85,6 +85,20 @@
         </div>
     </div>
 
+    <div id="activateModal" class="modal fade" role="dialog" tabindex="-1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p></p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="button" data-dismiss="modal">Tidak </button>
+                    <button id="changeStatusButton" class="btn btn-success" type="button">Ya </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="messageModal" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -181,14 +195,15 @@
                                 <th>Kontak</th>
                                 <th>Group </th>
                                 <th> <i class="fa fa-users"></i></th>
-                                <th>Status Kehadiran</th>
+                                <th>Waktu Hadir</th>
+                                <th>Konfirmasi</th>
                                 <th>Tindakan </th>
                             </tr>
                         </thead>
                         <tbody id="contentTable"></tbody>
                         <tfoot>
                             <tr>
-                                <td class="active" colspan="6">
+                                <td class="active" colspan="7">
                                     <div class="btn-group" role="group">
                                         <?php
                                         if ($_SESSION['privilege'] == 1) { ?>

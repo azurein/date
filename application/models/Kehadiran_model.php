@@ -7,13 +7,18 @@ class Kehadiran_model extends CI_Model {
 	}
 
 	public function getVerificationLog($key='', $user_id='', $event_id=''){
+		$userCondition = "";
+		if ($user_id != "1") {
+			$userCondition = "AND a._user = '".$user_id."'";
+		}
 		$query = 	"SELECT DISTINCT
 					CONCAT(DATE_FORMAT(a.verification_date, '%Y%m%d%H%i%s'), a.card_id) as log_id,
 					a.card_id,
                     COALESCE(d.title_name, '') as title_name,
 					c.participant_name,
 					DATE_FORMAT(a.verification_date, '%H:%i') as verification_time,
-					a.verification_date
+					a.verification_date,
+					e.operator_name
 
 					FROM verification a
 
@@ -31,9 +36,13 @@ class Kehadiran_model extends CI_Model {
                     ON c.title_id = d.title_id
                     AND	d._status <> 'D'
 
+					LEFT JOIN users e
+					ON a._user = e.user_id
+					AND e._status <> 'D'
+
 					WHERE
 					b.event_id = '".$event_id."'
-					AND a._user = '".$user_id."'
+					".$userCondition."
 					AND (a.card_id LIKE '%".$key."%'
 					OR c.participant_name LIKE '%".$key."%'
 					OR a.verification_date LIKE '%".$key."%')
@@ -168,7 +177,7 @@ class Kehadiran_model extends CI_Model {
                     AND	d._status <> 'D'
 
 					WHERE
-					b.event_id = 1
+					b.event_id = $_SESSION[event_id]
 
                     ORDER BY
                     verification_time DESC

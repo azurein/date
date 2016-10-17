@@ -80,21 +80,27 @@ class Kehadiran extends Main_Controller {
 		$this->excel->getActiveSheet()->setCellValue('A1','Kode Kartu');
 		$this->excel->getActiveSheet()->setCellValue('B1','Nama Peserta');
 		$this->excel->getActiveSheet()->setCellValue('C1','Waktu Hadir');
+        $this->excel->getActiveSheet()->setCellValue('D1','Nama Operator');
 
-		for($col= 'A' ; $col !== 'D' ; $col++){
+		for($col= 'A' ; $col !== 'E' ; $col++){
 			$this->excel->getActiveSheet()->getColumnDimension($col)->setAutoSize(true);
 			$colFill = $this->excel->getActiveSheet()->getStyle($col.'1')->getFill();
 			$colFill->getStartColor()->setARGB('#ffff00');
 			$colFill->setFillType(PHPExcel_Style_Fill::FILL_SOLID);
 		}
 
-		$data = $this->kehadiran->getParticipantAttendance();
+        $key = $this->input->post_get('key');
+		$user_id = $_SESSION['user_id'];
+		$event_id = $_SESSION['event_id'];
+		$data = $this->kehadiran->getVerificationLog($key, $user_id, $event_id);
+
 		$dataLen = count($data);
 
 		for ($i=0; $i < $dataLen ; $i++) {
 			$this->excel->getActiveSheet()->setCellValueExplicit('A'.($i+2),$data[$i]['card_id'],PHPExcel_Cell_DataType::TYPE_STRING);
-			$this->excel->getActiveSheet()->setCellValueExplicit('B'.($i+2),$data[$i]['participant_name'],PHPExcel_Cell_DataType::TYPE_STRING);
+			$this->excel->getActiveSheet()->setCellValueExplicit('B'.($i+2),$data[$i]['title_name']." ".$data[$i]['participant_name'],PHPExcel_Cell_DataType::TYPE_STRING);
 			$this->excel->getActiveSheet()->setCellValueExplicit('C'.($i+2),$data[$i]['verification_time'],PHPExcel_Cell_DataType::TYPE_STRING);
+			$this->excel->getActiveSheet()->setCellValueExplicit('D'.($i+2),$data[$i]['operator_name'],PHPExcel_Cell_DataType::TYPE_STRING);
 		}
 
 		$this->excel->createSheet();
