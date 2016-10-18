@@ -61,10 +61,10 @@
                              <h4 class="panel-title"><a role="button" data-toggle="collapse" data-parent="#accordion-2" aria-expanded="false" href="#accordion-2 .item-1">Scan via QR Scanner</a></h4>
                          </div>
                          <div class="panel-collapse collapse in item-1" role="tabpanel">
-                             <div class="well" style="position: relative;display: inline-block;">
+                             <div class="well" >
                                  <form id="scannerFormQr">
                                      <label>Kode</label>
-                                     <input style="min-width: 325px;" type="text" id="scannerInputQr" class="form-control" autocomplete="off" autofocus>
+                                     <input type="text" id="scannerInputQr" class="form-control" autocomplete="off" autofocus>
                                  </form>
                              </div>
                          </div>
@@ -74,7 +74,7 @@
                              <h4 class="panel-title"><a role="button" data-toggle="collapse" data-parent="#accordion-2" aria-expanded="false" href="#accordion-2 .item-2">Scan via Camera</a></h4>
                          </div>
                          <div class="panel-collapse collapse item-2" role="tabpanel">
-                             <div class="well" style="position: relative;display: inline-block;">
+                             <div class="well" >
                                  <canvas width="320" height="240" id="webcodecam-canvas"></canvas>
                                  <div class="scanner-laser laser-rightBottom" style="opacity: 0.5;"></div>
                                  <div class="scanner-laser laser-rightTop" style="opacity: 0.5;"></div>

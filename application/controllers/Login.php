@@ -13,7 +13,7 @@ class Login extends Main_Controller {
 	public function index()
 	{
 		if(isset($_SESSION['user_id'])) {
-            header('Location: '.base_url().'kehadiran');
+            header('Location: '.base_url().'home');
         } else {
             $this->session->set_flashdata('login_status','none');
             $this->view('admin/login');
@@ -29,7 +29,7 @@ class Login extends Main_Controller {
             $_SESSION['user_id'] = $data[0]['user_id'];
             $_SESSION['operator_name'] = $data[0]['operator_name'];
             $_SESSION['privilege'] = $data[0]['privilege'];
-            header('Location: '.base_url().'kehadiran');
+            header('Location: '.base_url().'home');
         } else {
             $this->session->set_flashdata('login_status','failed');
             $this->view('admin/login');

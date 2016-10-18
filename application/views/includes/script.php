@@ -46,7 +46,7 @@
     if (isset($_SESSION['user_id']) && $rank > 2 && !strpos($path, 'login')) { ?>
         <nav class="navbar navbar-default">
             <div class="container-fluid">
-                <div class="navbar-header"><a class="navbar-brand navbar-link" href="<?php echo base_url(); ?>kehadiran">D.A.T.E </a>
+                <div class="navbar-header"><a class="navbar-brand navbar-link" href="<?php echo base_url(); ?>home">D.A.T.E </a>
                     <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-2"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
                 </div>
                 <div class="collapse navbar-collapse" id="navcol-2">

@@ -118,9 +118,9 @@
                         </div>
                         <div class="panel-collapse collapse in item-1" role="tabpanel">
                             <div class="well" >
-                                <form id="scannerFormQr">
+                                <form id="scannerFormQr2">
                                     <label>Kode</label>
-                                    <input type="text" id="scannerInputQr" class="form-control" autocomplete="off" autofocus>
+                                    <input type="text" id="scannerInputQr2" class="form-control" autocomplete="off" autofocus>
                                 </form>
                             </div>
                         </div>
@@ -171,44 +171,97 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                <fieldset>
-                    <legend>Kehadiran <i class="fa fa-refresh"></i></legend>
-                </fieldset>
-                <!--
-                <form>
-                    <input id="search" class="form-control search" type="text" placeholder="Pencarian terkait kehadiran">
-                </form>
-                -->
-                <div class="table-responsive">
-                    <table class="table table-striped table-hover" id="verification-log">
-                        <thead>
-                            <tr>
-                                <th>Kode Kartu</th>
-                                <th>Nama Peserta</th>
-                                <th>Waktu Hadir</th>
-                                <th>Nama Operator</th>
-                                <th>Tindakan</th>
-                            </tr>
-                        </thead>
-                        <tbody id="contentTable"></tbody>
-                        <tfoot>
-                            <tr>
-                                <td class="active" colspan="4">
-                                    <!--<div class="btn-group" role="group">
-                                        <button class="btn btn-success" type="button">Import Excel</button>
-                                        <button class="btn btn-success" type="button">Export Excel</button>
-                                    </div> -->
-                                    <button class="btn btn-success" type="button" id="exportButton" >Export Excel</button>
-                                </td>
-                                <td class="summary-right active">
-                                    Total peserta terverifikasi:
-                                    <span id="totalVerified">0</span> / <span id="totalParticipant">0</span>
-                                    <span class="summary-spacing"></span>
-                                </td>
-                            </tr>
-                        </tfoot>
-                    </table>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <ul class="nav nav-tabs">
+                    <li id="tab-menu1" class="active"><a data-toggle="tab" href="#menu1">Verifikasi</a></li>
+                    <li id="tab-menu2"><a data-toggle="tab" href="#menu2">Daftar ditempat</a></li>
+                </ul><br>
+                <div class="tab-content">
+                    <div id="menu1" class="tab-pane fade in active">
+                        <form id="scannerFormQr">
+                            <input type="text" id="scannerInputQr" class="form-control" autocomplete="off" style="display: none;">
+                            <div class="form-group">
+                                <label>Nama Peserta</label>
+                                <input id="participantName1" type="text" class="form-control" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label>Kontak</label>
+                                <div class="row">
+                                    <div class="col-md-12 col-xs-12">
+                                        <input id="participantContact1" type="text" class="form-control" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-9 col-xs-12">
+                                        <label>Grup</label>
+                                        <input id="groupName" class="form-control" disabled>
+                                    </div>
+                                    <div class="col-md-3 col-xs-12">
+                                        <label>Follower</label>
+                                        <input id="participantFollower1" type="number" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-success">Verifikasi</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div id="menu2" class="tab-pane fade">
+                        <form>
+                            <div class="form-group">
+                                <label>Nama Peserta</label>
+                                <div class="row">
+                                    <div class="col-md-3 col-xs-12">
+                                        <select id="titleDdl" class="form-control"></select>
+                                    </div>
+                                    <div class="col-md-9 col-xs-12">
+                                        <input id="participantName2" type="text" class="form-control" name="participantName2">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Kontak</label>
+                                <div class="row">
+                                    <div class="col-md-12 col-xs-12">
+                                        <input id="participantContact2" type="text" class="form-control" name="participantContact2">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-9 col-xs-12">
+                                        <label>Grup</label>
+                                        <select id="groupDdl" class="form-control"></select>
+                                    </div>
+                                    <div class="col-md-3 col-xs-12">
+                                        <label>Follower</label>
+                                        <input id="participantFollower2" type="number" class="form-control" name="participantFollower2">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button id="checkFacilityBtn" type="button" class="btn btn-info">Cek Ketersediaan</button>
+                            </div>
+                            <div class="form-group">
+                                <table class="table table-striped table-hover" id="listFacilityTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Meja</th>
+                                            <th>Kursi</th>
+                                            <th>Penempatan</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="listFacilityContent"></tbody>
+                                </table>
+                            </div>
+                            <div class="form-group">
+                                <button id="checkFacilityBtn" type="button" class="btn btn-success">Daftar dan Verifikasi</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

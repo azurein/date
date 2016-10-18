@@ -98,11 +98,18 @@ function saveVerificationLog(card_id){
                 .fail(function( jqxhr, settings, exception ) {
                     alert("Failed to load script");
                 });
-            }
-            else if(curr_page == "peserta") {
+            } else if(curr_page == "peserta") {
                 $.getScript( "/date/assets/js/page/admin/peserta.js" )
                 .done(function( script, textStatus ) {
                     getParticipant();
+                })
+                .fail(function( jqxhr, settings, exception ) {
+                    alert("Failed to load script");
+                });
+            } else if(curr_page == "home") {
+                $.getScript( "/date/assets/js/page/admin/home.js" )
+                .done(function( script, textStatus ) {
+                    getParticipantByCardID(card_id);
                 })
                 .fail(function( jqxhr, settings, exception ) {
                     alert("Failed to load script");
