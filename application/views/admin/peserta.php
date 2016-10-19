@@ -86,6 +86,31 @@
         </div>
     </div>
 
+    <div id="facilityModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 id="facilityTitle" class="modal-title"></h4>
+                </div>
+                <div class="modal-body">
+                    <table id="facilityTable" class="table table-striped table-hover table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Meja</th>
+                                <th>Kursi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="contentFacility"></tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="activateModal" class="modal fade" role="dialog" tabindex="-1">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -107,7 +132,7 @@
                     <div id="message"></div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success" data-dismiss="modal">Ok</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Tutup</button>
                 </div>
             </div>
         </div>

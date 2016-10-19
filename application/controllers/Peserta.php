@@ -116,6 +116,13 @@ class Peserta extends Main_Controller {
 		echo json_encode($data);
 	}
 
+    public function getParticipantFacility()
+    {
+        $id = $this->input->post_get('participantID');
+        $data = $this->peserta->getParticipantFacility($id);
+        echo json_encode($data);
+    }
+
 	public function getTotalParticipant()
 	{
 		$data = $this->peserta->getTotalParticipant();

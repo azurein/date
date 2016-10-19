@@ -43,7 +43,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                <div class="form-group"><label>Follower </label>
+                                <div class="form-group"><label>Undangan </label>
                                     <input class="form-control" type="text">
                                 </div>
                             </div>
@@ -91,7 +91,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                <div class="form-group"><label>Follower </label>
+                                <div class="form-group"><label>Undangan </label>
                                     <input class="form-control" type="text">
                                 </div>
                             </div>
@@ -181,28 +181,40 @@
                         <form id="scannerFormQr">
                             <input type="text" id="scannerInputQr" class="form-control" autocomplete="off" style="display: none;">
                             <div class="form-group">
-                                <label>Nama Peserta</label>
-                                <input id="participantName1" type="text" class="form-control" disabled>
-                            </div>
-                            <div class="form-group">
-                                <label>Kontak</label>
                                 <div class="row">
-                                    <div class="col-md-12 col-xs-12">
+                                    <div class="col-md-6 col-xs-12">
+                                        <label>Nama Peserta</label>
+                                        <input id="participantName1" type="text" class="form-control" disabled>
+                                    </div>
+                                    <div class="col-md-6 col-xs-12">
+                                        <label>Kontak</label>
                                         <input id="participantContact1" type="text" class="form-control" disabled>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="row">
-                                    <div class="col-md-9 col-xs-12">
+                                    <div class="col-md-6 col-xs-12">
                                         <label>Grup</label>
                                         <input id="groupName" class="form-control" disabled>
                                     </div>
-                                    <div class="col-md-3 col-xs-12">
-                                        <label>Follower</label>
+                                    <div class="col-md-6 col-xs-12">
+                                        <label>Undangan</label>
                                         <input id="participantFollower1" type="number" class="form-control">
                                     </div>
                                 </div>
+                            </div>
+                            <div class="form-group">
+                                <table class="table table-striped table-hover" id="listFacilityTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Meja</th>
+                                            <th>Kursi</th>
+                                            <th>Penempatan</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="listFacilityContent"></tbody>
+                                </table>
                             </div>
                             <div class="form-group">
                                 <button type="submit" class="btn btn-success">Verifikasi</button>
@@ -232,13 +244,17 @@
                             </div>
                             <div class="form-group">
                                 <div class="row">
-                                    <div class="col-md-9 col-xs-12">
+                                    <div class="col-md-4 col-xs-12">
                                         <label>Grup</label>
                                         <select id="groupDdl" class="form-control"></select>
                                     </div>
-                                    <div class="col-md-3 col-xs-12">
-                                        <label>Follower</label>
+                                    <div class="col-md-4 col-xs-12">
+                                        <label>Undangan</label>
                                         <input id="participantFollower2" type="number" class="form-control" name="participantFollower2">
+                                    </div>
+                                    <div class="col-md-4 col-xs-12">
+                                        <label>Jumlah Souvenir</label>
+                                        <input id="totalSouvenir" type="number" class="form-control" name="totalSouvenir">
                                     </div>
                                 </div>
                             </div>
@@ -254,7 +270,7 @@
                                             <th>Penempatan</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="listFacilityContent"></tbody>
+                                    <tbody id="listFacilityContent2"></tbody>
                                 </table>
                             </div>
                             <div class="form-group">

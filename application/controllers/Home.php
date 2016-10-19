@@ -29,8 +29,16 @@ class Home extends Main_Controller {
 
 	public function getParticipantByCardID()
 	{
-		$id = $this->input->post_get('id');
-		$data = $this->home->getParticipantByCardID($id);
+		$card_id = $this->input->post_get('card_id');
+		$data = $this->home->getParticipantByCardID($card_id);
+		echo json_encode($data);
+	}
+
+    public function getParticipantFacility()
+	{
+        $group_id = $this->input->post_get('group_id');
+		$participant_id = $this->input->post_get('participant_id');
+		$data = $this->home->getParticipantFacility($group_id, $participant_id);
 		echo json_encode($data);
 	}
 

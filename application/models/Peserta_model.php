@@ -7,7 +7,7 @@ class Peserta_model extends CI_Model {
 	}
 
 	public function getParticipant1($key='', $event_id=''){
-		$query = 	"SELECT
+		$query = 	"SELECT DISTINCT
 					c.card_id,
 					a.participant_id,
 					b.title_name,
@@ -17,7 +17,13 @@ class Peserta_model extends CI_Model {
 					d.group_name,
 					a.follower,
 					COALESCE(DATE_FORMAT(e.verification_date, '%H:%i'),'-') as verification_time,
-					a.is_confirm
+					a.is_confirm,
+					CASE
+						WHEN f.reserve_at AND f.checkin_at IS NULL	THEN 0
+						WHEN f.checkin_at IS NULL 					THEN 1
+						WHEN f.checkin_at IS NOT NULL				THEN 2
+					END AS facility_status,
+					e.verification_date
 
 					FROM participant a
 
@@ -37,6 +43,10 @@ class Peserta_model extends CI_Model {
                     LEFT JOIN verification e
                     ON c.card_id = e.card_id
                     AND e._status <> 'D'
+
+					LEFT JOIN participant_facility f
+					ON a.participant_id = f.participant_id
+					AND f._status <> 'D'
 
 					WHERE
 					a.event_id = '".$event_id."'
@@ -72,6 +82,30 @@ class Peserta_model extends CI_Model {
 					FROM participant
 					WHERE participant_id = '".$id."'
 					AND _status <> 'D'
+					";
+
+		$data = $this->db->query($query)->result();
+		return $data;
+	}
+
+	public function getParticipantFacility($id)
+	{
+		$query = 	"SELECT a.facility_id,
+					b.facility_name as table_name,
+					a.facility_name as chair_name
+
+					FROM participant_facility c
+
+					JOIN facility a
+					ON c.facility_id = a.facility_id
+					AND c._status <> 'D'
+					AND a._status <> 'D'
+
+					JOIN facility b
+					ON a.facility_parent_id = b.facility_id
+					AND b._status <> 'D'
+
+					WHERE c.participant_id = '".$id."'
 					";
 
 		$data = $this->db->query($query)->result();
