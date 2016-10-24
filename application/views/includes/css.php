@@ -8,3 +8,4 @@
 <link href="{assets}js/plugin/BootstrapFormHelpers/css/bootstrap-formhelpers.min.css" rel="stylesheet">
 <link href="{assets}js/plugin/jquery-minicolors-master/jquery.minicolors.css" rel="stylesheet">
 <link href="{assets}css/jquery-ui.css" rel="stylesheet">
+<link href="{assets}css/canvas.css" rel="stylesheet">

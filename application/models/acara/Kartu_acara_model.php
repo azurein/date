@@ -173,4 +173,47 @@ class Kartu_acara_model extends CI_Model {
 			$data['dbid']
 		));
 	}
+
+	public function prepareMassPrint($event_id)
+	{
+		$query = "
+		SELECT
+		card.card_id,
+		CONCAT(TRIM(titles.title_name), ' ' , participant.participant_name) as participant_name,
+		groups.group_name,
+		participant.follower as follower,
+		MAX(card_design.side) as is_flip
+
+		FROM participant
+
+		JOIN titles
+		ON participant.title_id = titles.title_id
+		AND participant._status <> 'D'
+		AND titles._status <> 'D'
+
+		JOIN groups
+		ON participant.group_id = groups.group_id
+		AND groups._status <> 'D'
+
+		JOIN card
+		ON participant.participant_id = card.participant_id
+		AND card._status <> 'D'
+
+		JOIN card_design
+		ON card.event_id = card_design.event_id
+		AND card_design._status <> 'D'
+
+		WHERE card.event_id = '".$event_id."'
+		AND participant.is_confirm = '1'
+
+		GROUP BY card.card_id,
+		titles.title_name,
+		participant.participant_name,
+		groups.group_name
+
+		ORDER BY card.card_id
+		";
+		return $this->db->query($query)->result();
+	}
+
 }

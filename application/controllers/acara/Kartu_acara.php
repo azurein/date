@@ -141,4 +141,10 @@ class Kartu_acara extends Main_Controller {
         $result = $this->kartu->deactiveDesign($data);
         echo json_encode($result);
     }
+    
+    public function prepareMassPrint()
+    {
+        $result = $this->kartu->prepareMassPrint($this->getSession('event_id'));
+        echo json_encode($result);
+    }
 }

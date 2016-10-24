@@ -34,6 +34,13 @@ class Home extends Main_Controller {
 		echo json_encode($data);
 	}
 
+    public function getParticipantRepresentation()
+	{
+		$participant_id = $this->input->post_get('participant_id');
+		$data = $this->home->getParticipantRepresentation($participant_id);
+		echo json_encode($data);
+	}
+
     public function getParticipantFacility()
 	{
         $group_id = $this->input->post_get('group_id');

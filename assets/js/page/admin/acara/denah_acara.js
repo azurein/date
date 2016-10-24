@@ -37,7 +37,6 @@ $(document).ready(function(){
 
 	$('#btnSaveParticipantFacility').click(function(){
 		saveParticipantFacility();
-		loadAutoCompleteParticipant();
 	});
 
 	$('#btnNextCanvas').click(function(){
@@ -46,7 +45,6 @@ $(document).ready(function(){
 		$('#btnPrevCanvas').attr('disabled',false);
 		getDetailCanvas();
 		loadFacilityFrom();
-		loadAutoCompleteParticipant();
 		$('#FullCanvas').show("slide", {direction: "right"},500);
 	});
 
@@ -56,7 +54,6 @@ $(document).ready(function(){
 			currentCanvasSlide--;
 			getDetailCanvas();
 			loadFacilityFrom();
-			loadAutoCompleteParticipant();
 			$('#FullCanvas').show("slide", {direction: "left"},500);
 		}
 		if(currentCanvasSlide == 1){
@@ -66,6 +63,18 @@ $(document).ready(function(){
 
 	$('#btnAddEditFaciliy').click(function(){
 		AddEditFacility(currentAction);
+	});
+
+	$("#btnPrintCanvas").click(function(){
+		// var canvas = document.getElementById("canvasOne");
+		// var img = canvas.toDataURL("image/pdf");
+		// var doc = new jsPDF('l', 'mm');
+        // doc.addImage(img, 'PNG', 10, 10);
+        // doc.save('Cetak Denah '+$("#txtCanvasName").val()+'.pdf');
+		var pdf = new jsPDF('p', 'pt', 'letter');
+		pdf.addHTML($('#canvasOne')[0], function () {
+			pdf.save('Cetak Denah '+$("#txtCanvasName").val()+'.pdf');
+		});
 	});
 
 	$("#btnDeleteCanvasVerification").click(function(){
@@ -79,7 +88,42 @@ $(document).ready(function(){
 
 	$('#btnDeleteFacility').click(function(){
 		deleteFacility();
-		loadAutoCompleteParticipant();
+	});
+
+	$('#btnDownloadExcel').click(function(){
+		//window.open(BASE_URL +'acara/Denah_acara/exportCanvasTemplateExcel/'+currentCanvasID+'/'+currentCanvasName,'_parent');
+
+		var form = document.createElement("form");
+        form.action = BASE_URL + 'acara/Denah_acara/exportCanvasTemplateExcel/',
+        form.method = 'POST';
+        form.target = '_blank';
+
+        var data = {};
+        data['currentCanvasID'] = currentCanvasID;
+        data['currentCanvasName'] = currentCanvasName;
+        if (data) {
+            for (var key in data) {
+                var input = document.createElement("textarea");
+                input.name = key;
+                input.value = data[key];
+                form.appendChild(input);
+            }
+        }
+
+        form.style.display = 'none';
+        document.body.appendChild(form);
+        form.submit();
+	});
+
+	$('#btnUploadExcel').click(function(){
+		$('#uploadExcelTemplate').trigger('click');
+	});
+
+	$('#uploadExcelTemplate').change(function(){
+		if($(this).val() != ''){
+			loadExcel();
+			$('#uploadExcelTemplate').val('');
+		}
 	});
 
 	$('#ddlStatusParticipant').change(function(){
@@ -96,13 +140,94 @@ $(document).ready(function(){
 		}
 	});
 
+	$('#CanvasBorder').mouseup(function() {
+      resizeCanvas();
+    });
+
+	$('#ddlAddEditFacilityFrom').change(function(){
+		setGroupByParent();
+	});
+
 	getDetailCanvas();
 	getFacilityGroup();
 	loadFacilityFrom();
-	loadAutoCompleteParticipant();
+	getParentSummary();
+	getChildSummary();
 	$('#txtCanvasName').attr('onkeydown',"insertNewCanvasName(event)");
 	$('#btnPrevCanvas').attr('disabled',true);
 });
+
+function getParentSummary(){
+	$.ajax({
+		type : 'POST',
+		url : BASE_URL + 'acara/Denah_acara/getParentSummary',
+		dataType : 'json',
+		data : { 'parent_status' : '1' },
+		success : function(data){
+			for(var i=0;i<data.length;i++){
+				$('#count_parent_1').text(data[i].count_parent);
+			}
+		}
+	});
+	$.ajax({
+		type : 'POST',
+		url : BASE_URL + 'acara/Denah_acara/getParentSummary',
+		dataType : 'json',
+		data : { 'parent_status' : '2' },
+		success : function(data){
+			for(var i=0;i<data.length;i++){
+				$('#count_parent_2').text(data[i].count_parent);
+			}
+		}
+	});
+	$.ajax({
+		type : 'POST',
+		url : BASE_URL + 'acara/Denah_acara/getParentSummary',
+		dataType : 'json',
+		data : { 'parent_status' : '3' },
+		success : function(data){
+			for(var i=0;i<data.length;i++){
+				$('#count_parent_3').text(data[i].count_parent);
+			}
+		}
+	});
+}
+
+function getChildSummary(){
+	$.ajax({
+		type : 'POST',
+		url : BASE_URL + 'acara/Denah_acara/getChildSummary',
+		dataType : 'json',
+		data : { 'child_status' : '1' },
+		success : function(data){
+			for(var i=0;i<data.length;i++){
+				$('#count_child_1').text(data[i].count_child);
+			}
+		}
+	});
+	$.ajax({
+		type : 'POST',
+		url : BASE_URL + 'acara/Denah_acara/getChildSummary',
+		dataType : 'json',
+		data : { 'child_status' : '2' },
+		success : function(data){
+			for(var i=0;i<data.length;i++){
+				$('#count_child_2').text(data[i].count_child);
+			}
+		}
+	});
+	$.ajax({
+		type : 'POST',
+		url : BASE_URL + 'acara/Denah_acara/getChildSummary',
+		dataType : 'json',
+		data : { 'child_status' : '3' },
+		success : function(data){
+			for(var i=0;i<data.length;i++){
+				$('#count_child_3').text(data[i].count_child);
+			}
+		}
+	});
+}
 
 function insertNewCanvasName(e){
 	//if get enter key
@@ -110,13 +235,30 @@ function insertNewCanvasName(e){
 		$('#txtCanvasName').focusout();
 		if($('#txtCanvasName').val().trim() == ""){
 			validationModal('isi kan nama dengan benar');
-		}else{			
-			if(currentCanvasID == -1){
-				insertNewCanvas();
-			}else{
-				updateCanvasName();
-			}	
-			getDetailCanvas();			
+		}else{
+			$.ajax({
+				type : 'POST',
+				url : BASE_URL + 'acara/Denah_acara/checkCanvasName',
+				async : false,
+				dataType : 'json',
+				data : {
+					'canvas_name' : $('#txtCanvasName').val(),
+					'canvas_id' : currentCanvasID
+				},
+				success : function(data){
+					if(data.length > 0){
+						validationModal('nama canvas sudah terpakai');
+						$('#txtCanvasName').val(currentCanvasName);
+					}else{
+						if(currentCanvasID == -1){
+							insertNewCanvas();
+						}else{
+							updateCanvasName();
+						}
+						getDetailCanvas();
+					}
+				}
+			});
 		}
 	}
 }
@@ -145,7 +287,12 @@ function getDetailCanvas(){
 				$('#txtCanvasName').val(data[0].canvas_name);
 				currentCanvasID = data[0].canvas_id;
 				currentCanvasName = data[0].canvas_name;
+				$('#CanvasBorder').css('height',data[0].canvas_height);
+				$('#CanvasBorder').css('width',data[0].canvas_width);
 				$('#btnAddFacility').attr('disabled',false);
+				$('#btnDownloadExcel').attr('disabled',false);
+				$('#btnUploadExcel').attr('disabled',false);
+				$('#btnPrintCanvas').attr('disabled',false);
 				$('#btnUploadCanvasImage').attr('disabled',false);
 				$('#btnDeleteCanvasVerification').attr('disabled',false);
 			}else{
@@ -153,11 +300,16 @@ function getDetailCanvas(){
 				$('#txtCanvasName').val('');
 				currentCanvasID = -1;
 				currentCanvasName = '';
+				$('#CanvasBorder').css('height',600);//default
+				$('#CanvasBorder').css('width',1000);
 				$('#btnAddFacility').attr('disabled',true);
 				$('#btnUploadCanvasImage').attr('disabled',true);
+				$('#btnDownloadExcel').attr('disabled',true);
+				$('#btnUploadExcel').attr('disabled',true);
+				$('#btnPrintCanvas').attr('disabled',true);
 				$('#btnDeleteCanvasVerification').attr('disabled',true);
 			}
-			
+
 		}
 	});
 	$.ajax({
@@ -177,8 +329,11 @@ function getDetailCanvas(){
 			var accordionChild = new Array();
 			var listParent = [];
 			for(var i=0;i<data.length;i++){
+				data[i].name = data[i].facility_name;
 				//coloring child
 				if(data[i].is_parent == 0){
+					data[i].totalCurrentChild = 0; //dont have child
+					data[i].totalFullChild = 0;
 					if(data[i].checkin_at != null){ //checkin
 						color = "text-danger";
 						data[i].color = status = 2;
@@ -192,18 +347,18 @@ function getDetailCanvas(){
 				}
 
 				if(data[i].is_parent == 1){
-					$('#accordionFacility').append('<div id="accordionFacilityParent'+data[i].facility_id+'" class="panel panel-default"><div class="panel-heading facility-detail" role="tab" facility="'+data[i].facility_id+'" name="'+data[i].facility_name+'" group="'+data[i].group_id+'" parent="'+data[i].is_parent+'" from="'+data[i].facility_parent_id+'"><h4 class="panel-title"><a role="button" data-toggle="collapse" data-parent="#accordionFacility" aria-expanded="false" href="#accordionFacility .item-'+data[i].facility_id+'">'+data[i].facility_name+' - '+data[i].group_name+'</a><span class="collapse-action"><i class="glyphicon glyphicon-plus addButton"></i><i class="glyphicon glyphicon-pencil editButton"></i><i class="glyphicon glyphicon-trash deleteFacilityButton"></i></span></h4></div><div class="panel-collapse collapse item-'+data[i].facility_id+'" role="tabpanel"></div></div>');
+					$('#accordionFacility').append('<div id="accordionFacilityParent'+data[i].facility_id+'" class="panel panel-default"><div class="panel-heading facility-detail" role="tab" facility="'+data[i].facility_id+'" name="'+data[i].facility_name+'" group="'+data[i].group_id+'" parent="'+data[i].is_parent+'" from="'+data[i].facility_parent_id+'"><h4 class="panel-title"><a role="button" data-toggle="collapse" data-parent="#accordionFacility" aria-expanded="false" href="#accordionFacility .item-'+data[i].facility_id+'">'+data[i].facility_name+' - '+data[i].group_name+'</a><span class="collapse-action"><i class="glyphicon glyphicon-plus addButton"></i><i class="glyphicon glyphicon-pencil editButton"></i><i class="glyphicon glyphicon-trash deleteFacilityButton"></i> <i class="glyphicon glyphicon-screenshot corsairCenterized"></i></span></h4></div><div class="panel-collapse collapse item-'+data[i].facility_id+'" role="tabpanel"></div></div>');
 					accordionParent['FacilityParent'+data[i].facility_id] = 0;
 					accordionParent['ReservedFacility'+data[i].facility_id] = 0;
 					listParent.push(data[i].facility_id);
 				}else if(data[i].facility_parent_id != 0){
-					$('#accordionFacilityParent'+data[i].facility_parent_id+' .item-'+data[i].facility_parent_id).append('<div class="panel-body facility-detail" facility="'+data[i].facility_id+'" name="'+data[i].facility_name+'" group="'+data[i].group_id+'" parent="'+data[i].is_parent+'" from="'+data[i].facility_parent_id+'"><span><a class="'+color+' participantFacilityButton" status="'+status+'">'+data[i].facility_name+' - '+(data[i].participant_name?(data[i].title_name? data[i].title_name+' ':'')+data[i].participant_name:'Available')+'</a></span><span class="collapse-action"><i class="glyphicon glyphicon-pencil editButton"></i><i class="glyphicon glyphicon-trash deleteFacilityButton"></i></span></div>');	
+					$('#accordionFacilityParent'+data[i].facility_parent_id+' .item-'+data[i].facility_parent_id).append('<div class="'+color+' panel-body facility-detail" facility="'+data[i].facility_id+'" name="'+data[i].facility_name+'" group="'+data[i].group_id+'" parent="'+data[i].is_parent+'" from="'+data[i].facility_parent_id+'"><span><a class="'+color+' participantFacilityButton" status="'+status+'">'+data[i].facility_name+' - '+(data[i].participant_name?(data[i].title_name? data[i].title_name+' ':'')+data[i].participant_name:'Available')+'</a></span><span class="collapse-action"><i class="glyphicon glyphicon-pencil editButton"></i><i class="glyphicon glyphicon-trash deleteFacilityButton"></i> <i class="glyphicon glyphicon-screenshot corsairCenterized"></i></span></div>');
 					accordionParent['FacilityParent'+data[i].facility_parent_id]++;
 					if(data[i].checkin_at!= null || data[i].reserve_at != null){
 						accordionParent['ReservedFacility'+data[i].facility_parent_id]++;
 					}
 				}else{
-					$('#accordionFacility').append('<div class="panel-body facility-detail" style="border-top:1px solid black;" facility="'+data[i].facility_id+'" name="'+data[i].facility_name+'" group="'+data[i].group_id+'" parent="'+data[i].is_parent+'" from="'+data[i].facility_parent_id+'"><span><a class="'+color+' participantFacilityButton" status="'+status+'">'+data[i].facility_name+' - '+(data[i].participant_name?(data[i].title_name? data[i].title_name+' ':'')+data[i].participant_name:'Available')+'</a></span><span class="collapse-action"><i class="glyphicon glyphicon-pencil editButton"></i><i class="glyphicon glyphicon-trash deleteFacilityButton"></i></span></div>');
+					$('#accordionFacility').append('<div class="'+color+' panel-body facility-detail accord-facility-no-parent" facility="'+data[i].facility_id+'" name="'+data[i].facility_name+'" group="'+data[i].group_id+'" parent="'+data[i].is_parent+'" from="'+data[i].facility_parent_id+'"><span><a class="'+color+' participantFacilityButton" status="'+status+'">'+data[i].facility_name+' - '+(data[i].participant_name?(data[i].title_name? data[i].title_name+' ':'')+data[i].participant_name:'Available')+'</a></span><span class="collapse-action"><i class="glyphicon glyphicon-pencil editButton"></i><i class="glyphicon glyphicon-trash deleteFacilityButton"></i> <i class="glyphicon glyphicon-screenshot corsairCenterized"></i></span></div>');
 				}
 			}
 
@@ -222,13 +377,13 @@ function getDetailCanvas(){
 				for(var z=0;z<data.length;z++){
 					if(data[z].facility_id == listParent[i]){
 						data[z].color = color;
+						data[z].totalCurrentChild = accordionParent['ReservedFacility'+listParent[i]];
+						data[z].totalFullChild = accordionParent['FacilityParent'+listParent[i]];
 					}
 				}
 			}
 
-			canvasApp(data);
-
-			//redeclare after remove 
+			//redeclare after remove
 			$(".addButton").click(function(){
 				$("#addEditModal").modal("show");
 				currentAction = 'add';
@@ -253,6 +408,8 @@ function getDetailCanvas(){
 				currentFacilityGroup = $(this).closest('div .facility-detail').attr('group');
 				currentFacilityParent = $(this).closest('div .facility-detail').attr('parent');
 				currentFacilityFrom =  $(this).closest('div .facility-detail').attr('from');
+				currentParticipant = $(this).closest('div .facility-detail').children().children('.participantFacilityButton').text().split(' - ',2)[1];
+
 				getFacilityType(currentFacilityParent);
 				$('#txtAddEditFacilityName').val(currentFacilityName);
 				$('#ddlAddEditFacilityGroup').val(currentFacilityGroup);
@@ -261,14 +418,19 @@ function getDetailCanvas(){
 				}else{
 					$('#ddlAddEditFacilityGroup').attr('disabled',true);
 				}
+
 				$('#ddlAddEditFacilityFrom').val(currentFacilityFrom);
-				$('#ddlAddEditFacilityFrom').attr('disabled',false);
+				if(currentParticipant != 'Available'){
+					$('#ddlAddEditFacilityFrom').attr('disabled', true);
+				}else{
+					$('#ddlAddEditFacilityFrom').attr('disabled', false);
+				}
 			});
 
 			$(".deleteFacilityButton").click(function(){
 				$("#deleteFacilityModal").modal("show");
 				currentFacilityID = $(this).closest('div .facility-detail').attr('facility');
-			});		
+			});
 
 			$(".participantFacilityButton").click(function(){
 				$("#participantFacilityModal").modal("show");
@@ -278,6 +440,7 @@ function getDetailCanvas(){
 				currentFacilityParent = $(this).closest('div .facility-detail').attr('parent');
 				currentFacilityFrom =  $(this).closest('div .facility-detail').attr('from');
 				currentParticipant = $(this).text().split(' - ',2)[1]; //mengambil namanya saja
+				loadAutoCompleteParticipant();
 				$('#ddlStatusParticipant').val($(this).attr('status'));
 				if(currentParticipant == 'Available'){
 					currentParticipant = '';
@@ -288,6 +451,32 @@ function getDetailCanvas(){
 					$('#txtParticipant').attr('disabled',false);
 				}
 			});
+
+			$(".corsairCenterized").click(function(){ //for centerized
+				currentFacilityID = $(this).closest('div .facility-detail').attr('facility');
+				currentFacilityParent = $(this).closest('div .facility-detail').attr('parent');
+				if(currentFacilityParent == 1){//parent
+					var parent_x_Axis;
+					var parent_y_Axis;
+					for(var i=0;i<data.length;i++){
+						if(data[i].facility_id == currentFacilityID || data[i].facility_parent_id == currentFacilityID){
+							if(data[i].is_parent == 1){
+								parent_x_Axis = data[i].x_axis;
+								parent_y_Axis = data[i].y_axis;
+								saveCoordinateFacility(currentFacilityID, theCanvas.width/2,theCanvas.height/2);
+							}else{
+								saveCoordinateFacility(data[i].facility_id, (data[i].x_axis - parent_x_Axis) + (theCanvas.width/2), data[i].y_axis- parent_y_Axis + (theCanvas.height/2));
+							}
+						}
+					}
+				}else{
+					saveCoordinateFacility(currentFacilityID, theCanvas.width/2,theCanvas.height/2);
+				}
+				getDetailCanvas();
+			});
+
+			canvasApp(data);
+			resizeCanvas();
 		}
 	});
 }
@@ -356,7 +545,7 @@ function getFacilityType(is_parent = null){
 		dataType : 'json',
 		success : function(data){
 			for(var i=0;i<data.length;i++){
-				$('#ddlAddEditFacilityType').append('<option value="'+data[i].facility_type_id+'" parent="'+data[i].is_parent+'">'+data[i].facility_type_name+'</option>');				
+				$('#ddlAddEditFacilityType').append('<option value="'+data[i].facility_type_id+'" parent="'+data[i].is_parent+'">'+data[i].facility_type_name+'</option>');
 			}
 
 			if($('#ddlAddEditFacilityType :selected').attr('parent') == 1){ //parent
@@ -366,12 +555,14 @@ function getFacilityType(is_parent = null){
 				$('#ddlAddEditFacilityFrom').closest('div').show();
 			}
 
-			$('#ddlAddEditFacilityType').change(function(){
+			$('#ddlAddEditFacilityType').unbind('change').change(function(){
 				if($('#ddlAddEditFacilityType :selected').attr('parent') == 1){ //parent
 					$('#ddlAddEditFacilityFrom').closest('div').hide();
 					$('#ddlAddEditFacilityFrom').val(0);
+					setGroupByParent();
 				}else{
 					$('#ddlAddEditFacilityFrom').closest('div').show();
+					$('#ddlAddEditFacilityGroup').attr('disabled',false);
 				}
 			});
 		}
@@ -386,7 +577,7 @@ function getFacilityGroup(){
 		dataType : 'json',
 		success : function(data){
 			for(var i=0;i<data.length;i++){
-				$('#ddlAddEditFacilityGroup').append('<option value="'+data[i].group_id+'">'+data[i].group_name+'</option>');				
+				$('#ddlAddEditFacilityGroup').append('<option value="'+data[i].group_id+'">'+data[i].group_name+'</option>');
 			}
 		}
 	});
@@ -407,7 +598,7 @@ function loadFacilityFrom(){
 			if(data.length > 0){
 				$('#ddlAddEditFacilityFrom').append('<option value="0">Tidak menggunakan fasilitas lain</option>');
 				for(var i=0;i<data.length;i++){
-					$('#ddlAddEditFacilityFrom').append('<option value="'+data[i].facility_id+'">'+data[i].facility_name+'</option>');				
+					$('#ddlAddEditFacilityFrom').append('<option value="'+data[i].facility_id+'">'+data[i].facility_name+'</option>');
 				}
 			}else{
 				$('#ddlAddEditFacilityFrom').append('<option value="0">Tidak menggunakan fasilitas lain</option>');
@@ -450,6 +641,20 @@ function AddEditFacility(type){
 				'group_id':	$('#ddlAddEditFacilityGroup').val()
 			},
 			success : function(data){
+				if(currentFacilityGroup != $('#ddlAddEditFacilityGroup').val()){//if parent change group
+					$.ajax({
+						type : 'POST',
+						url : BASE_URL + 'acara/Denah_acara/deleteParticipantDifferentGroup',
+						dataType : 'json',
+						async : false,
+						data : {
+							'facility_parent_id': currentFacilityID
+						},
+						success : function(data){
+
+						}
+					});
+				}
 				validationModal('Berhasil mengubah fasilitas');
 				$('#txtAddEditFacilityName').val('');
 			}
@@ -519,6 +724,9 @@ function loadAutoCompleteParticipant(){
 		type : 'POST',
 		url : BASE_URL + 'acara/Denah_acara/getAutoCompleteParticipants',
 		dataType : 'json',
+		data : {
+			'group_id': currentFacilityGroup
+		},
 		async : false,
 		success : function(data){
 			var participantName = [];
@@ -542,15 +750,21 @@ function saveParticipantFacility(){
 	$.ajax({
 		type : 'POST',
 		url : BASE_URL + 'acara/Denah_acara/saveParticipantFacility',
+		async : false,
 		dataType : 'json',
 		data : {
+			'facility_parent_id' : currentFacilityFrom,
 			'facility_id' : currentFacilityID,
 			'participant' : $('#txtParticipant').val().trim(),
 			'status' : status
 		},
 		success : function(data){
-			getDetailCanvas();
-			validationModal('sukses merubah peserta');
+			if(data > 0){//the number of seats required
+				validationModal('kursi yang dibutuhkan kurang '+data+' kursi lagi');
+			}else{
+				getDetailCanvas();
+				validationModal('sukses merubah peserta');
+			}
 		}
 	});
 }
@@ -566,7 +780,88 @@ function saveCoordinateFacility(facility_id,x_axis,y_axis){
 			'y_axis' : y_axis
 		},
 		success : function(data){
-		
+
+		}
+	});
+}
+
+function setGroupByParent(){
+	$('#ddlAddEditFacilityGroup').attr('disabled',true);
+	$.ajax({
+		type : 'POST',
+		url : BASE_URL + 'acara/Denah_acara/getFacilityGroupFromFacility',
+		async : false,
+		dataType : 'json',
+		data : {
+			'facility_id' : $('#ddlAddEditFacilityFrom').val()
+		},
+		success : function(data){
+			if(data.length == 1){
+				$('#ddlAddEditFacilityGroup').val(data[0].group_id);
+				$('#ddlAddEditFacilityGroup').attr('disabled',true);
+			}else{
+				$('#ddlAddEditFacilityGroup').attr('disabled',false);
+			}
+		}
+	});
+}
+
+function loadExcel(){
+	var files = event.target.files;
+	if (files && files[0]) {
+		var reader = new FileReader();
+		reader.readAsDataURL(files[0]);
+	}
+
+	var dataUpload = new FormData();
+    if (typeof files != 'undefined') {
+        $.each(files, function (key, value) {
+            dataUpload.append(key, value);
+        });
+    }
+
+    dataUpload.append('currentCanvasID',currentCanvasID);
+    dataUpload.append('currentCanvasSlide',currentCanvasSlide);
+    dataUpload.append('currentCanvasName',currentCanvasName);
+
+    $.ajax({
+		type : 'POST',
+		url : BASE_URL + 'acara/Denah_acara/loadExcelCanvas/',
+		data: dataUpload,
+		async : false,
+		processData: false,
+        contentType: false,
+		success : function(data){
+			if(data == 'sukses'){
+				getDetailCanvas();
+				validationModal('Sukses memasukan data dari excel');
+			}else{
+				validationModal(data);
+			}
+
+		}
+	});
+}
+
+function getTableDetail(facility_id){
+	$.ajax({
+		type : 'POST',
+		url : BASE_URL + 'acara/Denah_acara/getTableDetail',
+		dataType : 'json',
+		async : false,
+		data : {
+			'facility_parent_id' : facility_id
+		},
+		success : function(data){
+			$("#tableDetail tbody").empty();
+			$("#tableName").append(" - " + data[0].group_name);
+			for(var i=0;i<data.length;i++){
+				$("#tableDetail tbody").append('<tr>'+
+													'<td>'+data[i].facility_name+ '</td>'+
+													'<td>'+data[i].title_name+' '+(data[i].participant_name=='-'?'':data[i].participant_name)+ '</td>'+
+													'<td>'+data[i].verification_time+ '</td>'+
+												'</tr>');
+			}
 		}
 	});
 }

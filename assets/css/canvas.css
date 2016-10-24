@@ -1,0 +1,34 @@
+#CanvasBorder {
+    -moz-appearance: textfield-multiline;
+    -webkit-appearance: textarea;
+    border: 1px solid gray;
+    font: medium -moz-fixed;
+    font: -webkit-small-control;
+    overflow: auto;
+    resize: both;
+    margin: 0 auto;
+    cursor: pointer;
+}
+
+#FullCanvas{
+    width: 100%;
+    height: auto;
+}
+
+.participantFacilityButton{
+    cursor: pointer;
+}
+
+.accord-facility-no-parent{
+    border: 1px solid rgba(0,0,0,0.6);
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-top: 5px;
+    background-color: #2e3338;
+    border-radius: 3px;
+}
+
+#tableDetailModal .modal-body{
+    max-height: 300px;
+    overflow: auto;
+}

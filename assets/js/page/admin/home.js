@@ -1,8 +1,8 @@
-var curr_facility = 0;
-
 $(document).ready(function() {
 
     loadDllData();
+    $("#scannerFormQrSubmit").hide();
+    $("#onTheSpotFormSubmit").hide();
 
     $("#scannerFormQr2").submit(function(e){
         e.preventDefault();
@@ -13,6 +13,10 @@ $(document).ready(function() {
 
     $("#checkFacilityBtn").click(function() {
         checkAvailableFacility();
+    });
+
+    $("#onTheSpotForm").submit(function(e){
+        alert("Mendaftarkan peserta on the spot");
     });
 
 });
@@ -44,6 +48,7 @@ function getParticipantByCardID(card_id){
     $("#participantContact1").val("");
     $("#groupName").val("");
     $("#participantFollower1").val("");
+    $("#totalSouvenir").val("");
 
     $("#menu2").removeClass("active");
     $("#menu1").addClass("active");
@@ -66,6 +71,7 @@ function getParticipantByCardID(card_id){
                 $("#participantFollower1").val(data[0].follower);
 
                 getParticipantFacility(data[0].group_id, data[0].participant_id);
+                getParticipantRepresentation(data[0].participant_id);
 
             } else {
                 alert('Kartu '+card_id+' tidak terdaftar');
@@ -75,7 +81,6 @@ function getParticipantByCardID(card_id){
 }
 
 function getParticipantFacility(group_id, participant_id) {
-    curr_facility = 0;
     $.ajax({
         type : 'POST',
         url : BASE_URL + 'Home/getParticipantFacility',
@@ -89,59 +94,73 @@ function getParticipantFacility(group_id, participant_id) {
             $('#listFacilityContent').html("");
             for(var i = 0 ; i < data.length ; i++) {
                 if(data[i].available == 0) {
-                    checkbox = '<input type="checkbox" name="selectFacility" value="'+ data[i].facility_id +'" disabled checked>';
-                    curr_facility++;
+                    checkbox = '<input type="checkbox" name="selectFacility" class="selectFacility" value="'+ data[i].facility_id +'" checked>';
                 } else {
-                    checkbox = '<input type="checkbox" name="selectFacility" value="'+ data[i].facility_id +'" disabled>';
+                    checkbox = '<input type="checkbox" name="selectFacility" class="selectFacility" value="'+ data[i].facility_id +'">';
                 }
-                $('#listFacilityContent').append('<tr value="'+ data[i].facility_id +'"><td>'+ data[i].table_name +'</td><td>'+ data[i].chair_name +'</td><td>'+checkbox+'</td></tr>');
+                $('#listFacilityContent').append('<tr value="'+ data[i].facility_id +'"><td>'+ data[i].canvas_name +'</td><td>'+ data[i].group_name +'</td><td>'+ data[i].table_name +'</td><td>'+ data[i].chair_name +'</td><td>'+checkbox+'</td></tr>');
+            }
+
+            VerificationValidation();
+        }
+    });
+
+    $(document).on('change', '.selectFacility', function(){
+        VerificationValidation();
+    });
+
+    $(document).on('change', '#participantFollower1', function(){
+        console.log("masuk 1");
+        VerificationValidation();
+    });
+}
+
+function VerificationValidation() {
+    var undangan = $("input[type=checkbox][name=selectFacility]:checked").length;
+    var penempatan = parseInt($("#participantFollower1").val())+1;
+    if(undangan == penempatan) {
+        $("#scannerFormQrSubmit").show();
+    } else {
+        $("#scannerFormQrSubmit").hide();
+    }
+}
+
+function OnTheSpotValidation() {
+    var undangan = $("input[type=checkbox][name=selectFacility2]:checked").length;
+    var penempatan = parseInt($("#participantFollower2").val())+1;
+    if(undangan == penempatan) {
+        $("#onTheSpotFormSubmit").show();
+    } else {
+        $("#onTheSpotFormSubmit").hide();
+    }
+}
+
+function getParticipantRepresentation(participant_id) {
+    $.ajax({
+        type : 'POST',
+        url : BASE_URL + 'Home/getParticipantRepresentation',
+        dataType : 'json',
+        data : {
+            'participant_id' : participant_id
+        },
+        success : function(data){
+            var checkbox = '';
+            $('#listRepresentationContent').html("");
+            $("#totalSouvenir").val(1);
+            for(var i = 0 ; i < data.length ; i++) {
+                checkbox = '<input type="checkbox" class="selectRepresentation" name="selectRepresentation">';
+                $('#listRepresentationContent').append('<tr value="'+ data[i].participant_id +'"><td>'+ data[i].card_id +'</td><td>'+ data[i].title_name + " " + data[i].participant_name +'</td><td>'+ data[i].phone_num +'</td><td>'+checkbox+'</td></tr>');
             }
         }
     });
 
-    $("#participantFollower1").change(function(){
-        var demand = $("#participantFollower1").val()
-        if(demand >= 0) {
-            changeParticipantFacilityTemp(demand);
-        }
-	});
-}
-
-function changeParticipantFacilityTemp(demand) {
-    demand++;
-    var count = 0;
-
-    if(demand < curr_facility) {
-        var unavailable_facility = [];
-        $("input[name='selectFacility']:checked").each(function(){
-            unavailable_facility.push($(this).val());
-        });
-        var count = curr_facility - demand;
-        if(unavailable_facility.length >= count) {
-            for (var i = demand; i < unavailable_facility.length; i++) {
-                $("input[name='selectFacility'][value='"+unavailable_facility[i]+"']").removeProp("checked");
-            }
-            curr_facility = demand;
+    $(document).on('change', '.selectRepresentation', function(){
+        if($(this).is(':checked')) {
+            $("#totalSouvenir").val(parseInt($("#totalSouvenir").val())+1);
         } else {
-            alert("Fasilitas tidak mencukupi");
+            $("#totalSouvenir").val(parseInt($("#totalSouvenir").val())-1);
         }
-    } else if(demand > curr_facility) {
-        var available_facility = [];
-        $("input[name='selectFacility']:not(:checked").each(function(){
-            available_facility.push($(this).val());
-        });
-        var count = demand - curr_facility;
-        if(available_facility.length >= count) {
-            for (var i = 0; i < demand - curr_facility; i++) {
-                $("input[name='selectFacility'][value='"+available_facility[i]+"']").prop("checked", "true");
-            }
-            curr_facility = demand;
-        } else {
-            alert("Fasilitas tidak mencukupi");
-        }
-    } else {
-        //nothing changes
-    }
+    });
 }
 
 function checkAvailableFacility() {
@@ -160,7 +179,7 @@ function checkAvailableFacility() {
         success : function(data){
             if(follower != "" && data.length >= follower++) {
                 for(var i = 0 ; i < data.length ; i++) {
-                    $('#listFacilityContent2').append('<tr><td>'+ data[i].table_name +'</td><td>'+ data[i].chair_name +'</td><td><input type="checkbox" name="selectFacility2" value="'+ data[i].facility_id +'"></td></tr>');
+                    $('#listFacilityContent2').append('<tr value="'+ data[i].facility_id +'"><td>'+ data[i].canvas_name +'</td><td>'+ data[i].group_name +'</td><td>'+ data[i].table_name +'</td><td>'+ data[i].chair_name +'</td><td><input type="checkbox" class="selectFacility2" name="selectFacility2" value="'+ data[i].facility_id +'"></td></tr>');
                 }
             } else {
                 alert("Fasilitas tidak mencukupi");
@@ -172,6 +191,14 @@ function checkAvailableFacility() {
         changeParticipantFacility(group_id, follower);
     });
 
+    $(document).on('change', '.selectFacility2', function(){
+        OnTheSpotValidation();
+    });
+
+    $(document).on('change', '#participantFollower2', function(){
+        console.log("masuk 1");
+        OnTheSpotValidation();
+    });
 }
 
 function insertParticipantFacility() {

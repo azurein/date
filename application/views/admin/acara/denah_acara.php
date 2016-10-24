@@ -5,7 +5,32 @@
                     <p id="validationAlertName"></p>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" type="button" data-dismiss="modal">Ya </button>
+                    <button class="btn btn-primary" type="button" data-dismiss="modal">Tutup </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="tableDetailModal" class="modal fade" role="dialog" tabindex="-1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" style="text-align:center;font-weight:bold;"><span id="tableName"></span></h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-striped table-hover dataTable" id="tableDetail">
+                        <thead>
+                            <th>Nama Fasilitas</th>
+                            <th>Nama Peserta</th>
+                            <th>Waktu Hadir</th>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="button" data-dismiss="modal">Tutup </button>
                 </div>
             </div>
         </div>
@@ -15,7 +40,8 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title"><span id="txtAddEditFacilityTitle"></span> Fasilitas</h4></div>
+                    <h4 class="modal-title"><span id="txtAddEditFacilityTitle"></span> Fasilitas</h4>
+                </div>
                 <div class="modal-body">
                     <form>
                         <div class="row">
@@ -145,15 +171,18 @@
             <div class="col-md-12">
                 <fieldset>
                     <legend>Denah Acara</legend>
-                </fieldset><!-- <img class="img-responsive" src="../../assets/img/denah-sample.jpg"></div> -->
+                </fieldset>
                 <!--Canvas-->
                 <div id="FullCanvas">
                     <div id="CanvasBorder" contenteditable>
-                        <canvas id="canvasOne" width="1200" height="800">
+                        <canvas id="canvasOne" width="600" height="400">
                         Your browser does not support HTML5 canvas.
                         </canvas>
                     </div>
                 </div>
+                <input id="uploadExcelTemplate" type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" style="display:none;">
+                <img src="../../assets/img/denah/default.jpg" id="imgBackgroundCanvas" style="display:none;"/>
+            </div>
         </div>
         <div class="row">
             <div class="col-md-12">
@@ -162,12 +191,13 @@
                         <div class="input-group-btn">
                             <button id="btnPrevCanvas" class="btn btn-default" type="button"> <i class="fa fa-arrow-left"></i></button>
                             <button id="btnAddFacility" class="btn btn-default" type="button"> <i class="fa fa-sitemap"></i></button>
-                            <button class="btn btn-default" type="button"> <a href="../../uploads/template_fasilitas.xlsx" target="_blank"><i class="fa fa-download"></i></a></button>
-                            <button class="btn btn-default" type="button"> <i class="fa fa-upload"></i></button>
+                            <button id="btnDownloadExcel" class="btn btn-default" type="button"> <i class="fa fa-download"></i></button>
+                            <button id="btnUploadExcel" class="btn btn-default" type="button"> <i class="fa fa-upload"></i></button>
                         </div>
                         <input id="txtCanvasName"  class="form-control" type="text">
                         <div class="input-group-btn">
                             <button id="btnUploadCanvasImage" class="btn btn-default" type="button"> <i class="fa fa-image"></i></button>
+                            <button id="btnPrintCanvas" class="btn btn-default" type="button"> <i class="fa fa-print"></i></button>
                             <button id="btnDeleteCanvasVerification" class="btn btn-default" type="button"> <i class="fa fa-trash"></i></button>
                             <button id="btnNextCanvas" class="btn btn-default" type="button"> <i class="fa fa-arrow-right"></i></button>
                         </div>
@@ -176,53 +206,60 @@
             </div>
         </div>
         <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Ringkasan Fasilitas</th>
+                                <th>Keterangan Meja</th>
+                                <th>Keterangan Kursi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <ul>
+                                        <li>Meja &nbsp;
+                                            <i class="fa fa-circle" style="color: #68ff6f"></i>&nbsp;<span id="count_parent_1">0</span> &nbsp;
+                                            <i class="fa fa-circle" style="color: #fff222"></i>&nbsp;<span id="count_parent_2">0</span> &nbsp;
+                                            <i class="fa fa-circle" style="color: #ff8b8b"></i>&nbsp;<span id="count_parent_3">0</span>
+                                        </li>
+                                        <li>Kursi &nbsp;
+                                            <i class="fa fa-circle" style="color: #33cc00"></i>&nbsp;<span id="count_child_1">0</span> &nbsp;
+                                            <i class="fa fa-circle" style="color: #ff8533"></i>&nbsp;<span id="count_child_2">0</span> &nbsp;
+                                            <i class="fa fa-circle" style="color: #ff2b2b"></i>&nbsp;<span id="count_child_3">0</span>
+                                        </li>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <ul class="legend-points">
+                                        <li><i class="fa fa-circle" style="color: #68ff6f"></i> &nbsp; Meja masih tersedia seluruh kursinya</li>
+                                        <li><i class="fa fa-circle" style="color: #fff222"></i> &nbsp; Meja masih tersedia beberapa kursinya</li>
+                                        <li><i class="fa fa-circle" style="color: #ff8b8b"></i> &nbsp; Meja sudah tidak tersedia kursinya</li>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <ul class="legend-points">
+                                        <li><i class="fa fa-circle" style="color: #33cc00"></i> &nbsp; Kursi masih tersedia</li>
+                                        <li><i class="fa fa-circle" style="color: #ff8533"></i> &nbsp; Kursi sudah dipesan</li>
+                                        <li><i class="fa fa-circle" style="color: #ff2b2b"></i> &nbsp; Kursi sudah ditempati</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="panel-group" role="tablist" aria-multiselectable="true" id="accordionFacility">
-                    <!--<div class="panel panel-default">
-                        <div class="panel-heading" role="tab">
-                            <h4 class="text-warning panel-title">
-                                <a role="button" data-toggle="collapse" data-parent="#accordionFacility" aria-expanded="false" href="#accordionFacility .item-1">Meja 1 - VIP</a>
-                                <span class="collapse-action">
-                                    <i class="glyphicon glyphicon-plus addButton"></i>
-                                    <i class="glyphicon glyphicon-pencil editButton"></i>
-                                    <i class="glyphicon glyphicon-trash deleteFacilityButton"></i>
-                                </span>
-                            </h4>
-                        </div>
-                        <div class="panel-collapse collapse in item-1" role="tabpanel">
-                            <div class="panel-body"><span><a href="#" class="participantFacilityButton">Kursi 1A - 18912312319 Robin Cosamas </a></span><span class="collapse-action"><i class="glyphicon glyphicon-pencil editButton"></i><i class="glyphicon glyphicon-trash deleteFacilityButton"></i></span></div>
-                            <div class="panel-body"><span><a href="#" class="participantFacilityButton">Kursi 1B - Available</a></span><span class="collapse-action"><i class="glyphicon glyphicon-pencil editButton"></i><i class="glyphicon glyphicon-trash deleteFacilityButton"></i></span></div>
-                        </div>
-                    </div>
-                    <div class="panel panel-default">
-                        <div class="panel-heading" role="tab">
-                            <h4 class="text-success panel-title">
-                                <span class="collapse-action">
-                                    <i class="glyphicon glyphicon-plus addButton"></i>
-                                    <i class="glyphicon glyphicon-pencil editButton"></i>
-                                    <i class="glyphicon glyphicon-trash deleteFacilityButton"></i>
-                                </span>
-                                <a role="button" data-toggle="collapse" data-parent="#accordionFacility" aria-expanded="false" href="#accordionFacility .item-2">Meja 2 - Keluarga</a>
-                            </h4>
-                        </div>
-                        <div class="panel-collapse collapse item-2" role="tabpanel">
-                            <div class="panel-body"><span><a href="#" class="participantFacilityButton">Kursi 2A - Available </a></span><span class="collapse-action"><i class="glyphicon glyphicon-pencil editButton"></i><i class="glyphicon glyphicon-trash deleteFacilityButton"></i></span></div>
-                            <div class="panel-body"><span><a href="#" class="participantFacilityButton">Kursi 2B - Available </a></span><span class="collapse-action"><i class="glyphicon glyphicon-pencil editButton"></i><i class="glyphicon glyphicon-trash deleteFacilityButton"></i></span></div>
-                        </div>
-                    </div>
-                    <div class="panel panel-default">
-                        <div class="panel-heading" role="tab">
-                            <h4 class="text-danger panel-title"><span class="collapse-action"><i class="glyphicon glyphicon-plus addButton"></i><i class="glyphicon glyphicon-pencil editButton"></i><i class="glyphicon glyphicon-trash deleteFacilityButton"></i></span><a role="button" data-toggle="collapse" data-parent="#accordionFacility" aria-expanded="true" href="#accordionFacility .item-3">Meja 3 - Teman</a></h4></div>
-                        <div class="panel-collapse collapse item-3" role="tabpanel">
-                            <div class="panel-body"><span> <a href="#">Kursi 3A - 18912312320 Agustinus Dios </a></span><span class="collapse-action"><i class="glyphicon glyphicon-pencil editButton"></i><i class="glyphicon glyphicon-trash deleteFacilityButton"></i></span></div>
-                        </div>
-                    </div>
-                </div>-->
+                </div>
             </div>
         </div>
     </div>
-    <footer></footer>
 </body>
 <!-- JS untuk Canvas-->
-<script src = "../../Assets/js/Canvas.js"></script>
+<script src = "../../Assets/js/canvas.js"></script>
 </html>

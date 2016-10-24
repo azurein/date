@@ -49,14 +49,7 @@ $(document).ready(function(){
 		selection 	: false
 	});
 	setInterval(function(){
-		fabric.util.clearFabricFontCache();
-		__canvas[__curr].forEachObject(function(obj,i){
-			if(__map[__curr][i].fontType !== null){
-				obj._initDimensions();
-			}
-		});
-		__canvas[__curr].renderAll();
-		__canvas[__curr].renderAll();
+		refreshCanvas(__curr);
 	},16);
 
 	$("#currStat").text(__canvas.status[__curr]+' - '+(__canvas.rotation[__curr] == 0 ? 'Mode Horizontal' : 'Mode Vertikal'));
@@ -272,6 +265,10 @@ function initEvents(){
 	    'object:resizing': updateControls,
 	    'object:rotating': updateControls,
 		'mouse:up' : afterInteract
+	});
+
+	$('#exportButton').click(function(){
+		prepareMassPrint();
 	});
 }
 
@@ -1030,4 +1027,119 @@ function deactiveState(idx){
 			return true;
 		}
 	});
+}
+
+function prepareMassPrint() {
+	$("#loadingModal").modal('show');
+	$.ajax({
+		type: 'POST',
+		url: BASE_URL + 'acara/Kartu_acara/prepareMassPrint',
+		dataType: 'JSON',
+		error:function(e) {
+			alert('Error : cannot remove canvas object from database');
+			location.reload();
+		},
+		success:function(data) {
+			$("#loadingModal").modal('show');
+
+			if(__canvas['rotation'][__curr]!= 0){
+				$('#rotateCard').click();
+			}
+
+			massPrint(data);
+		}
+	})
+}
+
+function massPrint(data) {
+
+	var topoffset = 14;
+	var leftoffset = 6.5;
+	var height = 57;
+	var width = 95;
+	var count = 0;
+
+	var pdf = new jsPDF();
+
+	for(var i = 0 ; i < data.length ; i++, count++){
+		if(count%8 == 0 && count > 0){
+			pdf.addPage();
+			count = 0;
+		}
+
+		$.each(__map[0],function(key,val) {
+			if(val.dynamic && val.type != '1'){
+				if(val.type == '3'){
+					__canvas[0].item(key).setText(data[i].participant_name);
+				}
+				else if (val.type == '4') {
+					__canvas[0].item(key).setText(data[i].follower);
+				}
+				else if (val.type == '5') {
+					__canvas[0].item(key).setText(data[i].group_name);
+				}
+			}
+		});
+
+		refreshCanvas(0);
+
+		var front = __canvas[0].toDataURL('JPG',1.0,0.19);
+
+		pdf.addImage(front,'JPG',leftoffset+((count%2)*(width+leftoffset)),topoffset+(Math.floor(count/2)*(height+topoffset)),width,height);
+		pdf.rect((leftoffset+((count%2)*(width+leftoffset))),(topoffset+(Math.floor(count/2)*(height+topoffset))),width,height);
+
+		if(data[i].is_flip = '1'){
+			$.each(__map[1],function(key,val) {
+				if(val.dynamic && val.type != '1'){
+					if(val.type == '3'){
+						__canvas[1].item(key).setText(data[i].participant_name);
+					}
+					else if (val.type == '4') {
+						__canvas[1].item(key).setText(data[i].follower);
+					}
+					else if (val.type == '5') {
+						__canvas[1].item(key).setText(data[i].group_name);
+					}
+				}
+			});
+
+			refreshCanvas(1);
+
+			count++;
+
+			var rear = __canvas[1].toDataURL('JPG',1.0);
+			pdf.addImage(rear,'JPG',leftoffset+((count%2)*(width+leftoffset)),topoffset+(Math.floor(count/2)*(height+topoffset)),width,height);
+			pdf.rect((leftoffset+((count%2)*(width+leftoffset))),(topoffset+(Math.floor(count/2)*(height+topoffset))),width,height);
+
+		}
+	}
+
+	$.each(__map[0],function(key,val) {
+		if(val.dynamic && val.type != '1'){
+			if(val.type == '3'){
+				__canvas[0].item(key).setText(val.compname);
+			}
+			else if (val.type == '4') {
+				__canvas[0].item(key).setText(val.compname);
+			}
+			else if (val.type == '5') {
+				__canvas[0].item(key).setText(val.compname);
+			}
+		}
+	});
+
+	$('#loadingModal').modal('hide');
+
+	pdf.save("download.pdf");
+}
+
+function refreshCanvas(idx) {
+	fabric.util.clearFabricFontCache();
+	__canvas[idx].forEachObject(function(obj,i){
+		if(__map[idx][i].fontType !== null){
+			obj._initDimensions();
+		}
+	});
+	__canvas[idx].renderAll();
+	__canvas[idx].renderAll();
 }

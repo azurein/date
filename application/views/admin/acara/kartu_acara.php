@@ -121,6 +121,23 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" role="dialog" tabindex="-1" data-backdrop ="static" data-keyboard="false"  id="loadingModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p>
+                        Mohon Tunggu...
+                    </p>
+
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%" id="printProgress">
+                            <span class="sr-only">0% Complete</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="container-fluid">
         <div class="row">
@@ -215,6 +232,7 @@
                                         <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#addModal">Tambah Komponen</button>
                                         <button class="btn btn-info" type="button" id="rotateCard">Mode Vertikal</button>
                                         <button class="btn btn-info" type="button" id="flipCard">Sebaliknya</button>
+                                        <button class="btn btn-success" type="button" id="exportButton">Cetak Masal</button>
                                     </div>
                                 </td>
                             </tr>

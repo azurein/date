@@ -14,6 +14,9 @@
 <script type="text/javascript" src="{assets}js/localemoment.js"></script>
 <script type="text/javascript" src="{assets}js/datetimepicker.full.js"></script>
 <script type="text/javascript" src="{assets}js/webfont.js"></script>
+<script type="text/javascript" src="{assets}js/plugin/jspdf.min.js"></script>
+<script type="text/javascript" src="{assets}js/canvas.js"></script>
+<script type="text/javascript" src="{assets}js/html2canvas.js"></script>
 <script type="text/javascript" src="{assets}js/scripts.js"></script>
 <script type="text/javascript" src="{assets}js/page/{page}.js"></script>
 

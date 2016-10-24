@@ -194,20 +194,27 @@
                             </div>
                             <div class="form-group">
                                 <div class="row">
-                                    <div class="col-md-6 col-xs-12">
+                                    <div class="col-md-4 col-xs-12">
                                         <label>Grup</label>
                                         <input id="groupName" class="form-control" disabled>
                                     </div>
-                                    <div class="col-md-6 col-xs-12">
+                                    <div class="col-md-4 col-xs-12">
                                         <label>Undangan</label>
-                                        <input id="participantFollower1" type="number" class="form-control">
+                                        <input id="participantFollower1" type="number" class="form-control" required>
+                                    </div>
+                                    <div class="col-md-4 col-xs-12">
+                                        <label>Jumlah Souvenir</label>
+                                        <input id="totalSouvenir" type="number" class="form-control" name="totalSouvenir" required>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
+                                <h4>Fasilitas</h4>
                                 <table class="table table-striped table-hover" id="listFacilityTable">
                                     <thead>
                                         <tr>
+                                            <th>Ruang</th>
+                                            <th>Grup</th>
                                             <th>Meja</th>
                                             <th>Kursi</th>
                                             <th>Penempatan</th>
@@ -217,12 +224,26 @@
                                 </table>
                             </div>
                             <div class="form-group">
-                                <button type="submit" class="btn btn-success">Verifikasi</button>
+                                <h4>Mewakilkan</h4>
+                                <table class="table table-striped table-hover" id="listRepresentationTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Kode Kartu</th>
+                                            <th>Nama Peserta</th>
+                                            <th>Kontak</th>
+                                            <th>Diwakilkan</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="listRepresentationContent"></tbody>
+                                </table>
+                            </div>
+                            <div class="form-group">
+                                <button id="scannerFormQrSubmit" type="submit" class="btn btn-success">Verifikasi</button>
                             </div>
                         </form>
                     </div>
                     <div id="menu2" class="tab-pane fade">
-                        <form>
+                        <form id="onTheSpotForm">
                             <div class="form-group">
                                 <label>Nama Peserta</label>
                                 <div class="row">
@@ -230,7 +251,7 @@
                                         <select id="titleDdl" class="form-control"></select>
                                     </div>
                                     <div class="col-md-9 col-xs-12">
-                                        <input id="participantName2" type="text" class="form-control" name="participantName2">
+                                        <input id="participantName2" type="text" class="form-control" name="participantName2" required>
                                     </div>
                                 </div>
                             </div>
@@ -250,11 +271,11 @@
                                     </div>
                                     <div class="col-md-4 col-xs-12">
                                         <label>Undangan</label>
-                                        <input id="participantFollower2" type="number" class="form-control" name="participantFollower2">
+                                        <input id="participantFollower2" type="number" class="form-control" name="participantFollower2" required>
                                     </div>
                                     <div class="col-md-4 col-xs-12">
                                         <label>Jumlah Souvenir</label>
-                                        <input id="totalSouvenir" type="number" class="form-control" name="totalSouvenir">
+                                        <input id="totalSouvenir2" type="number" class="form-control" name="totalSouvenir2" required>
                                     </div>
                                 </div>
                             </div>
@@ -265,6 +286,8 @@
                                 <table class="table table-striped table-hover" id="listFacilityTable">
                                     <thead>
                                         <tr>
+                                            <th>Ruang</th>
+                                            <th>Grup</th>
                                             <th>Meja</th>
                                             <th>Kursi</th>
                                             <th>Penempatan</th>
@@ -274,7 +297,7 @@
                                 </table>
                             </div>
                             <div class="form-group">
-                                <button id="checkFacilityBtn" type="button" class="btn btn-success">Daftar dan Verifikasi</button>
+                                <button id="onTheSpotFormSubmit" type="submit" class="btn btn-success">Daftar dan Verifikasi</button>
                             </div>
                         </form>
                     </div>
