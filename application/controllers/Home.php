@@ -57,4 +57,22 @@ class Home extends Main_Controller {
 		echo json_encode($data);
 	}
 
+    public function directRegistration()
+    {
+        $data = array(
+            'title' => $this->input->post_get('titleDdl'),
+            'name' => $this->input->post_get('participantName2'),
+            'phone_num' => $this->input->post_get('participantContact2'),
+            'group' => $this->input->post_get('groupDdl'),
+            'follower' => $this->input->post_get('participantFollower2'),
+            'user_id' => $_SESSION['user_id'],
+            'event_id' => $_SESSION['event_id']
+        );
+
+        $facilities = $this->input->post_get('selectFacility2');
+
+        $this->home->directRegistration($data, $facilities);
+        $this->view('admin/home');
+    }
+
 }

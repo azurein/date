@@ -13,7 +13,7 @@ class Kehadiran_model extends CI_Model {
 		}
 		$query = 	"SELECT DISTINCT
 					CONCAT(DATE_FORMAT(a.verification_date, '%Y%m%d%H%i%s'), a.card_id) as log_id,
-					a.card_id,
+					CASE WHEN card_id = 0 THEN '-' ELSE card_id END AS card_id,
                     COALESCE(d.title_name, '') as title_name,
 					c.participant_name,
 					DATE_FORMAT(a.verification_date, '%H:%i') as verification_time,
@@ -22,14 +22,9 @@ class Kehadiran_model extends CI_Model {
 
 					FROM verification a
 
-					JOIN card b
-					ON a.card_id = b.card_id
-					AND a._status <> 'D'
-					AND b._status <> 'D'
-
 					JOIN participant c
-					ON b.participant_id = c.participant_id
-					AND b.event_id = c.event_id
+					ON a.participant_id = c.participant_id
+					AND a._status <> 'D'
 					AND c._status <> 'D'
 
                     LEFT JOIN titles d
@@ -41,7 +36,7 @@ class Kehadiran_model extends CI_Model {
 					AND e._status <> 'D'
 
 					WHERE
-					b.event_id = '".$event_id."'
+					c.event_id = '".$event_id."'
 					".$userCondition."
 					AND (a.card_id LIKE '%".$key."%'
 					OR c.participant_name LIKE '%".$key."%'
@@ -107,12 +102,13 @@ class Kehadiran_model extends CI_Model {
 
 	public function saveVerificationLog($data){
 		$query = 	"INSERT INTO verification
-					(card_id, verification_date, _status, _user, _date)
-					VALUES(?,STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s'),'I',?,NOW())
+					(card_id, participant_id, verification_date, _status, _user, _date)
+					VALUES(?, ?, STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s'),'I',?,NOW())
 					";
 
 		$data = $this->db->query($query,array(
 			$data['card_id'],
+			$data['participant_id'],
 			$data['newDate'],
 			$data['userID']
 		));

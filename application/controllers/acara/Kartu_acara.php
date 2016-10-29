@@ -9,56 +9,85 @@ class Kartu_acara extends Main_Controller {
 		$this->load->model('acara/Kartu_acara_model','kartu');
 	}
 
-    public function index()
-    {
-        if(isset($_SESSION['user_id'])) {
-            $user_array = array(
-                'event_id' => $_SESSION['event_id'],
-                'user_id' => $_SESSION['user_id']
-            );
-            $this->session->set_userdata('userdata', $user_array);
-            $this->view('admin/acara/kartu_acara');
-        } else {
-            header('Location: '.base_url());
-        }
-    }
+	public function index()
+	{
+		$user_array = array(
+			'event_id' => '1',
+			'user_id' => '1'
+		);
+		$this->session->set_userdata('userdata', $user_array);
+
+		$this->view('admin/acara/kartu_acara');
+	}
 
     protected function getSession($key=null)
     {
-        $user_data = $this->session->userdata('userdata');
+		$user_data = $this->session->userdata('userdata');
 
-        if(isset($key))
-        {
-            $user_data = $user_data[$key];
-        }
-        return $user_data;
-    }
+		if(isset($key))
+		{
+			$user_data = $user_data[$key];
+		}
+		return $user_data;
+	}
 
     public function getDesign()
     {
         $data = $this->kartu->getDesignByEvent($this->getSession('event_id'));
+        // $participant = $this->getParticipantDetailByID(1);
+
+        // for ($i=0; $i < count($data); $i++) {
+        //     switch ($data[$i]->component_name) {
+        //         case 'Nama Peserta':
+        //             // $data[$i]->value = $data[$i]->value . trim($participant[0]->title_name).' '.$participant[0]->participant_name;
+        //             break;
+        //         case 'Jumlah Follower':
+        //             // $data[$i]->value = $data[$i]->value . $participant[0]->follower;
+        //             break;
+        //         case 'Nama Grup':
+        //             // $data[$i]->value = $data[$i]->value . $participant[0]->group_name;
+        //             break;
+        //     }
+        // }
+
         echo json_encode($data);
+
     }
 
     private function getParticipantDetailByID($id){
         return $this->kartu->getParticipantByID($id);
     }
 
-    public function getComponents()
-    {
-        $comp = $this->kartu->getComponent();
-        echo json_encode($comp);
-    }
+	public function getComponents()
+	{
+		$comp = $this->kartu->getComponent();
+        // $participant = $this->getParticipantDetailByID(1);
 
-    public function getForm()
-    {
-        $this->load->helper('form');
-        echo form_open_multipart('Kelola_peserta/uploadImg',array('id'=>'addCompFile'));
-    }
+        // for ($i=0; $i < count($comp); $i++) {
+        //     switch ($comp[$i]->component_name) {
+        //         case 'Nama Peserta':
+        //             $comp[$i]->value = trim($participant[0]->title_name).' '.$participant[0]->participant_name;
+        //             break;
+        //         case 'Jumlah Follower':
+        //             $comp[$i]->value = $participant[0]->follower;
+        //             break;
+        //         case 'Nama Grup':
+        //             $comp[$i]->value = $participant[0]->group_name;
+        //             break;
+        //     }
+        // }
+		echo json_encode($comp);
+	}
+
+    public function getForm ()
+	{
+		$this->load->helper('form');
+		echo form_open_multipart('Kelola_peserta/uploadImg',array('id'=>'addCompFile'));
+	}
 
     public function uploadImg($name)
     {
-        $config['upload_path'] = './assets/img/kartu/';
+        $config['upload_path'] = './assets/img/';
         $config['allowed_types'] = 'gif|jpg|png';
         $config['file_name'] = $name;
         $this->load->library('upload', $config);
@@ -68,16 +97,16 @@ class Kartu_acara extends Main_Controller {
         if ( ! $this->upload->do_upload('newImg'))
         {
             $error = array(
-                    'status' => 0,
-                    'error' => $this->upload->display_errors()
+                	'status' => 0,
+                	'error' => $this->upload->display_errors()
                 );
             echo json_encode($error);
         }
         else
         {
-            echo json_encode(array(
+			echo json_encode(array(
                 'status' => 1 ,
-                'val' =>  'img/kartu/'.$this->upload->data()['file_name']
+                'val' =>  'img/'.$this->upload->data()['file_name']
             ));
         }
 
@@ -141,10 +170,26 @@ class Kartu_acara extends Main_Controller {
         $result = $this->kartu->deactiveDesign($data);
         echo json_encode($result);
     }
-    
+
+    private function test($data){
+        $this->load->library('ciqrcode');
+
+        ob_start();
+        $params['data'] = $data;
+        $params['level'] = 'H';
+        $this->ciqrcode->generate($params);
+
+        $imgstring = base64_encode(ob_get_clean());
+
+        return $imgstring;
+    }
+
     public function prepareMassPrint()
     {
         $result = $this->kartu->prepareMassPrint($this->getSession('event_id'));
+        for ($i=0; $i < count($result) ; $i++) {
+            $result[$i]->card_id = $this->test($result[$i]->card_id);
+        }
         echo json_encode($result);
     }
 }

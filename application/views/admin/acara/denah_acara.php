@@ -104,7 +104,7 @@
                                     <select id="ddlStatusParticipant" class="form-control">
                                         <option value="0" selected="">Available</option>
                                         <option value="1" selected="">Booking</option>
-                                        <option value="2">Check In</option>
+                                        <!-- <option value="2">Check In</option> -->
                                     </select>
                                 </div>
                             </div>

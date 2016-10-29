@@ -116,32 +116,6 @@ class Home_model extends CI_Model {
 		return $data;
 	}
 
-	public function getParticipantRepresentation($participant_id)
-	{
-		$query = 	"SELECT
-					c.card_id,
-					a.participant_id,
-					b.title_name,
-					a.participant_name,
-					a.phone_num
-
-					FROM participant a
-
-					JOIN titles b
-					ON a.title_id = b.title_id
-					AND b._status <> 'D'
-
-					JOIN card c
-					ON a.participant_id = c.participant_id
-					AND c._status <> 'D'
-
-					WHERE a._status <> 'D'
-					AND a.delegate_to = '".$participant_id."'";
-
-		$data = $this->db->query($query)->result();
-		return $data;
-	}
-
 	public function checkAvailableFacility($group_id, $follower)
 	{
 		$query = 	"SELECT DISTINCT
@@ -212,6 +186,82 @@ class Home_model extends CI_Model {
 					";
 
 		$data = $this->db->query($query)->result();
+		return $data;
+	}
+
+	public function getParticipantRepresentation($participant_id)
+	{
+		$query = 	"SELECT
+					c.card_id,
+					a.participant_id,
+					b.title_name,
+					a.participant_name,
+					a.phone_num,
+					CASE WHEN d.card_id IS NULL THEN 0 ELSE 1 END AS selected
+
+					FROM participant a
+
+					JOIN titles b
+					ON a.title_id = b.title_id
+					AND b._status <> 'D'
+
+					JOIN card c
+					ON a.participant_id = c.participant_id
+					AND c._status <> 'D'
+
+					LEFT JOIN delegate_verification d
+					ON c.card_id = d.card_id
+					AND d._status <> 'D'
+
+					WHERE a._status <> 'D'
+					AND a.delegate_to = '".$participant_id."'";
+
+		$data = $this->db->query($query)->result();
+		return $data;
+	}
+
+	public function directRegistration($data, $facilities)
+	{
+		$query = 	"INSERT INTO participant (
+					participant_name, phone_num, title_id, delegate_to, follower, group_id, _status, _user, _date, event_id, is_confirm
+					) VALUES(?, ?, ?, NULL, ?, ?, 'I', ?, NOW(), ?, '1')";
+
+		$this->db->query($query,array(
+			$data['name'],
+			$data['phone_num'],
+			$data['title'],
+			$data['follower'],
+			$data['group'],
+			$data['user_id'],
+			$data['event_id']
+		));
+		$new_participant_id = $this->db->insert_id();
+
+		if($facilities) {
+			//pencatatan kehadiran baru
+			$query = 	"INSERT INTO verification (
+						card_id, participant_id, verification_date, _status, _user, _date
+						) VALUES('0', ?, STR_TO_DATE(NOW(), '%Y-%m-%d %H:%i:%s'), 'I', ?, NOW())
+						";
+			$data = $this->db->query($query,array(
+				$new_participant_id,
+				$_SESSION['user_id']
+			));
+
+			for ($i=0; $i < count($facilities); $i++) {
+				$query = 	"INSERT INTO participant_facility (
+							event_id, facility_id, participant_id, reserve_at, checkin_at, _status, _user, _date
+							) VALUES(?, ?, ?, NULL, NOW(), 'I', ?, NOW())";
+
+				$this->db->query($query,array(
+					$_SESSION['event_id'],
+					$facilities[$i],
+					$new_participant_id,
+					$_SESSION['user_id']
+				));
+			}
+		}
+
 		return $data;
 	}
 }

@@ -17,7 +17,7 @@ class Kehadiran_model_4 extends CI_Model {
 
 					FROM verification a
 
-					JOIN card b 
+					JOIN card b
 					ON a.card_id = b.card_id
 					AND a._status <> 'D'
 					AND b._status <> 'D'
@@ -26,11 +26,11 @@ class Kehadiran_model_4 extends CI_Model {
 					ON b.participant_id = c.participant_id
 					AND b.event_id = c.event_id
 					AND c._status <> 'D'
-					
+
                     LEFT JOIN titles d
                     ON c.title_id = d.title_id
                     AND	d._status <> 'D'
-                    
+
 					WHERE
 					b.event_id = 1
 					AND a._user = 0
@@ -56,7 +56,7 @@ class Kehadiran_model_4 extends CI_Model {
 						AND a._status <> 'D'
 						AND b._status <> 'D'
 
-						WHERE 
+						WHERE
 						card_id like '".$code."'
 						AND a._status <> 'D'
 
@@ -79,7 +79,7 @@ class Kehadiran_model_4 extends CI_Model {
 						AND a._status <> 'D'
 						AND b._status <> 'D'
 
-						WHERE 
+						WHERE
 						a.card_id like '".$code."'
 
 					) AS checkVerification
@@ -98,12 +98,13 @@ class Kehadiran_model_4 extends CI_Model {
 
 	public function saveVerificationLog($data){
 		$query = 	"INSERT INTO verification
-					(card_id, verification_date, _status, _user, _date)
-					VALUES(?,STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s'),'I',?,NOW())
+					(card_id, participant_id, verification_date, _status, _user, _date)
+					VALUES(?, ?, STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s'),'I',?,NOW())
 					";
 
 		$data = $this->db->query($query,array(
 			$data['card_id'],
+			$data['participant_id'],
 			$data['newDate'],
 			$data['userID']
 		));
@@ -142,7 +143,7 @@ class Kehadiran_model_4 extends CI_Model {
 			$data['card_id']
 		));
 
-		return $data; 
+		return $data;
 	}
 
 	public function getParticipantAttendance(){
@@ -153,7 +154,7 @@ class Kehadiran_model_4 extends CI_Model {
 
 					FROM participant a
 
-					JOIN card b 
+					JOIN card b
 					ON a.participant_id = b.participant_id
 					AND a.event_id = b.event_id
 					AND a._status <> 'D'
@@ -162,14 +163,14 @@ class Kehadiran_model_4 extends CI_Model {
 					LEFT JOIN verification c
 					ON b.card_id = c.card_id
 					AND c._status <> 'D'
-					
+
                     LEFT JOIN titles d
                     ON a.title_id = d.title_id
                     AND	d._status <> 'D'
-                    
+
 					WHERE
 					b.event_id = 1
-                    
+
                     ORDER BY
                     verification_time DESC
 					";

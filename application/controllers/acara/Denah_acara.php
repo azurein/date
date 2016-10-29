@@ -12,10 +12,11 @@ class Denah_acara extends Main_Controller {
 
 	public function index()
 	{
-		$_SESSION['user_id'] = '0';
-		$_SESSION['event_id'] = '1';
-
-		$this->view('admin/acara/denah_acara');
+        if(isset($_SESSION['user_id'])) {
+    		$this->view('admin/acara/denah_acara');
+        } else {
+            header('Location: '.base_url());
+        }
 	}
 
 	public function getAutoCompleteParticipants()
@@ -363,7 +364,7 @@ class Denah_acara extends Main_Controller {
 		$sheetExcel->setCellValue('D2','Group');
 		$sheetExcel->setCellValue('E2','Fasilitas Dari #');
 
-		
+
 
 		$baris = 3;
 		if(!empty($result)){
@@ -381,7 +382,7 @@ class Denah_acara extends Main_Controller {
 			}
 			$baris+=$i-1;
 		}
-		
+
 
 		//atur tampilan
 		$sheetExcel->getColumnDimension('A')->setWidth(10);
@@ -389,7 +390,7 @@ class Denah_acara extends Main_Controller {
 		$sheetExcel->getColumnDimension('C')->setWidth(15);
 		$sheetExcel->getColumnDimension('D')->setWidth(15);
 		$sheetExcel->getColumnDimension('E')->setWidth(15);
-		
+
 		$sheetExcel->getStyle('M3:Q'.$baris)->applyFromArray($hideFont);
 		$sheetExcel->getStyle('A1:E2')->getFont()->setBold(true);
 		//to focus at A2
@@ -665,7 +666,7 @@ class Denah_acara extends Main_Controller {
 							'checkin_at' => (isset($checkin_at[$i])?$checkin_at[$i]:null)
 						);
 						$this->denah_acara->transferFacilityParticipant($transferParam);
-					}				
+					}
 				}
 				echo 'sukses';
 			}else{

@@ -34,7 +34,7 @@
                                     <select id="groupDdl" class="form-control"></select>
                                 </div>
                                 <div class="col-md-3 col-xs-12">
-                                    <label>Follower</label>
+                                    <label>Pendamping</label>
                                     <input id="participantFollower" type="number" class="form-control" name="participantFollower">
                                 </div>
                             </div>
@@ -97,6 +97,8 @@
                     <table id="facilityTable" class="table table-striped table-hover table-condensed">
                         <thead>
                             <tr>
+                                <th>Ruang</th>
+                                <th>Grup</th>
                                 <th>Meja</th>
                                 <th>Kursi</th>
                             </tr>

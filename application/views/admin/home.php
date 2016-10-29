@@ -1,120 +1,11 @@
 
-    <div class="modal fade" role="dialog" tabindex="-1" id="deleteModal">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <p id="deleteName"></p>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary" type="button" data-dismiss="modal">Tidak </button>
-                    <button class="btn btn-success" type="button" id="deleteButton" data-dismiss="modal">Ya </button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" role="dialog" tabindex="-1">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title">Tambah Peserta</h4></div>
-                <div class="modal-body">
-                    <form>
-                        <div class="form-group"><label>Nama Peserta</label>
-                            <div class="row">
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                    <select class="form-control">
-                                        <option value="1" selected="">Mr.</option>
-                                        <option value="2">Ms.</option>
-                                    </select>
-                                </div>
-                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                                    <input class="form-control" type="text">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                                <div class="form-group"><label>Grup </label>
-                                    <select class="form-control">
-                                        <option value="2" selected="">VIP</option>
-                                        <option value="3">Family</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                <div class="form-group"><label>Undangan </label>
-                                    <input class="form-control" type="text">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group"><label>Diwakilkan oleh</label>
-                            <input class="form-control" type="text">
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary" type="button" data-dismiss="modal">Batal </button>
-                    <button class="btn btn-success" type="button">Simpan </button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" role="dialog" tabindex="-1">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title">Ubah Peserta</h4></div>
-                <div class="modal-body">
-                    <form>
-                        <div class="form-group"><label>Nama Peserta</label>
-                            <div class="row">
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                    <select class="form-control">
-                                        <option value="1" selected="">Mr.</option>
-                                        <option value="2">Ms.</option>
-                                    </select>
-                                </div>
-                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                                    <input class="form-control" type="text">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                                <div class="form-group"><label>Grup </label>
-                                    <select class="form-control">
-                                        <option value="2" selected="">VIP</option>
-                                        <option value="3">Family</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                <div class="form-group"><label>Undangan </label>
-                                    <input class="form-control" type="text">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group"><label>Diwakilkan oleh</label>
-                            <input class="form-control" type="text">
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary" type="button" data-dismiss="modal">Batal </button>
-                    <button class="btn btn-success" type="button">Simpan </button>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                 <div class="panel-group" role="tablist" aria-multiselectable="true" id="accordion-2">
                     <div class="panel panel-default">
                         <div class="panel-heading" role="tab">
-                            <h4 class="panel-title"><a role="button" data-toggle="collapse" data-parent="#accordion-2" aria-expanded="false" href="#accordion-2 .item-1">Scan via QR Scanner</a></h4>
+                            <h4 class="panel-title"><a role="button" data-toggle="collapse" data-parent="#accordion-2" aria-expanded="false" href="#accordion-2 .item-1">Scan via QR Scanner <?=$this->session->flashdata('verification_status'); ?></a></h4>
                         </div>
                         <div class="panel-collapse collapse in item-1" role="tabpanel">
                             <div class="well" >
@@ -178,17 +69,18 @@
                 </ul><br>
                 <div class="tab-content">
                     <div id="menu1" class="tab-pane fade in active">
-                        <form id="scannerFormQr">
-                            <input type="text" id="scannerInputQr" class="form-control" autocomplete="off" style="display: none;">
+                        <form id="scannerFormQr" action="<?=base_url()?>verification/verify" method="post">
+                            <input type="text" id="participantID" name="participantID" class="form-control" autocomplete="off" style="display: none;">
+                            <input type="text" id="scannerInputQr" name="scannerInputQr" class="form-control" autocomplete="off" style="display: none;">
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-6 col-xs-12">
                                         <label>Nama Peserta</label>
-                                        <input id="participantName1" type="text" class="form-control" disabled>
+                                        <input id="participantName1" name="participantName1" type="text" class="form-control" required disabled>
                                     </div>
                                     <div class="col-md-6 col-xs-12">
                                         <label>Kontak</label>
-                                        <input id="participantContact1" type="text" class="form-control" disabled>
+                                        <input id="participantContact1" name="participantContact1" type="text" class="form-control" required disabled>
                                     </div>
                                 </div>
                             </div>
@@ -196,15 +88,15 @@
                                 <div class="row">
                                     <div class="col-md-4 col-xs-12">
                                         <label>Grup</label>
-                                        <input id="groupName" class="form-control" disabled>
+                                        <input id="groupName" name="groupName" class="form-control" required disabled>
                                     </div>
                                     <div class="col-md-4 col-xs-12">
-                                        <label>Undangan</label>
-                                        <input id="participantFollower1" type="number" class="form-control" required>
+                                        <label>Pendamping</label>
+                                        <input id="participantFollower1" name="participantFollower1" type="number" class="form-control" required>
                                     </div>
                                     <div class="col-md-4 col-xs-12">
                                         <label>Jumlah Souvenir</label>
-                                        <input id="totalSouvenir" type="number" class="form-control" name="totalSouvenir" required>
+                                        <input id="totalSouvenir" name="totalSouvenir" type="number" class="form-control" required disabled>
                                     </div>
                                 </div>
                             </div>
@@ -243,15 +135,15 @@
                         </form>
                     </div>
                     <div id="menu2" class="tab-pane fade">
-                        <form id="onTheSpotForm">
+                        <form id="onTheSpotForm" action="<?=base_url()?>home/directRegistration" method="post">
                             <div class="form-group">
                                 <label>Nama Peserta</label>
                                 <div class="row">
                                     <div class="col-md-3 col-xs-12">
-                                        <select id="titleDdl" class="form-control"></select>
+                                        <select id="titleDdl" name="titleDdl" class="form-control"></select>
                                     </div>
                                     <div class="col-md-9 col-xs-12">
-                                        <input id="participantName2" type="text" class="form-control" name="participantName2" required>
+                                        <input id="participantName2" name="participantName2" type="text" class="form-control" required>
                                     </div>
                                 </div>
                             </div>
@@ -259,7 +151,7 @@
                                 <label>Kontak</label>
                                 <div class="row">
                                     <div class="col-md-12 col-xs-12">
-                                        <input id="participantContact2" type="text" class="form-control" name="participantContact2">
+                                        <input id="participantContact2" name="participantContact2" type="text" class="form-control">
                                     </div>
                                 </div>
                             </div>
@@ -267,15 +159,15 @@
                                 <div class="row">
                                     <div class="col-md-4 col-xs-12">
                                         <label>Grup</label>
-                                        <select id="groupDdl" class="form-control"></select>
+                                        <select id="groupDdl" name="groupDdl" class="form-control"></select>
                                     </div>
                                     <div class="col-md-4 col-xs-12">
-                                        <label>Undangan</label>
-                                        <input id="participantFollower2" type="number" class="form-control" name="participantFollower2" required>
+                                        <label>Pendamping</label>
+                                        <input id="participantFollower2" name="participantFollower2" type="number" class="form-control" required>
                                     </div>
                                     <div class="col-md-4 col-xs-12">
                                         <label>Jumlah Souvenir</label>
-                                        <input id="totalSouvenir2" type="number" class="form-control" name="totalSouvenir2" required>
+                                        <input id="totalSouvenir2" name="totalSouvenir2" type="number" class="form-control" required>
                                     </div>
                                 </div>
                             </div>
@@ -283,7 +175,7 @@
                                 <button id="checkFacilityBtn" type="button" class="btn btn-info">Cek Ketersediaan</button>
                             </div>
                             <div class="form-group">
-                                <table class="table table-striped table-hover" id="listFacilityTable">
+                                <table class="table table-striped table-hover" id="listFacilityTable2">
                                     <thead>
                                         <tr>
                                             <th>Ruang</th>

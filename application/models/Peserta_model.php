@@ -8,7 +8,7 @@ class Peserta_model extends CI_Model {
 
 	public function getParticipant1($key='', $event_id=''){
 		$query = 	"SELECT DISTINCT
-					c.card_id,
+					COALESCE(c.card_id, '-') AS card_id,
 					a.participant_id,
 					b.title_name,
 					a.participant_name,
@@ -16,12 +16,12 @@ class Peserta_model extends CI_Model {
 					a.group_id,
 					d.group_name,
 					a.follower,
-					COALESCE(DATE_FORMAT(e.verification_date, '%H:%i'),'-') as verification_time,
+					0 as verification_time,
 					a.is_confirm,
 					CASE
-						WHEN f.reserve_at AND f.checkin_at IS NULL	THEN 0
-						WHEN f.checkin_at IS NULL 					THEN 1
-						WHEN f.checkin_at IS NOT NULL				THEN 2
+						WHEN f.reserve_at IS NULL AND f.checkin_at IS NULL	THEN 0
+						WHEN f.checkin_at IS NULL 							THEN 1
+						WHEN f.checkin_at IS NOT NULL						THEN 2
 					END AS facility_status,
 					e.verification_date
 
@@ -32,7 +32,7 @@ class Peserta_model extends CI_Model {
 					AND a._status <> 'D'
 					AND b._status <> 'D'
 
-					JOIN card c
+					LEFT JOIN card c
 					ON a.participant_id = c.participant_id
 					AND c._status <> 'D'
 
@@ -41,8 +41,8 @@ class Peserta_model extends CI_Model {
 					AND d._status <> 'D'
 
                     LEFT JOIN verification e
-                    ON c.card_id = e.card_id
-                    AND e._status <> 'D'
+                    ON a.participant_id = e.participant_id
+					AND e._status <> 'D'
 
 					LEFT JOIN participant_facility f
 					ON a.participant_id = f.participant_id
@@ -90,7 +90,10 @@ class Peserta_model extends CI_Model {
 
 	public function getParticipantFacility($id)
 	{
-		$query = 	"SELECT a.facility_id,
+		$query = 	"SELECT DISTINCT
+					d.canvas_name,
+					e.group_name,
+					a.facility_id,
 					b.facility_name as table_name,
 					a.facility_name as chair_name
 
@@ -104,6 +107,14 @@ class Peserta_model extends CI_Model {
 					JOIN facility b
 					ON a.facility_parent_id = b.facility_id
 					AND b._status <> 'D'
+
+					JOIN canvas d
+					ON a.canvas_id = d.canvas_id
+					AND d._status <> 'D'
+
+					JOIN groups e
+					ON a.group_id = e.group_id
+					AND e._status <> 'D'
 
 					WHERE c.participant_id = '".$id."'
 					";

@@ -17,6 +17,7 @@
 <script type="text/javascript" src="{assets}js/plugin/jspdf.min.js"></script>
 <script type="text/javascript" src="{assets}js/canvas.js"></script>
 <script type="text/javascript" src="{assets}js/html2canvas.js"></script>
+<script type="text/javascript" src="{assets}js/scrollTableBody.js"></script>
 <script type="text/javascript" src="{assets}js/scripts.js"></script>
 <script type="text/javascript" src="{assets}js/page/{page}.js"></script>
 
