@@ -1,4 +1,5 @@
 $(document).ready(function() {
+	$('title').html("D.A.T.E - Pengaturan Acara");
 	$('#StartDate').datetimepicker();
 	$('#EndDate').datetimepicker();
 	getEvent();

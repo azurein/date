@@ -35,6 +35,7 @@ var __idx = {
 };
 
 $(document).ready(function(){
+	$('title').html("D.A.T.E - Kartu Acara");
 	//create canvas
 	__canvas[0] = new fabric.Canvas(__canvas.id[0],{
 		backgroundColor : "white",

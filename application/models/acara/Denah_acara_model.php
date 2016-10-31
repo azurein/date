@@ -641,7 +641,7 @@ class Denah_acara_model extends CI_Model {
 					AND verification._status <> 'D'
 					WHERE facility.event_id = '".$_SESSION['event_id']."'
 					AND facility.facility_parent_id = '".$data['facility_parent_id']."'
-					ORDER BY verification.verification_date DESC";
+					ORDER BY facility.facility_name";
 
 		$data = $this->db->query($query)->result();
 		return $data;

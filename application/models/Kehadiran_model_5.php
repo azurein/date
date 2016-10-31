@@ -98,13 +98,12 @@ class Kehadiran_model_5 extends CI_Model {
 
 	public function saveVerificationLog($data){
 		$query = 	"INSERT INTO verification
-					(card_id, participant_id, verification_date, _status, _user, _date)
+					(card_id, verification_date, _status, _user, _date)
 					VALUES(?, ?, STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s'),'I',?,NOW())
 					";
 
 		$data = $this->db->query($query,array(
 			$data['card_id'],
-			$data['participant_id'],
 			$data['newDate'],
 			$data['userID']
 		));

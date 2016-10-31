@@ -7,6 +7,7 @@ class Home extends Main_Controller {
 	{
 		parent::__construct();
 		$this->load->model("Home_model","home");
+        $this->load->model("Peserta_model","peserta");
 		$this->load->model("acara/Pengaturan_acara_model","pengaturan_acara");
 	}
 
@@ -25,6 +26,12 @@ class Home extends Main_Controller {
         } else {
             header('Location: '.base_url());
         }
+	}
+
+    public function getNewID()
+	{
+		$newid = $this->peserta->getNewID();
+		return $newid;
 	}
 
 	public function getParticipantByCardID()
@@ -60,6 +67,7 @@ class Home extends Main_Controller {
     public function directRegistration()
     {
         $data = array(
+            'new_id' => $this->getNewID(),
             'title' => $this->input->post_get('titleDdl'),
             'name' => $this->input->post_get('participantName2'),
             'phone_num' => $this->input->post_get('participantContact2'),

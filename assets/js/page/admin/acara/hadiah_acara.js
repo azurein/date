@@ -4,9 +4,10 @@ var participantName;
 var actionType;
 
 $(document).ready(function() {
+	$('title').html("D.A.T.E - Hadiah Acara");
 	getPrize();
 
-	$("#btnInsert").unbind('click').click(function(){ 
+	$("#btnInsert").unbind('click').click(function(){
 		loadInsertUpdateModal("Tambah Hadiah");
 	});
 
@@ -174,7 +175,7 @@ function showMessage(text = '')
 	$("#messageModal").modal("show");
 }
 
-function loadInsertUpdateModal(text = "", prizeData = '') 
+function loadInsertUpdateModal(text = "", prizeData = '')
 {
 	$("#insertUpdateTitle").text(text);
 	$("#insertUpdateModal").modal("show");
@@ -214,7 +215,7 @@ function getPrize()
 	});
 }
 
-function getPrizeByID(prize_id) 
+function getPrizeByID(prize_id)
 {
 	$.ajax({
 		type : 'POST',
@@ -247,7 +248,7 @@ function getWinnerByID(prize_id)
 function uploadPrize(prize_id)
 {
 	var formData = new FormData($("#formPrize")[0]);
-	
+
 	$.ajax({
 		type : 'POST',
 		url : BASE_URL + 'acara/Hadiah_acara/uploadPrize',
@@ -285,7 +286,7 @@ function savePrize(data, prize_id)
 	});
 }
 
-function deletePrize(prize_id = '', text = '') 
+function deletePrize(prize_id = '', text = '')
 {
 	$("#deleteTitle").text(text);
 	$("#deleteModal").modal("show");
@@ -328,20 +329,20 @@ function populateTablePrize(data)
 			delay: 500,
 			placement: 'left',
 			title: '<p align="left">Deskripsi:<br>'+ data[i].prize_descr +'</p>'
-		}); 
+		});
 	}
-	
-	$(".showImage").click(function(e){ 
+
+	$(".showImage").click(function(e){
 		var text = $(this).parent().siblings(".name").text();
 		var imagePath = $(this).attr("imagePath");
 		loadImage(text, imagePath);
 	});
 
-	$(".showWinner").click(function(e){ 
+	$(".showWinner").click(function(e){
 		showWinner();
 	});
 
-	$(".settingButton").click(function(){ 
+	$(".settingButton").click(function(){
 		$("#settingModal").modal("show");
 
 		$('.templateParticipant').empty();
@@ -420,11 +421,11 @@ function populateTablePrize(data)
 	$(".editButton").unbind('click').click(function(){
 		getPrizeByID($(this).parent().parent().attr("value"));
 	});
-	
+
 	$(".deleteButton").unbind('click').click(function(){
 		deletePrize($(this).parent().parent().attr("value"), "Anda yakin menghapus hadiah "+ $(this).parent().siblings(".name").text() +"?");
 	});
-	
+
 	$('#prizeDataTable').DataTable({
 		"order"		: [[ 3, "desc" ]],
 		"columnDefs": [{
@@ -441,10 +442,10 @@ function populateTableWinner(data)
 
 	// for(var i = 0 ; i < data.length ; i++)
 	// {
-	// 	$('#contentWinner').append('<tr><td>' + data[i].card_id + '</td><td>' + data[i].participant_name + '</td><td>' 
+	// 	$('#contentWinner').append('<tr><td>' + data[i].card_id + '</td><td>' + data[i].participant_name + '</td><td>'
 	// 		+ data[i].group_name + '</td></tr>');
 	// }
-	
+
 	// $('#winnerDataTable').DataTable({
 	// 	"order"		: [[ 0, "asc" ]],
 	// });

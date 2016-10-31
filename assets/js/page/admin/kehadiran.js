@@ -1,5 +1,5 @@
 $(document).ready(function() {
-
+    $('title').html("D.A.T.E - Kehadiran");
 	getVerificationLog();
 
 	$("#exportButton").click(function(){

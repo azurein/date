@@ -225,7 +225,6 @@ class Home_model extends CI_Model {
 		$query = 	"INSERT INTO participant (
 					participant_name, phone_num, title_id, delegate_to, follower, group_id, _status, _user, _date, event_id, is_confirm
 					) VALUES(?, ?, ?, NULL, ?, ?, 'I', ?, NOW(), ?, '1')";
-
 		$this->db->query($query,array(
 			$data['name'],
 			$data['phone_num'],
@@ -237,14 +236,25 @@ class Home_model extends CI_Model {
 		));
 		$new_participant_id = $this->db->insert_id();
 
+		$query = 	"INSERT INTO card
+					(card_id,participant_id,_status,_user,_date,event_id)
+					VALUES(?,?,'I',?,NOW(),?)
+					";
+		$this->db->query($query,array(
+			$data['new_id'],
+			$new_participant_id,
+			$data['user_id'],
+			$data['event_id']
+		));
+
 		if($facilities) {
 			//pencatatan kehadiran baru
 			$query = 	"INSERT INTO verification (
-						card_id, participant_id, verification_date, _status, _user, _date
-						) VALUES('0', ?, STR_TO_DATE(NOW(), '%Y-%m-%d %H:%i:%s'), 'I', ?, NOW())
+						card_id, verification_date, _status, _user, _date
+						) VALUES(?, STR_TO_DATE(NOW(), '%Y-%m-%d %H:%i:%s'), 'I', ?, NOW())
 						";
 			$data = $this->db->query($query,array(
-				$new_participant_id,
+				$data['new_id'],
 				$_SESSION['user_id']
 			));
 

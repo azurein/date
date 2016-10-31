@@ -1,5 +1,5 @@
 $(document).ready(function() {
-
+    $('title').html("D.A.T.E - Home");
     loadDllData();
     $("#scannerFormQrSubmit").hide();
     $("#onTheSpotFormSubmit").hide();
@@ -179,10 +179,12 @@ function getParticipantRepresentation(participant_id) {
         },
         success : function(data){
             var checkbox = '';
+            $("#totalSouvenir").val(1);
             $('#listRepresentationContent').html("");
             for(var i = 0 ; i < data.length ; i++) {
                 if(data[i].selected == 1) {
                     checkbox = '<input type="checkbox" class="selectRepresentation" name="selectRepresentation[]" value="'+ data[i].card_id +'" checked>';
+                    $("#totalSouvenir").val(parseInt($("#totalSouvenir").val())+1);
                 } else {
                     checkbox = '<input type="checkbox" class="selectRepresentation" name="selectRepresentation[]" value="'+ data[i].card_id +'">';
                 }
@@ -196,11 +198,10 @@ function getParticipantRepresentation(participant_id) {
             //         checkbox.prop('checked', 'true');
             //     }
             // });
-            $("#totalSouvenir").val(1);
         }
     });
 
-    $(document).off('change').on('change', '.selectRepresentation', function(){
+    $("#listRepresentationTable").off('change').on('change', '.selectRepresentation', function(){
         if($(this).is(':checked')) {
             $("#totalSouvenir").val(parseInt($("#totalSouvenir").val())+1);
         } else {
@@ -223,7 +224,7 @@ function checkAvailableFacility() {
             'follower' : follower
         },
         success : function(data){
-            if(follower != "" && follower > 0 && data.length > follower++) {
+            if(follower != "" && follower >= 0 && data.length > follower++) {
                 for(var i = 0 ; i < data.length ; i++) {
                     $('#listFacilityContent2').append('<tr value="'+ data[i].facility_id +'"><td>'+ data[i].canvas_name +'</td><td>'+ data[i].group_name +'</td><td>'+ data[i].table_name +'</td><td>'+ data[i].chair_name +'</td><td><input type="checkbox" class="selectFacility2" name="selectFacility2[]" value="'+ data[i].facility_id +'"></td></tr>');
                 }

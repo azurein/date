@@ -2,6 +2,7 @@ var string = [];
 var map = {};
 
 $(document).ready(function() {
+    $('title').html("D.A.T.E - Operator");
 	getOperator();
 
 	$("#addButton").click(function(){

@@ -105,7 +105,6 @@ class KehadiranSync extends Main_Controller {
 		$data = array(
 			'newDate' => $newDate,
 			'card_id' => $this->input->post_get('card_id'),
-			'participant_id' => $this->input->post_get('participant_id'),
 			'userID' => $_SESSION['user_id']
 		);
 

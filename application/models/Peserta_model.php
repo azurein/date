@@ -8,7 +8,7 @@ class Peserta_model extends CI_Model {
 
 	public function getParticipant1($key='', $event_id=''){
 		$query = 	"SELECT DISTINCT
-					COALESCE(c.card_id, '-') AS card_id,
+					c.card_id,
 					a.participant_id,
 					b.title_name,
 					a.participant_name,
@@ -16,7 +16,7 @@ class Peserta_model extends CI_Model {
 					a.group_id,
 					d.group_name,
 					a.follower,
-					0 as verification_time,
+					COALESCE(DATE_FORMAT(e.verification_date, '%H:%i'), '-') as verification_time,
 					a.is_confirm,
 					CASE
 						WHEN f.reserve_at IS NULL AND f.checkin_at IS NULL	THEN 0
@@ -32,7 +32,7 @@ class Peserta_model extends CI_Model {
 					AND a._status <> 'D'
 					AND b._status <> 'D'
 
-					LEFT JOIN card c
+					JOIN card c
 					ON a.participant_id = c.participant_id
 					AND c._status <> 'D'
 
@@ -41,7 +41,7 @@ class Peserta_model extends CI_Model {
 					AND d._status <> 'D'
 
                     LEFT JOIN verification e
-                    ON a.participant_id = e.participant_id
+                    ON c.card_id = e.card_id
 					AND e._status <> 'D'
 
 					LEFT JOIN participant_facility f

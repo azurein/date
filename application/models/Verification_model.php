@@ -17,12 +17,11 @@ class Verification_model extends CI_Model {
 
 		//pencatatan kehadiran baru
 		$query = 	"INSERT INTO verification (
-					card_id, participant_id, verification_date, _status, _user, _date
-					) VALUES(?, ?, STR_TO_DATE(NOW(), '%Y-%m-%d %H:%i:%s'), 'I', ?, NOW())
+					card_id, verification_date, _status, _user, _date
+					) VALUES(?, STR_TO_DATE(NOW(), '%Y-%m-%d %H:%i:%s'), 'I', ?, NOW())
 					";
 		$data = $this->db->query($query,array(
 			$card_id,
-			$participant_id,
 			$_SESSION['user_id']
 		));
 

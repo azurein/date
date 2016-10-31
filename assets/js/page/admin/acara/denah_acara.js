@@ -12,6 +12,7 @@ var currentParticipant;
 //---------------
 
 $(document).ready(function(){
+    $('title').html("D.A.T.E - Denah Acara");
 	$('#btnAddFacility').click(function(){
 		$("#addEditModal").modal("show");
 		currentAction = 'add';
