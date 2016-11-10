@@ -65,7 +65,9 @@
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                 <ul class="nav nav-tabs">
                     <li id="tab-menu1" class="active"><a data-toggle="tab" href="#menu1">Verifikasi</a></li>
-                    <li id="tab-menu2"><a data-toggle="tab" href="#menu2">Daftar ditempat</a></li>
+                    <?php if ($_SESSION['privilege'] == 1) { ?>
+                        <li id="tab-menu2"><a data-toggle="tab" href="#menu2">Daftar ditempat</a></li>
+                    <?php } ?>
                 </ul><br>
                 <div class="tab-content">
                     <div id="menu1" class="tab-pane fade in active">

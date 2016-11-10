@@ -72,7 +72,7 @@
                         <li class="main-menu" role="presentation"><a href="<?php echo base_url(); ?>peserta">Peserta</a></li>
                         <?php
                         if ($_SESSION['privilege'] == 1) { ?>
-                        <li class="main-menu" role="presentation"><a href="<?php echo base_url(); ?>undian">Undian</a></li>
+                        <li class="main-menu" role="presentation"><a href="<?php echo base_url(); ?>undian" target="_blank">Undian</a></li>
                         <li class="main-menu" role="presentation"><a href="<?php echo base_url(); ?>operator">Operator</a></li>
                         <?php
                         } ?>

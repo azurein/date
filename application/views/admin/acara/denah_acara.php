@@ -190,15 +190,23 @@
                     <div class="input-group input-group-denah">
                         <div class="input-group-btn">
                             <button id="btnPrevCanvas" class="btn btn-default" type="button"> <i class="fa fa-arrow-left"></i></button>
-                            <button id="btnAddFacility" class="btn btn-default" type="button"> <i class="fa fa-sitemap"></i></button>
+                            <?php if ($_SESSION['privilege'] == 1) { ?>
+                                <button id="btnAddFacility" class="btn btn-default" type="button"> <i class="fa fa-sitemap"></i></button>
+                            <?php } ?>
                             <button id="btnDownloadExcel" class="btn btn-default" type="button"> <i class="fa fa-download"></i></button>
-                            <button id="btnUploadExcel" class="btn btn-default" type="button"> <i class="fa fa-upload"></i></button>
+                            <?php if ($_SESSION['privilege'] == 1) { ?>
+                                <button id="btnUploadExcel" class="btn btn-default" type="button"> <i class="fa fa-upload"></i></button>
+                            <?php } ?>
                         </div>
                         <input id="txtCanvasName"  class="form-control" type="text">
                         <div class="input-group-btn">
-                            <button id="btnUploadCanvasImage" class="btn btn-default" type="button"> <i class="fa fa-image"></i></button>
+                            <?php if ($_SESSION['privilege'] == 1) { ?>
+                                <button id="btnUploadCanvasImage" class="btn btn-default" type="button"> <i class="fa fa-image"></i></button>
+                            <?php } ?>
                             <button id="btnPrintCanvas" class="btn btn-default" type="button"> <i class="fa fa-print"></i></button>
-                            <button id="btnDeleteCanvasVerification" class="btn btn-default" type="button"> <i class="fa fa-trash"></i></button>
+                            <?php if ($_SESSION['privilege'] == 1) { ?>
+                                <button id="btnDeleteCanvasVerification" class="btn btn-default" type="button"> <i class="fa fa-trash"></i></button>
+                            <?php } ?>
                             <button id="btnNextCanvas" class="btn btn-default" type="button"> <i class="fa fa-arrow-right"></i></button>
                         </div>
                     </div>
@@ -254,7 +262,9 @@
         </div>
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div class="panel-group" role="tablist" aria-multiselectable="true" id="accordionFacility">
+                <?php if ($_SESSION['privilege'] == 1) { ?>
+                    <div class="panel-group" role="tablist" aria-multiselectable="true" id="accordionFacility">
+                <?php } ?>
                 </div>
             </div>
         </div>

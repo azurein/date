@@ -317,11 +317,16 @@ function populateTablePrize(data)
 	for(var i = 0 ; i < data.length ; i++)
 	{
 		var imageHTML = '<td>-</td>';
+		var actions = ''
 
 		if(data[i].prize_img!="")
 			var imageHTML = '<td><i class="fa fa-image showImage" imagePath="'+data[i].prize_img+'"></i></td>';
 
-		$('#contentTable').append('<tr value="'+data[i].prize_id+'" totalwinner="'+data[i].total_winner+'"><td class="name"><a href="#" id="name'+i+'">'+data[i].prize_name+'</a></td>'+imageHTML+'<td>'+data[i].prize_priority+'</td><td>'+data[i].total_winner+'</td><td><i class="fa fa-trophy showWinner"></i></td><td><i class="glyphicon glyphicon-cog settingButton"></i> <i class="glyphicon glyphicon-pencil editButton"></i><i class="glyphicon glyphicon-trash deleteButton"></i></td></tr>');
+		if(PRIVILEGE == 1) {
+			actions = '<i class="glyphicon glyphicon-cog settingButton"></i> <i class="glyphicon glyphicon-pencil editButton"></i><i class="glyphicon glyphicon-trash deleteButton"></i>';
+		}
+
+		$('#contentTable').append('<tr value="'+data[i].prize_id+'" totalwinner="'+data[i].total_winner+'"><td class="name"><a href="#" id="name'+i+'">'+data[i].prize_name+'</a></td>'+imageHTML+'<td>'+data[i].prize_priority+'</td><td>'+data[i].total_winner+'</td><td><i class="fa fa-trophy showWinner"></i></td><td>'+ actions +'</td></tr>');
 
 		$("#name"+i).tooltip({
 			html: true,

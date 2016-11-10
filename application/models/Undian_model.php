@@ -6,8 +6,8 @@ class Undian_model extends CI_Model {
 		$this->db = $this->load->database('default',TRUE);
 	}
 
-  public function getAllParticipant($param){
-    $query = "
+	public function getAllParticipant($param){
+		$query = "
 		SELECT
 		SUBSTRING_INDEX(c.card_id,'-',-1) AS participant_name,
 		p.participant_id
@@ -22,13 +22,13 @@ class Undian_model extends CI_Model {
 		AND p.event_id = ".$param['event_id']."
 
 		ORDER BY p.participant_id
-    ";
+		";
 
-    return $this->db->query($query)->result();
-  }
+		return $this->db->query($query)->result();
+	}
 
-  public function getAllRightfulParticipant($param){
-    $query = "
+	public function getAllRightfulParticipant($param){
+		$query = "
 		SELECT
 		SUBSTRING_INDEX(c.card_id,'-',-1) AS participant_name,
 		p.participant_id
@@ -53,34 +53,33 @@ class Undian_model extends CI_Model {
 		AND p.event_id = ".$param['event_id']."
 
 		ORDER BY p.participant_id
-    ";
+		";
 
-    return $this->db->query($query)->result();
-  }
+		return $this->db->query($query)->result();
+	}
 
-  public function getPrize($event_id,$idx){
-    $query = "
-      SELECT
+	public function getPrize($event_id,$idx){
+		$query = "
+		SELECT
+		p.prize_id,
+		p.prize_descr,
+		p.prize_img,
+		p.prize_name,
+		p.total_winner
 
-        p.prize_id,
-        p.prize_descr,
-        p.prize_img,
-        p.prize_name,
-        p.total_winner
+		FROM prize p
 
-      FROM prize p
+		WHERE p._status <> 'D'
+		AND p.event_id = '".$event_id."'
 
-      WHERE p._status <> 'D'
-      AND p.event_id = '".$event_id."'
+		ORDER BY prize_priority DESC LIMIT ".$idx.",1
+		";
 
-      ORDER BY prize_priority DESC LIMIT ".$idx.",1
-    ";
+		return $this->db->query($query)->result();
+	}
 
-    return $this->db->query($query)->result();
-  }
-
-  public function getLotteryResult($prize_id){
-    $query = "
+	public function getLotteryResult($prize_id){
+		$query = "
 		SELECT
 
 		SUBSTRING_INDEX(c.card_id,'-',-1) AS participant_name,
@@ -102,48 +101,48 @@ class Undian_model extends CI_Model {
 
 		WHERE l.prize_id = ".$prize_id."
 		AND l._status <> 'D'
-    ";
+		";
 
-    return $this->db->query($query)->result();
-  }
+		return $this->db->query($query)->result();
+	}
 
-  public function getNextAvailability($event_id,$idx){
-    $query = "
-      SELECT IF (
-        EXISTS(
-          SELECT 1
-          FROM prize
-          WHERE _status <> 'D'
-          AND event_id = '".$event_id."'
+	public function getNextAvailability($event_id,$idx){
+		$query = "
+		SELECT IF (
+			EXISTS(
+				SELECT 1
+				FROM prize
+				WHERE _status <> 'D'
+				AND event_id = '".$event_id."'
 
-          ORDER BY prize_priority DESC LIMIT ".$idx.",1
-        ),
-        TRUE,
-        FALSE
-      )as available
-    ";
+				ORDER BY prize_priority DESC LIMIT ".$idx.",1
+			),
+			TRUE,
+			FALSE
+		) as available
+		";
 
-    return $this->db->query($query)->result()[0]->available;
-  }
+		return $this->db->query($query)->result()[0]->available;
+	}
 
-  public function getSetting($prize_id){
-    $query = "
-      SELECT
+	public function getSetting($prize_id){
+		$query = "
+		SELECT
 
-        group_id,
-        participant_id
+		group_id,
+		participant_id
 
-      FROM prize_setting
+		FROM prize_setting
 
-      WHERE _status <> 'D'
-      AND prize_id = '".$prize_id."'
-    ";
+		WHERE _status <> 'D'
+		AND prize_id = '".$prize_id."'
+		";
 
-    return $this->db->query($query)->result();
-  }
+		return $this->db->query($query)->result();
+	}
 
-  public function getWinnersbyParticipantID($participant_id,$prize_id){
-    $query = "
+	public function getWinnersbyParticipantID($participant_id,$prize_id){
+		$query = "
 		SELECT
 
 		SUBSTRING_INDEX(c.card_id,'-',-1) AS participant_name,
@@ -173,13 +172,13 @@ class Undian_model extends CI_Model {
 		AND win.participant_id IS NULL
 		AND willwin.participant_id IS NULL
 		AND p.participant_id = ".$participant_id."
-    ";
+		";
 
-    return $this->db->query($query)->result();
-  }
+		return $this->db->query($query)->result();
+	}
 
-  public function getWinnersbyGroupID($group_id,$prize_id,$row){
-    $query = "
+	public function getWinnersbyGroupID($group_id,$prize_id,$row){
+		$query = "
 		SELECT
 
 		SUBSTRING_INDEX(c.card_id,'-',-1) AS participant_name,
@@ -210,51 +209,51 @@ class Undian_model extends CI_Model {
 		AND willwin.participant_id IS NULL
 		AND p.group_id in (";
 
-    for($i = 0 ; $i < count($group_id) ; $i++){
-      if($i>0){
-        $query.= ",";
-      }
-      $query.=  $group_id[$i];
-    }
+		for($i = 0 ; $i < count($group_id) ; $i++){
+			if($i>0){
+				$query.= ",";
+			}
+			$query.=  $group_id[$i];
+		}
 
 		$query .= ") ORDER BY RAND() LIMIT ".$row."";
 
-    return $this->db->query($query)->result();
-  }
+		return $this->db->query($query)->result();
+	}
 
-  public function insertLottery($data){
-    $query = "
-      INSERT INTO lottery (
-        participant_id,
-        prize_id,
-        _status,
-        _user,
-        _date
-      )
-      VALUES (
-        ?,?,'I',?,NOW()
-      )
-    ";
+	public function insertLottery($data){
+		$query = "
+		INSERT INTO lottery (
+			participant_id,
+			prize_id,
+			_status,
+			_user,
+			_date
+			)
+		VALUES (
+			?,?,'I',?,NOW()
+		)
+		";
 
-    return $this->db->query($query,array(
-      $data['participant_id'],
-      $data['prize_id'],
-      $data['user_id']
-    ));
-  }
+		return $this->db->query($query,array(
+			$data['participant_id'],
+			$data['prize_id'],
+			$data['user_id']
+		));
+	}
 
-  public function deletePrevData($prize_id, $participant_id){
+	public function deletePrevData($prize_id, $participant_id){
 
-  	if (isset($participant_id)) {
-  		foreach ($participant_id as $key) {
-		  $query = "UPDATE lottery
-		  SET _status = 'D'
-		  WHERE prize_id = '".$prize_id."'
-		  AND participant_id = '".$key."'
-		  AND _status <> 'D'";
+		if (isset($participant_id)) {
+			foreach ($participant_id as $key) {
+				$query = "UPDATE lottery
+				SET _status = 'D'
+				WHERE prize_id = '".$prize_id."'
+				AND participant_id = '".$key."'
+				AND _status <> 'D'";
 
-		  $this->db->query($query);
-	  	}
-  	}
-  }
+				$this->db->query($query);
+			}
+		}
+	}
 }

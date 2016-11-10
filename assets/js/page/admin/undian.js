@@ -11,6 +11,7 @@ var old_data = [];
 
 $(document).ready(function(){
     init();
+    $('nav').hide();
 
     $('body').on('click', '.fa-close', function() {
         var key = $(this).parent().data('id');
