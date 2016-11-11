@@ -71,7 +71,7 @@
                 </ul><br>
                 <div class="tab-content">
                     <div id="menu1" class="tab-pane fade in active">
-                        <form id="scannerFormQr" action="<?=base_url()?>verification/verify" method="post">
+                        <form id="scannerFormQr" action="<?=base_url()?>verificationSync/verify" method="post">
                             <input type="text" id="participantID" name="participantID" class="form-control" autocomplete="off" style="display: none;">
                             <input type="text" id="scannerInputQr" name="scannerInputQr" class="form-control" autocomplete="off" style="display: none;">
                             <div class="form-group">
@@ -137,7 +137,7 @@
                         </form>
                     </div>
                     <div id="menu2" class="tab-pane fade">
-                        <form id="onTheSpotForm" action="<?=base_url()?>home/directRegistration" method="post">
+                        <form id="onTheSpotForm" action="<?=base_url()?>homeSync/directRegistration" method="post">
                             <div class="form-group">
                                 <label>Nama Peserta</label>
                                 <div class="row">

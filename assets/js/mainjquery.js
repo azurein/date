@@ -1,5 +1,5 @@
 /*!
- * WebCodeCamJQuery 2.1.0 javascript Bar-Qr code decoder 
+ * WebCodeCamJQuery 2.1.0 javascript Bar-Qr code decoder
  * Author: Tóth András
  * Web: http://atandrastoth.co.uk
  * email: atandrastoth@gmail.com
@@ -43,7 +43,8 @@
             scannedQR.text(res.format + ": " + res.code);
 
             // additional code for card verification log insertion
-            checkCard(res.code); 
+            checkCard(res.code);
+            $("#scannerInputQr2").val(res.code);
             //$("#verification-log").append('<tr><td>'+res.code+'</td><td>Ms. xxxxx xxxxx</td><td>hh:mm:ss</td><td><i class="glyphicon glyphicon-trash"></i></td></tr>');
         },
         getDevicesError: function(error) {

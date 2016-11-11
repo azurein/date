@@ -7,29 +7,7 @@ $(document).ready(function() {
     $("#scannerFormQr2").submit(function(e){
         e.preventDefault();
         var card_id = $("#scannerInputQr2").val();
-        $.ajax({
-            type : 'POST',
-            url : BASE_URL + 'Kehadiran/checkVerification',
-            dataType : 'json',
-            data : {
-                'card_id'       : card_id
-            },
-            success : function(data){
-                if(data[0].checkVerification == 0) {
-                    $("#scannerInputQr").val(card_id);
-                    getParticipantByCardID(card_id);
-                } else {
-                    var r = confirm("Kartu "+card_id+" sudah diverfikasi, apakah ingin perbarui verifikasi?");
-                    if (r == true) {
-                        $("#scannerInputQr").val(card_id);
-                        getParticipantByCardID(card_id);
-                    } else {
-                        $("#scannerInputQr2").val("");
-                        $("#scannerInputQr").val("");
-                    }
-                }
-            }
-        });
+        checkCard(card_id);
     });
 
     $("#checkFacilityBtn").click(function() {
@@ -45,6 +23,32 @@ $(document).ready(function() {
     });
 
 });
+
+function checkCard(card_id){
+    $.ajax({
+        type : 'POST',
+        url : BASE_URL + 'Kehadiran/checkVerification',
+        dataType : 'json',
+        data : {
+            'card_id'       : card_id
+        },
+        success : function(data){
+            if(data[0].checkVerification == 0) {
+                $("#scannerInputQr").val(card_id);
+                getParticipantByCardID(card_id);
+            } else {
+                var r = confirm("Kartu "+card_id+" sudah diverfikasi, apakah ingin perbarui verifikasi?");
+                if (r == true) {
+                    $("#scannerInputQr").val(card_id);
+                    getParticipantByCardID(card_id);
+                } else {
+                    $("#scannerInputQr2").val("");
+                    $("#scannerInputQr").val("");
+                }
+            }
+        }
+    });
+}
 
 function loadDllData(){
     $.ajax({
