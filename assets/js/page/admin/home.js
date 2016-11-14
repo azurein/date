@@ -36,8 +36,17 @@ function checkCard(card_id){
             if(data[0].checkVerification == 0) {
                 $("#scannerInputQr").val(card_id);
                 getParticipantByCardID(card_id);
-            } else {
+            } else if(data[0].checkVerification == 1) {
                 var r = confirm("Kartu "+card_id+" sudah diverfikasi, apakah ingin perbarui verifikasi?");
+                if (r == true) {
+                    $("#scannerInputQr").val(card_id);
+                    getParticipantByCardID(card_id);
+                } else {
+                    $("#scannerInputQr2").val("");
+                    $("#scannerInputQr").val("");
+                }
+            } else if(data[0].checkVerification == 2) {
+                var r = confirm("Kartu "+card_id+" sudah diwakilkan oleh "+data[0].title_name +" "+data[0].participant_name+" apakah ingin perbarui verifikasi?");
                 if (r == true) {
                     $("#scannerInputQr").val(card_id);
                     getParticipantByCardID(card_id);
@@ -105,6 +114,8 @@ function getParticipantByCardID(card_id){
 
             } else {
                 alert('Kartu '+card_id+' tidak terdaftar');
+                $("#scannerInputQr2").val("");
+                $("#scannerInputQr").val("");
             }
 		}
 	});

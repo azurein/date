@@ -50,6 +50,19 @@ class VerificationSync extends Main_Controller {
         }
     }
 
+    // Function to check response time
+    public function ping($host,$port=80,$timeout=1) {
+        $fsock = fsockopen($host, $port, $errno, $errstr, $timeout);
+        if (!$fsock) {
+            // fclose();
+            return FALSE;
+        }
+        else {
+            // fclose();
+            return TRUE;
+        }
+    }
+
 	public function verify()
 	{
         $participant_id = $this->input->post_get('participantID');
@@ -87,7 +100,11 @@ class VerificationSync extends Main_Controller {
 			$this->verification_5->verify($participant_id, $card_id, $follower, $fixed_facilites, $canceled_facilities, $additional_facilities, $followers);
 		}
 
-        $this->printStruk($data);
+        $data = array(
+            'followers' => count($followers)
+        );
+
+        // $this->printStruk($data);
 
         $this->view('admin/home');
 	}
@@ -101,7 +118,7 @@ class VerificationSync extends Main_Controller {
     public function printStruk($data)
     {
         /* Open the printer; this will change depending on how it is connected */
-        $connector = new FilePrintConnector("//ROBINCOSAMAS-PC/pos58");
+        $connector = new FilePrintConnector("//DESKTOP-9LH513E/POS58 10.0.0.6");
         $printer = new Printer($connector);
 
         /* Date is kept the same for testing */
@@ -135,7 +152,7 @@ class VerificationSync extends Main_Controller {
         $printer -> setTextSize(2, 2);
         $printer -> text("Table : ".$data[0]['table_name']."\n");
         $printer -> selectPrintMode();
-        $printer -> text("Number of Coming Guest(s) : ".$data[0]['follower']."\n\n");
+        $printer -> text("Number of Coming Guest(s) : ".$data[0]['follower']++."\n\n");
 
         /* Peserta, Doorprize */
         $printer -> setJustification();
@@ -147,7 +164,7 @@ class VerificationSync extends Main_Controller {
 
         /* Footer */
         $printer -> selectPrintMode(Printer::MODE_DOUBLE_WIDTH);
-        $printer -> text("Souvenir : 1\n");
+        $printer -> text("Souvenir : ".$data[0]['lottery_num']++."\n");
         $printer -> selectPrintMode();
         $printer -> text("*Please show this ticket to our usher\n\n\n\n\n");
 

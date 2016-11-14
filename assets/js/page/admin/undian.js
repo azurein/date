@@ -12,13 +12,17 @@ var old_data = [];
 $(document).ready(function(){
     init();
     $('nav').hide();
-
     $('body').on('click', '.fa-close', function() {
         var key = $(this).parent().data('id');
         participant = $.grep(participant,function(e){
             return e.participant_id != key;
         });
         $(this).parent().parent().remove();
+
+        //update class to fit size
+        if($('.lottery-col').length == 1){
+            $('.lottery-col').removeClass('col-lg-6 col-md-6 col-sm-6 lottery-col').addClass('col-lg-12 col-md-12 col-sm-12 lottery-col-single');
+        }
     });
 });
 

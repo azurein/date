@@ -224,8 +224,10 @@ function populateTableParticipant(data){
 	$('#participantDataTable').DataTable().destroy();
 	$('#contentTable').empty();
 
-	var actions = '';
-	if(PRIVILEGE == 1) { actions = '<i class="editButton glyphicon glyphicon-pencil"></i><i class="deleteButton glyphicon glyphicon-trash"></i>'; }
+    var actions = '';
+    if (PRIVILEGE == 1) {
+        actions = '<i class="deleteButton glyphicon glyphicon-trash"></i>';
+    }
 
 	for(var i = 0 ; i < data.length ; i++)
 	{
@@ -238,14 +240,14 @@ function populateTableParticipant(data){
 
 		var followerBadge = "";
 		if(data[i].facility_status == 0) {
-			followerBadge = '<span class="badge" style="background-color: #cc0000; cursor: pointer">'+ data[i].follower +'</span>';
+			followerBadge = '<span class="badge" style="background-color: #cc0000; cursor: pointer"><span style="display:none">1</span>'+ data[i].follower +'</span>';
 		} else if(data[i].facility_status == 1) {
-			followerBadge = '<span class="badge" style="background-color: #ff8533; cursor: pointer">'+ data[i].follower +'</span>';
+			followerBadge = '<span class="badge" style="background-color: #ff8533; cursor: pointer"><span style="display:none">2</span>'+ data[i].follower +'</span>';
 		} else {
-			followerBadge = '<span class="badge" style="background-color: #33cc00; cursor: pointer">'+ data[i].follower +'</span>';
+			followerBadge = '<span class="badge" style="background-color: #33cc00; cursor: pointer"><span style="display:none">3</span>'+ data[i].follower +'</span>';
 		}
 
-		$('#contentTable').append('<tr value="'+data[i].participant_id+'"><td><span class="card" style="cursor:hand;">'+ data[i].card_id +'</span></td><td class="name">'+ data[i].title_name + data[i].participant_name +'</td><td>'+ data[i].phone_num +'</td><td value="'+data[i].group_id+'">'+ data[i].group_name +'</td><td>'+ followerBadge +'</td><td>'+ data[i].verification_time +'</td><td>'+ activeflag +'</td><td>'+ actions +'</td></tr>');
+		$('#contentTable').append('<tr value="'+data[i].participant_id+'"><td><span class="card" style="cursor:hand;">'+ data[i].card_id +'</span></td><td class="name">'+ data[i].title_name + data[i].participant_name +'</td><td>'+ data[i].phone_num +'</td><td value="'+data[i].group_id+'">'+ data[i].group_name +'</td><td>'+ followerBadge +'</td><td>'+ data[i].verification_time +'</td><td>'+ activeflag +'</td><td><i class="editButton glyphicon glyphicon-pencil"></i>'+ actions +'</td></tr>');
 	}
 
 	$(".card").click(function(){

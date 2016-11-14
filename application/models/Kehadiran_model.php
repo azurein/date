@@ -76,21 +76,37 @@ class Kehadiran_model extends CI_Model {
 	}
 
 	public function checkVerification($code){
-		$query = 	"SELECT EXISTS (
+		$query = 	"
+					SELECT
+						CASE WHEN c.card_id IS NOT NULL THEN 2
+						WHEN b.card_id IS NOT NULL THEN 1
+						ELSE 0
+					END AS checkVerification,
+					e.title_name,
+					d.participant_name
 
-						SELECT 1
+					FROM card a
 
-						FROM card a
+					LEFT JOIN verification b
+					ON a.card_id = b.card_id
+					AND b.card_id like '".$code."'
+					AND a._status <> 'D'
+					AND b._status <> 'D'
 
-						JOIN verification b
-						ON a.card_id = b.card_id
-						AND a._status <> 'D'
-						AND b._status <> 'D'
+					LEFT JOIN delegate_verification c
+					ON a.card_id = c.card_id
+					AND c.card_id like '".$code."'
+					AND c._status <> 'D'
 
-						WHERE
-						a.card_id like '".$code."'
+					LEFT JOIN participant d
+					ON c.delegate_to = d.delegate_to
+					AND d._status <> 'D'
 
-					) AS checkVerification
+					LEFT JOIN titles e
+					ON d.title_id = e.title_id
+					AND e._status <> 'D'
+
+					WHERE a.card_id like '".$code."'
 					";
 
 		$data = $this->db->query($query)->result_array();

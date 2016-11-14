@@ -112,11 +112,11 @@ input.input-file{
 div.row.lottery-bg {
     text-align:center;
 }
- 
+
 span.label.label-default.label-candidate {
     font-size:3em;
 }
- 
+
 span.label.label-default.winner-candidate {
     font-size:1.5em;
     padding:1em 1em;
@@ -124,15 +124,15 @@ span.label.label-default.winner-candidate {
     display:block;
     background:rgba(0, 0, 0, 0.5);
 }
- 
+
 div.bottom-buffer {
     margin-bottom:5em;
 }
- 
+
 legend {
- 
+
 }
- 
+
 legend.lottery-title {
     text-align:center;
     font-size:4em;
@@ -141,44 +141,44 @@ legend.lottery-title {
     -1px -1px 1px #000000, 1px -1px 1px #000000,
     -1px 1px 1px #000000, 1px 1px 1px #000000;
 }
- 
+
 #container{
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
- 
+
 #container > fieldset{
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
 }
- 
+
 .lottery-col {
     text-align:center;
     margin:0.2em 0px;
     font-size: 1.6em;
 }
- 
+
 .lottery-col-single {
     text-align:center;
     margin:0.2em 0px;
     font-size: 3em;
 }
- 
+
 .btn-lg.lottery-btn {
     width:100%;
     text-shadow:  0px 0px 1px gray,
     -1px -1px 1px gray, 1px -1px 1px gray,
     -1px 1px 1px gray, 1px 1px 1px gray;
 }
- 
+
 footer.navbar-fixed-bottom {
     margin:3em;
 }
- 
+
 button.btn.btn-lg.lottery-btn.lottery-start {
     font-weight:600;
     font-size:30px;
@@ -187,10 +187,16 @@ button.btn.btn-lg.lottery-btn.lottery-start {
     text-indent:1em;
     text-shadow:none;
 }
- 
+
 i.glyphicon.glyphicon-resize-full.pull-right {
     font-size:0.3em;
     margin-top:1em;
     color:black;
     opacity:0.23;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
