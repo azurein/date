@@ -24,11 +24,11 @@ class VerificationSync extends Main_Controller {
 		$this->load->model("Verification_model","verification");
         $this->load->model("Kehadiran_model","kehadiran");
         $this->load->model("Peserta_model","peserta");
-        //
-        // if($this->ping('192.168.0.101')) {
-        // 	$this->load->model("Verification_model_2","verification_2");
-        // 	$this->model_2 = TRUE;
-        // }
+        
+        if($this->ping('192.168.0.101')) {
+        	$this->load->model("Verification_model_2","verification_2");
+        	$this->model_2 = TRUE;
+        }
         // if($this->ping('192.168.0.102')) {
         // 	$this->load->model("Verification_model_3","verification_3");
         // 	$this->model_3 = TRUE;
@@ -100,11 +100,7 @@ class VerificationSync extends Main_Controller {
 			$this->verification_5->verify($participant_id, $card_id, $follower, $fixed_facilites, $canceled_facilities, $additional_facilities, $followers);
 		}
 
-        $data = array(
-            'followers' => count($followers)
-        );
-
-        // $this->printStruk($data);
+        $this->printStruk($data, $follower, count($followers));
 
         $this->view('admin/home');
 	}
@@ -115,10 +111,10 @@ class VerificationSync extends Main_Controller {
         return $data[0]['checkVerification'];
     }
 
-    public function printStruk($data)
+    public function printStruk($data, $guest, $souvenir)
     {
         /* Open the printer; this will change depending on how it is connected */
-        $connector = new FilePrintConnector("//DESKTOP-9LH513E/POS58 10.0.0.6");
+        $connector = new FilePrintConnector("//DESKTOP-IOHB31N/POS58 10.0.0.6");
         $printer = new Printer($connector);
 
         /* Date is kept the same for testing */
@@ -152,7 +148,7 @@ class VerificationSync extends Main_Controller {
         $printer -> setTextSize(2, 2);
         $printer -> text("Table : ".$data[0]['table_name']."\n");
         $printer -> selectPrintMode();
-        $printer -> text("Number of Coming Guest(s) : ".$data[0]['follower']++."\n\n");
+        $printer -> text("Number of Coming Guest(s) : ".($guest+1)."\n\n");
 
         /* Peserta, Doorprize */
         $printer -> setJustification();
@@ -164,7 +160,7 @@ class VerificationSync extends Main_Controller {
 
         /* Footer */
         $printer -> selectPrintMode(Printer::MODE_DOUBLE_WIDTH);
-        $printer -> text("Souvenir : ".$data[0]['lottery_num']++."\n");
+        $printer -> text("Souvenir : ".($souvenir+1)."\n");
         $printer -> selectPrintMode();
         $printer -> text("*Please show this ticket to our usher\n\n\n\n\n");
 
