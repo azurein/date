@@ -1,5 +1,5 @@
 <?php
-class Verification_model extends CI_Model {
+class Verification_model_4 extends CI_Model {
 	public function __construct()
 	{
 		parent::__construct();

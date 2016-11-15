@@ -55,6 +55,19 @@ class HomeSync extends Main_Controller {
         }
 	}
 
+    // Function to check response time
+	public function ping($host,$port=80,$timeout=1) {
+	    $fsock = fsockopen($host, $port, $errno, $errstr, $timeout);
+	    if (!$fsock) {
+	    	// fclose();
+	    	return FALSE;
+	    }
+	    else {
+	    	// fclose();
+			return TRUE;
+	    }
+	}
+    
     public function getNewID()
 	{
 		$newid = $this->peserta->getNewID();

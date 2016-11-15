@@ -16,19 +16,19 @@ class Update extends Main_Controller {
 		$this->model_4 = FALSE;
 		$this->model_5 = FALSE;
 
-		if($this->ping('192.168.0.100')) {
-			$this->load->model("Update_model_2","update_2");
-			$this->model_2 = TRUE;
-		}
-		else if($this->ping('192.168.0.102')) {
-			$this->load->model("Update_model_3","update_3");
-			$this->model_3 = TRUE;
-		}
-		// if($this->ping('192.168.0.103')) {
+		// if($this->ping('192.168.0.100')) {
+		// 	$this->load->model("Update_model_2","update_2");
+		// 	$this->model_2 = TRUE;
+		// }
+		// else if($this->ping('192.168.0.102')) {
+		// 	$this->load->model("Update_model_3","update_3");
+		// 	$this->model_3 = TRUE;
+		// }
+		// else if($this->ping('192.168.0.103')) {
 		// 	$this->load->model("Update_model_4","update_4");
 		// 	$this->model_4 = TRUE;
 		// }
-		// if($this->ping('192.168.0.104')) {
+		// else if($this->ping('192.168.0.104')) {
 		// 	$this->load->model("Update_model_5","update_5");
 		// 	$this->model_5 = TRUE;
 		// }
@@ -45,17 +45,18 @@ class Update extends Main_Controller {
 				$this->update_3->lastUpdate();
 				echo "<script>alert('Update berhasil dari 192.168.0.102');</script>";
 			}
-			// else if($this->model_4) {
-			// 	$this->update_4->lastUpdate();
-			// 	echo "<script>alert('Update berhasil dari 192.168.0.103');</script>";
-			// } else if($this->model_5) {
-			// 	$this->update_5->lastUpdate();
-			// 	echo "<script>alert('Update berhasil dari 192.168.0.104');</script>";
+			else if($this->model_4) {
+				$this->update_4->lastUpdate();
+				echo "<script>alert('Update berhasil dari 192.168.0.103');</script>";
+			} else if($this->model_5) {
+				$this->update_5->lastUpdate();
+				echo "<script>alert('Update berhasil dari 192.168.0.104');</script>";
 			} else {
 				echo "<script>alert('Update gagal');</script>";
 			}
 
 			$this->view('admin/kehadiran');
+			
         } else {
             header('Location: '.base_url());
         }
