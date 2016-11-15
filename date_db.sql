@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 12, 2016 at 12:06 PM
+-- Generation Time: Nov 15, 2016 at 08:44 AM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 5.6.23
 
@@ -436,7 +436,11 @@ INSERT INTO `facility` (`facility_id`, `facility_type_id`, `facility_parent_id`,
 (178, 2, 176, 28, 1, 1, 4, 'kursi c2', 123, 403, 'U', '1', '2016-10-24 19:13:34'),
 (179, 2, 176, 28, 1, 1, 4, 'kursi c3', 125, 350, 'U', '1', '2016-10-29 14:27:34'),
 (180, 2, 153, 29, 2, 1, 3, 'kursi b4', 353, 369, 'U', '1', '2016-10-29 20:58:35'),
-(181, 2, 142, 28, 1, 1, 2, 'kursi a3', 518, 258, 'U', '1', '2016-11-01 06:24:43');
+(181, 2, 142, 28, 1, 1, 2, 'kursi a3', 518, 258, 'U', '1', '2016-11-01 06:24:43'),
+(182, 2, 142, 28, 1, 1, 2, 'kursi a4', 519, 335, 'U', '1', '2016-11-15 14:43:23'),
+(183, 2, 136, 28, 1, 1, 3, 'kursi b4', 784, 70, 'U', '1', '2016-11-15 14:43:43'),
+(184, 2, 176, 28, 1, 1, 4, 'kursi c4', 184, 407, 'U', '1', '2016-11-15 14:43:55'),
+(185, 2, 156, 29, 2, 1, 1, 'kursi tambahan 2', 637, 242, 'U', '1', '2016-11-15 14:44:11');
 
 -- --------------------------------------------------------
 
@@ -891,7 +895,7 @@ ALTER TABLE `event`
 -- AUTO_INCREMENT for table `facility`
 --
 ALTER TABLE `facility`
-  MODIFY `facility_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=182;
+  MODIFY `facility_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=186;
 --
 -- AUTO_INCREMENT for table `facility_type`
 --
