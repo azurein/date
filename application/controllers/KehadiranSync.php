@@ -17,23 +17,23 @@ class KehadiranSync extends Main_Controller {
 		$this->model_5 = FALSE;
 
 		$this->load->model("Kehadiran_model","kehadiran");
-		//
-		// if($this->ping('192.168.0.101')) {
-		// 	$this->load->model("Kehadiran_model_2","kehadiran_2");
-		// 	$this->model_2 = TRUE;
-		// }
-		// if($this->ping('192.168.0.102')) {
-		// 	$this->load->model("Kehadiran_model_3","kehadiran_3");
-		// 	$this->model_3 = TRUE;
-		// }
-		// if($this->ping('192.168.0.103')) {
-		// 	$this->load->model("Kehadiran_model_4","kehadiran_4");
-		// 	$this->model_4 = TRUE;
-		// }
-		// if($this->ping('192.168.0.104')) {
-		// 	$this->load->model("Kehadiran_model_5","kehadiran_5");
-		// 	$this->model_5 = TRUE;
-		// }
+		
+		if($this->ping($this->config->item('model_2'))) {
+			$this->load->model("Kehadiran_model_2","kehadiran_2");
+			$this->model_2 = TRUE;
+		}
+		if($this->ping($this->config->item('model_3'))) {
+			$this->load->model("Kehadiran_model_3","kehadiran_3");
+			$this->model_3 = TRUE;
+		}
+		if($this->ping($this->config->item('model_4'))) {
+			$this->load->model("Kehadiran_model_4","kehadiran_4");
+			$this->model_4 = TRUE;
+		}
+		if($this->ping($this->config->item('model_5'))) {
+			$this->load->model("Kehadiran_model_5","kehadiran_5");
+			$this->model_5 = TRUE;
+		}
 	}
 
 	public function index()

@@ -25,22 +25,22 @@ class VerificationSync extends Main_Controller {
         $this->load->model("Kehadiran_model","kehadiran");
         $this->load->model("Peserta_model","peserta");
         
-        if($this->ping('192.168.0.101')) {
+        if($this->ping($this->config->item('model_2'))) {
         	$this->load->model("Verification_model_2","verification_2");
         	$this->model_2 = TRUE;
         }
-        // if($this->ping('192.168.0.102')) {
-        // 	$this->load->model("Verification_model_3","verification_3");
-        // 	$this->model_3 = TRUE;
-        // }
-        // if($this->ping('192.168.0.103')) {
-        // 	$this->load->model("Verification_model_4","verification_4");
-        // 	$this->model_4 = TRUE;
-        // }
-        // if($this->ping('192.168.0.104')) {
-        // 	$this->load->model("Verification_model_5","verification_5");
-        // 	$this->model_5 = TRUE;
-        // }
+        if($this->ping($this->config->item('model_3'))) {
+        	$this->load->model("Verification_model_3","verification_3");
+        	$this->model_3 = TRUE;
+        }
+        if($this->ping($this->config->item('model_4'))) {
+        	$this->load->model("Verification_model_4","verification_4");
+        	$this->model_4 = TRUE;
+        }
+        if($this->ping($this->config->item('model_5'))) {
+        	$this->load->model("Verification_model_5","verification_5");
+        	$this->model_5 = TRUE;
+        }
 	}
 
     public function index()
@@ -114,8 +114,9 @@ class VerificationSync extends Main_Controller {
     public function printStruk($data, $guest, $souvenir)
     {
         /* Open the printer; this will change depending on how it is connected */
-        $connector = new FilePrintConnector("//DESKTOP-IOHB31N/POS58 10.0.0.6");
+        $connector = new FilePrintConnector($this->config->item('printer')));
         $printer = new Printer($connector);
+        $logo = EscposImage::load($_SERVER["DOCUMENT_ROOT"]."/date/assets/img/acara/logo_acara.png", false);
 
         /* Date is kept the same for testing */
         date_default_timezone_set('Asia/Jakarta');
@@ -124,19 +125,11 @@ class VerificationSync extends Main_Controller {
         /* Start the printer */
         $printer = new Printer($connector);
 
-        /* Logo */
-        // try {
-        //     $tux = EscposImage::load("http://localhost:88/date/assets/img/qrcode-sample.png", false);
-        //     $printer -> bitImage($tux);
-        //     $printer -> feed();
-        // } catch (Exception $e) {
-        //     /* Images not supported on your PHP, or image file not found */
-        //     $printer -> text($e -> getMessage() . "\n");
-        // }
+        $printer -> setJustification(Printer::JUSTIFY_CENTER);
+        $printer -> bitImage($logo);
 
         /* Judul, Tanggal */
         $printer -> selectPrintMode(Printer::MODE_DOUBLE_WIDTH);
-        $printer -> setJustification(Printer::JUSTIFY_CENTER);
         $printer -> text( $data[0]['event_name']."\n");
         $printer -> selectPrintMode();
         $printer -> text($data[0]['address']."\n");

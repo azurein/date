@@ -19,23 +19,23 @@ class HomeSync extends Main_Controller {
 		$this->load->model("Home_model","home");
         $this->load->model("Peserta_model","peserta");
 		$this->load->model("acara/Pengaturan_acara_model","pengaturan_acara");
-        //
-        // if($this->ping('192.168.0.101')) {
-        // 	$this->load->model("Home_model_2","home_2");
-        // 	$this->model_2 = TRUE;
-        // }
-        // if($this->ping('192.168.0.102')) {
-        // 	$this->load->model("Home_model_3","home_3");
-        // 	$this->model_3 = TRUE;
-        // }
-        // if($this->ping('192.168.0.103')) {
-        // 	$this->load->model("Home_model_4","home_4");
-        // 	$this->model_4 = TRUE;
-        // }
-        // if($this->ping('192.168.0.104')) {
-        // 	$this->load->model("Home_model_5","home_5");
-        // 	$this->model_5 = TRUE;
-        // }
+        
+        if($this->ping($this->config->item('model_2'))) {
+        	$this->load->model("Home_model_2","home_2");
+        	$this->model_2 = TRUE;
+        }
+        if($this->ping($this->config->item('model_3'))) {
+        	$this->load->model("Home_model_3","home_3");
+        	$this->model_3 = TRUE;
+        }
+        if($this->ping($this->config->item('model_4'))) {
+        	$this->load->model("Home_model_4","home_4");
+        	$this->model_4 = TRUE;
+        }
+        if($this->ping($this->config->item('model_5'))) {
+        	$this->load->model("Home_model_5","home_5");
+        	$this->model_5 = TRUE;
+        }
 	}
 
 	public function index()

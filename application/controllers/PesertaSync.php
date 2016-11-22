@@ -18,22 +18,22 @@ class PesertaSync extends Main_Controller {
 
 		$this->load->model("Peserta_model","peserta");
 
-		// if($this->ping('192.168.0.100')) {
-		// 	$this->load->model("Peserta_model_2","peserta_2");
-		// 	$this->model_2 = TRUE;
-		// }
-		// if($this->ping('192.168.0.102')) {
-		// 	$this->load->model("Peserta_model_3","peserta_3");
-		// 	$this->model_3 = TRUE;
-		// }
-		// if($this->ping('192.168.0.103')) {
-		// 	$this->load->model("Peserta_model_4","peserta_4");
-		// 	$this->model_4 = TRUE;
-		// }
-		// if($this->ping('192.168.0.104')) {
-		// 	$this->load->model("Peserta_model_5","peserta_5");
-		// 	$this->model_5 = TRUE;
-		// }
+		if($this->ping($this->config->item('model_2'))) {
+			$this->load->model("Peserta_model_2","peserta_2");
+			$this->model_2 = TRUE;
+		}
+		if($this->ping($this->config->item('model_3'))) {
+			$this->load->model("Peserta_model_3","peserta_3");
+			$this->model_3 = TRUE;
+		}
+		if($this->ping($this->config->item('model_4'))) {
+			$this->load->model("Peserta_model_4","peserta_4");
+			$this->model_4 = TRUE;
+		}
+		if($this->ping($this->config->item('model_5'))) {
+			$this->load->model("Peserta_model_5","peserta_5");
+			$this->model_5 = TRUE;
+		}
 	}
 
 	public function index()
