@@ -114,7 +114,7 @@ class VerificationSync extends Main_Controller {
     public function printStruk($data, $guest, $souvenir)
     {
         /* Open the printer; this will change depending on how it is connected */
-        $connector = new FilePrintConnector($this->config->item('printer')));
+        $connector = new FilePrintConnector($this->config->item('printer'));
         $printer = new Printer($connector);
         $logo = EscposImage::load($_SERVER["DOCUMENT_ROOT"]."/date/assets/img/acara/logo_acara.png", false);
 
