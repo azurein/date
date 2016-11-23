@@ -54,8 +54,6 @@ class Update extends Main_Controller {
 			} else {
 				echo "<script>alert('Update gagal');</script>";
 			}
-
-			$this->view('admin/kehadiran');
 			
         } else {
             header('Location: '.base_url());
