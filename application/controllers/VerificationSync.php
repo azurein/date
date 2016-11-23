@@ -100,7 +100,7 @@ class VerificationSync extends Main_Controller {
 			$this->verification_5->verify($participant_id, $card_id, $follower, $fixed_facilites, $canceled_facilities, $additional_facilities, $followers);
 		}
 
-        $this->printStruk($data, $follower, count($followers));
+        // $this->printStruk($data, $follower, count($followers));
 
         $this->view('admin/home');
 	}
