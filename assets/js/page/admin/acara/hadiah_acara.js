@@ -248,7 +248,6 @@ function getWinnerByID(prize_id)
 function uploadPrize(prize_id)
 {
 	var formData = new FormData($("#formPrize")[0]);
-
 	$.ajax({
 		type : 'POST',
 		url : BASE_URL + 'acara/Hadiah_acara/uploadPrize',

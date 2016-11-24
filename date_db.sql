@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 15, 2016 at 08:44 AM
+-- Generation Time: Nov 24, 2016 at 10:03 AM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 5.6.23
 
@@ -136,7 +136,11 @@ INSERT INTO `card_design` (`design_id`, `event_id`, `component_id`, `size`, `x_a
 (75, 2, 1, 0.68, 127.875, 348.875, 0, 0, NULL, NULL, NULL, NULL, NULL, 0, 'comp_125845', 'U', '0', '2016-10-24 22:25:23'),
 (76, 2, 3, 1, 207, 172, -76.08, 1, 'Arial', 12, '#000000', 1, 's', 0, 'comp_125856', 'U', '0', '2016-10-24 22:25:30'),
 (77, 2, 4, 1, 132, 250, 269.81, 2, 'Arial', 12, '#000000', 1, 's', 0, 'comp_130356', 'U', '0', '2016-10-24 22:25:37'),
-(78, 2, 5, 1, 129, 281, 269.32, 3, 'Arial', 12, '#000000', 1, 's', 0, 'comp_130405', 'U', '0', '2016-10-24 22:25:25');
+(78, 2, 5, 1, 129, 281, 269.32, 3, 'Arial', 12, '#000000', 1, 's', 0, 'comp_130405', 'U', '0', '2016-10-24 22:25:25'),
+(79, 1, 2, 1, 150, 250, 0, 6, NULL, NULL, NULL, NULL, 'img/comp_142637.png', 0, 'comp_142637', 'D', '1', '2016-11-24 14:27:39'),
+(80, 1, 2, 1, 150, 250, 0, 6, NULL, NULL, NULL, NULL, 'img/comp_142810.png', 0, 'comp_142810', 'D', '1', '2016-11-24 14:28:31'),
+(81, 1, 2, 1, 150, 250, 0, 6, NULL, NULL, NULL, NULL, 'img/test.png', 0, 'test', 'D', '1', '2016-11-24 14:32:43'),
+(82, 1, 2, 1, 150, 250, 0, 6, NULL, NULL, NULL, NULL, 'img/kartu/comp_143250.png', 0, 'comp_143250', 'D', '1', '2016-11-24 14:33:17');
 
 -- --------------------------------------------------------
 
@@ -307,7 +311,7 @@ CREATE TABLE `event` (
   `event_id` int(11) NOT NULL,
   `event_type_id` int(11) NOT NULL,
   `event_name` varchar(50) DEFAULT NULL,
-  `event_descr` varchar(500) DEFAULT NULL,
+  `event_img` varchar(300) DEFAULT NULL,
   `start_at` datetime DEFAULT NULL,
   `end_at` datetime DEFAULT NULL,
   `address` varchar(500) DEFAULT NULL,
@@ -324,27 +328,48 @@ CREATE TABLE `event` (
 -- Dumping data for table `event`
 --
 
-INSERT INTO `event` (`event_id`, `event_type_id`, `event_name`, `event_descr`, `start_at`, `end_at`, `address`, `city`, `late_tolerance`, `total_invitation`, `is_active`, `_status`, `_user`, `_date`) VALUES
-(1, 1, 'Woman''s Festival', 'Woman''s Festival', '2016-08-10 09:00:00', '2016-08-10 14:00:00', 'Jl. Letjen. S. Parman No.28, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11470', 'Jakarta', 0, 1500, 1, 'U', '0', '2016-08-27 08:41:53'),
-(2, 2, 'Pernikahan A dan B', 'Pernikahan A dan B', '2016-12-29 19:00:00', '2016-12-29 21:00:00', 'Jl. Jend. Gatot Subroto, Jakarta Selatan, Daerah Khusus Ibukota Jakarta 10270', 'Jakarta', 30, 500, 0, 'U', '0', '2016-08-27 08:49:36'),
-(3, 2, 'testz', 'testz', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'asdz', 'Bengkulu', 0, 111, 0, 'D', '0', '2016-08-27 07:56:34'),
-(4, 1, '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', 'Ambon', 0, 0, 0, 'D', '0', '2016-08-25 23:28:13'),
-(5, 1, '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', 'Ambon', 0, 0, 0, 'D', '0', '2016-08-25 23:36:32'),
-(6, 1, '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', 'Ambon', 0, 0, 0, 'D', '0', '2016-08-25 23:36:36'),
-(7, 1, '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', 'Ambon', 0, 0, 0, 'D', '0', '2016-08-25 23:36:40'),
-(8, 1, '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', 'Ambon', 0, 0, 0, 'D', '0', '2016-08-25 23:36:43'),
-(9, 1, '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', 'Ambon', 0, 0, 0, 'D', '0', '2016-08-25 23:36:44'),
-(10, 1, 'zzz', 'zzz', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'zzz', 'Banjar', 0, 1111, 0, 'D', '0', '2016-08-26 09:57:37'),
-(11, 2, 'a', 'a', '2016-08-19 00:00:00', '2016-08-10 00:00:00', 'test', 'Ambon', 0, 11, 0, 'D', '0', '2016-08-27 07:56:36'),
-(12, 2, 'a', 'a', '2016-08-19 00:00:00', '2016-08-10 00:00:00', 'test', 'Ambon', 0, 11, 0, 'D', '0', '2016-08-27 07:56:38'),
-(13, 1, 'a', 'a', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', 'Ambon', 0, 0, 0, 'D', '0', '2016-08-27 08:00:55'),
-(14, 1, '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', 'Ambon', 0, 0, 0, 'D', '0', '2016-08-27 08:00:57'),
-(15, 1, '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', 'Ambon', 0, 0, 0, 'D', '0', '2016-08-27 08:01:52'),
-(16, 1, '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', 'Ambon', 0, 0, 0, 'D', '0', '2016-08-27 08:04:53'),
-(17, 2, 'pernikahan abc & def', 'pernikahan abc & def', '2016-08-27 00:00:00', '2016-08-27 00:00:00', 'cp', 'Jakarta', 0, 100, 0, 'D', '0', '2016-08-27 08:18:59'),
-(18, 1, 'sunat masal', 'sunat masal', '2016-09-01 08:10:00', '2016-09-01 10:15:00', 'rumah sendiri', 'Banda Aceh', 0, 2000, 0, 'D', '0', '2016-08-27 08:41:04'),
-(19, 2, 'aasdasd', 'aasdasd', '1899-12-20 03:00:00', '1899-12-21 08:00:00', 'aaaaa', 'Banjarbaru', 0, 11, 0, 'D', '0', '2016-08-27 08:45:02'),
-(20, 1, 'seminar kesehatan', 'seminar kesehatan', '2016-08-29 10:15:00', '2016-08-30 12:00:00', 'sekolah di bandung', 'Bandung', 0, 225, 0, 'D', '0', '2016-08-27 09:20:21');
+INSERT INTO `event` (`event_id`, `event_type_id`, `event_name`, `event_img`, `start_at`, `end_at`, `address`, `city`, `late_tolerance`, `total_invitation`, `is_active`, `_status`, `_user`, `_date`) VALUES
+(1, 1, 'Woman''s Festival', 'logo_acara_2.png', '2016-08-10 09:00:00', '2016-08-10 14:00:00', 'Jl. Letjen. S. Parman No.28, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11470', 'Jakarta', 0, 1500, 1, 'U', '1', '2016-11-24 15:15:49'),
+(2, 2, 'Pernikahan A dan B', NULL, '2016-12-29 19:00:00', '2016-12-29 21:00:00', 'Jl. Jend. Gatot Subroto, Jakarta Selatan, Daerah Khusus Ibukota Jakarta 10270', 'Jakarta', 30, 500, 0, 'U', '0', '2016-08-27 08:49:36'),
+(3, 2, 'testz', NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'asdz', 'Bengkulu', 0, 111, 0, 'D', '0', '2016-08-27 07:56:34'),
+(4, 1, '', NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', 'Ambon', 0, 0, 0, 'D', '0', '2016-08-25 23:28:13'),
+(5, 1, '', NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', 'Ambon', 0, 0, 0, 'D', '0', '2016-08-25 23:36:32'),
+(6, 1, '', NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', 'Ambon', 0, 0, 0, 'D', '0', '2016-08-25 23:36:36'),
+(7, 1, '', NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', 'Ambon', 0, 0, 0, 'D', '0', '2016-08-25 23:36:40'),
+(8, 1, '', NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', 'Ambon', 0, 0, 0, 'D', '0', '2016-08-25 23:36:43'),
+(9, 1, '', NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', 'Ambon', 0, 0, 0, 'D', '0', '2016-08-25 23:36:44'),
+(10, 1, 'zzz', NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'zzz', 'Banjar', 0, 1111, 0, 'D', '0', '2016-08-26 09:57:37'),
+(11, 2, 'a', NULL, '2016-08-19 00:00:00', '2016-08-10 00:00:00', 'test', 'Ambon', 0, 11, 0, 'D', '0', '2016-08-27 07:56:36'),
+(12, 2, 'a', NULL, '2016-08-19 00:00:00', '2016-08-10 00:00:00', 'test', 'Ambon', 0, 11, 0, 'D', '0', '2016-08-27 07:56:38'),
+(13, 1, 'a', NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', 'Ambon', 0, 0, 0, 'D', '0', '2016-08-27 08:00:55'),
+(14, 1, '', NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', 'Ambon', 0, 0, 0, 'D', '0', '2016-08-27 08:00:57'),
+(15, 1, '', NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', 'Ambon', 0, 0, 0, 'D', '0', '2016-08-27 08:01:52'),
+(16, 1, '', NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', 'Ambon', 0, 0, 0, 'D', '0', '2016-08-27 08:04:53'),
+(17, 2, 'pernikahan abc & def', NULL, '2016-08-27 00:00:00', '2016-08-27 00:00:00', 'cp', 'Jakarta', 0, 100, 0, 'D', '0', '2016-08-27 08:18:59'),
+(18, 1, 'sunat masal', NULL, '2016-09-01 08:10:00', '2016-09-01 10:15:00', 'rumah sendiri', 'Banda Aceh', 0, 2000, 0, 'D', '0', '2016-08-27 08:41:04'),
+(19, 2, 'aasdasd', NULL, '1899-12-20 03:00:00', '1899-12-21 08:00:00', 'aaaaa', 'Banjarbaru', 0, 11, 0, 'D', '0', '2016-08-27 08:45:02'),
+(20, 1, 'seminar kesehatan', NULL, '2016-08-29 10:15:00', '2016-08-30 12:00:00', 'sekolah di bandung', 'Bandung', 0, 225, 0, 'D', '0', '2016-08-27 09:20:21'),
+(21, 1, 'test', NULL, '2016-11-24 13:07:00', '2016-11-25 13:07:00', 'jalan sumatera', 'Banda Aceh', 0, 100, 0, 'D', '1', '2016-11-24 13:12:25'),
+(22, 1, 'test', '\r\n<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">\r\n\r\n<h4>A PHP Error was encountered</h4>\r\n\r\n<p>Severity: Notice</p>\r\n<p>Message:  Undefined index: userfile</p>\r\n<p>Filename: acara/Pengaturan_acara.php</p>\r\n<p>Line Number: 81</p>\r\n\r\n\r\n	<p>Backtrace:</p>\r\n	\r\n		\r\n	\r\n		\r\n	\r\n', '2016-11-24 13:13:00', '2016-11-25 13:13:00', 'jalan subang', 'Bandung', 0, 100, 0, 'D', '1', '2016-11-24 13:16:35'),
+(23, 1, 'test', 'logo_acara_2.png', '2016-11-24 13:16:00', '2016-11-25 13:16:00', 'jalan cirebon', 'Cirebon', 0, 100, 0, 'D', '1', '2016-11-24 13:17:28'),
+(24, 1, 'a', 'logo_acara_2.png', '2016-11-24 13:18:00', '2016-11-25 13:18:00', 'a', 'Ambon', 0, 1, 0, 'D', '1', '2016-11-24 13:30:34'),
+(25, 1, 'a', 'masuk', '2016-11-24 13:20:00', '2016-11-25 13:20:00', 'a', 'Ambon', 0, 1, 0, 'D', '1', '2016-11-24 13:30:36'),
+(26, 1, 'asd', 'masuk', '2016-11-24 13:30:00', '2016-11-24 13:30:00', 'asd', 'Ambon', 0, 0, 0, 'D', '1', '2016-11-24 13:30:37'),
+(27, 1, 'asd', 'logo_acara_2.png', '2016-11-24 13:32:00', '2016-11-25 13:32:00', 'asd', 'Ambon', 0, 1, 0, 'D', '1', '2016-11-24 13:34:43'),
+(28, 1, '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', 'Ambon', 0, 0, 0, 'D', '1', '2016-11-24 13:34:45'),
+(29, 1, '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', 'Ambon', 0, 0, 0, 'D', '1', '2016-11-24 13:34:46'),
+(30, 1, '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', 'Ambon', 0, 0, 0, 'D', '1', '2016-11-24 13:34:48'),
+(31, 1, '', 'logo_acara_2.png', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', 'Ambon', 0, 0, 0, 'D', '1', '2016-11-24 14:33:25'),
+(32, 1, '', 'string(43) "<p>You did not select a file to upload.</p>"\nlogo_acara_2.png', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', 'Ambon', 0, 0, 0, 'D', '1', '2016-11-24 14:33:27'),
+(33, 1, '', 'array(5) {\n  ["name"]=>\n  string(16) "logo_acara_2.png"\n  ["type"]=>\n  string(9) "image/png"\n  ["tmp_name"]=>\n  string(24) "C:\\xampp\\tmp\\phpBA49.tmp"\n  ["error"]=>\n  int(0)\n  ["size"]=>\n  int(9670)\n}\nstring(43) "<p>You did not select a file to upload.</p>"\nlogo_acara_2.png', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', 'Ambon', 0, 0, 0, 'D', '1', '2016-11-24 14:33:30'),
+(34, 1, '', 'array(14) {\n  ["file_name"]=>\n  string(16) "logo_acara_2.png"\n  ["file_type"]=>\n  string(9) "image/png"\n  ["file_path"]=>\n  string(38) "C:/xampp/htdocs/date/assets/img/acara/"\n  ["full_path"]=>\n  string(54) "C:/xampp/htdocs/date/assets/img/acara/logo_acara_2.png"\n  ["raw_name"]=>\n  string(12) "logo_', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', 'Ambon', 0, 0, 0, 'D', '1', '2016-11-24 15:01:26'),
+(35, 1, 'Woman''s Festival', 'array(14) {\n  ["file_name"]=>\n  string(16) "logo_acara_2.png"\n  ["file_type"]=>\n  string(9) "image/png"\n  ["file_path"]=>\n  string(38) "C:/xampp/htdocs/date/assets/img/acara/"\n  ["full_path"]=>\n  string(54) "C:/xampp/htdocs/date/assets/img/acara/logo_acara_2.png"\n  ["raw_name"]=>\n  string(12) "logo_', '2016-08-10 09:00:00', '2016-08-10 14:00:00', 'Jl. Letjen. S. Parman No.28, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11470', 'Jakarta', 0, 1500, 0, 'D', '1', '2016-11-24 15:01:58'),
+(36, 1, 'Woman''s Festival', 'array(14) {\n  ["file_name"]=>\n  string(16) "logo_acara_2.png"\n  ["file_type"]=>\n  string(9) "image/png"\n  ["file_path"]=>\n  string(38) "C:/xampp/htdocs/date/assets/img/acara/"\n  ["full_path"]=>\n  string(54) "C:/xampp/htdocs/date/assets/img/acara/logo_acara_2.png"\n  ["raw_name"]=>\n  string(12) "logo_', '2016-08-10 09:00:00', '2016-08-10 14:00:00', 'Jl. Letjen. S. Parman No.28, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11470', 'Jakarta', 0, 1500, 0, 'D', '1', '2016-11-24 15:03:12'),
+(37, 1, 'asd', 'string(43) "<p>You did not select a file to upload.</p>"\n', '2016-11-24 15:03:00', '2016-11-25 15:03:00', 'sad', 'Ambon', 0, 1, 0, 'D', '1', '2016-11-24 15:03:40'),
+(38, 1, 'Woman''s Festival', 'string(43) "<p>You did not select a file to upload.</p>"\n', '2016-08-10 09:00:00', '2016-08-10 14:00:00', 'Jl. Letjen. S. Parman No.28, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11470', 'Jakarta', 0, 1500, 0, 'D', '1', '2016-11-24 15:03:46'),
+(39, 1, 'Woman''s Festival', 'string(43) "<p>You did not select a file to upload.</p>"\n', '2016-08-10 09:00:00', '2016-08-10 14:00:00', 'Jl. Letjen. S. Parman No.28, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11470', 'Jakarta', 0, 1500, 0, 'D', '1', '2016-11-24 15:06:14'),
+(40, 1, 'Woman''s Festival', 'string(43) "<p>You did not select a file to upload.</p>"\n', '2016-08-10 09:00:00', '2016-08-10 14:00:00', 'Jl. Letjen. S. Parman No.28, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11470', 'Jakarta', 0, 1500, 0, 'D', '1', '2016-11-24 15:10:13'),
+(41, 1, 'Woman''s Festival', 'string(43) "<p>You did not select a file to upload.</p>"\n', '2016-08-10 09:00:00', '2016-08-10 14:00:00', 'Jl. Letjen. S. Parman No.28, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11470', 'Jakarta', 0, 1500, 0, 'D', '1', '2016-11-24 15:11:02');
 
 -- --------------------------------------------------------
 
@@ -396,15 +421,15 @@ CREATE TABLE `facility` (
 
 INSERT INTO `facility` (`facility_id`, `facility_type_id`, `facility_parent_id`, `canvas_id`, `canvas_slideid`, `event_id`, `group_id`, `facility_name`, `x_axis`, `y_axis`, `_status`, `_user`, `_date`) VALUES
 (135, 1, 0, 28, 1, 1, 2, 'meja a', 256, 386, 'D', '0', '2016-10-17 11:58:42'),
-(136, 1, 0, 28, 1, 1, 3, 'meja b', 751, 95, 'U', '1', '2016-10-17 20:13:56'),
+(136, 1, 0, 28, 1, 1, 3, 'meja b', 751, 99, 'U', '1', '2016-10-17 20:13:56'),
 (137, 2, 135, 28, 1, 1, 2, 'kursi a1', 260, 346, 'D', '0', '2016-10-17 11:58:42'),
 (138, 2, 135, 28, 1, 1, 2, 'kursi a2', 240, 352, 'D', '0', '2016-10-17 11:58:42'),
 (139, 2, 135, 28, 1, 1, 2, 'kursi a3', 279, 355, 'D', '0', '2016-10-17 11:58:42'),
-(140, 2, 136, 28, 1, 1, 3, 'kursi b1', 718, 72, 'U', '1', '2016-10-17 20:13:56'),
-(141, 2, 136, 28, 1, 1, 3, 'kursi b2', 778, 117, 'U', '1', '2016-10-17 20:13:56'),
+(140, 2, 136, 28, 1, 1, 3, 'kursi b1', 717, 75, 'U', '1', '2016-10-17 20:13:56'),
+(141, 2, 136, 28, 1, 1, 3, 'kursi b2', 777, 120, 'U', '1', '2016-10-17 20:13:56'),
 (142, 1, 0, 28, 1, 1, 2, 'meja a', 519, 297, 'U', '1', '2016-10-17 20:13:09'),
 (143, 2, 142, 28, 1, 1, 2, 'kursi a1', 480, 294, 'U', '1', '2016-10-17 20:13:09'),
-(144, 2, 136, 28, 1, 1, 3, 'kursi b3', 717, 117, 'U', '1', '2016-10-17 20:13:56'),
+(144, 2, 136, 28, 1, 1, 3, 'kursi b3', 716, 120, 'U', '1', '2016-10-17 20:13:56'),
 (145, 2, 142, 28, 1, 1, 2, 'kursi a2', 554, 297, 'U', '1', '2016-10-17 20:13:09'),
 (146, 1, 0, 29, 2, 1, 3, 'meja b', 759, 387, 'D', '0', '2016-10-17 13:22:11'),
 (147, 2, 146, 29, 2, 1, 3, 'kursi b1', 726, 364, 'D', '0', '2016-10-17 13:22:11'),
@@ -438,7 +463,7 @@ INSERT INTO `facility` (`facility_id`, `facility_type_id`, `facility_parent_id`,
 (180, 2, 153, 29, 2, 1, 3, 'kursi b4', 353, 369, 'U', '1', '2016-10-29 20:58:35'),
 (181, 2, 142, 28, 1, 1, 2, 'kursi a3', 518, 258, 'U', '1', '2016-11-01 06:24:43'),
 (182, 2, 142, 28, 1, 1, 2, 'kursi a4', 519, 335, 'U', '1', '2016-11-15 14:43:23'),
-(183, 2, 136, 28, 1, 1, 3, 'kursi b4', 784, 70, 'U', '1', '2016-11-15 14:43:43'),
+(183, 2, 136, 28, 1, 1, 3, 'kursi b4', 783, 73, 'U', '1', '2016-11-15 14:43:43'),
 (184, 2, 176, 28, 1, 1, 4, 'kursi c4', 184, 407, 'U', '1', '2016-11-15 14:43:55'),
 (185, 2, 156, 29, 2, 1, 1, 'kursi tambahan 2', 637, 242, 'U', '1', '2016-11-15 14:44:11');
 
@@ -512,17 +537,6 @@ CREATE TABLE `lottery` (
   `_date` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `lottery`
---
-
-INSERT INTO `lottery` (`participant_id`, `prize_id`, `_status`, `_user`, `_date`) VALUES
-(5, 23, 'D', '0', '2016-10-19 22:07:54'),
-(9, 23, 'D', '0', '2016-10-19 22:07:54'),
-(7, 23, 'I', '0', '2016-10-19 22:07:54'),
-(4, 23, 'I', '0', '2016-10-19 22:08:14'),
-(1, 23, 'I', '0', '2016-10-19 22:08:14');
-
 -- --------------------------------------------------------
 
 --
@@ -557,14 +571,14 @@ INSERT INTO `participant` (`participant_id`, `participant_name`, `title_id`, `de
 (49, 'kantika', 4, 0, 0, 3, 1, 0, 'I', '1', '2016-11-12 17:40:11', '0832423123', NULL),
 (50, 'Bagus', 1, 0, 0, 2, 1, 0, 'I', '1', '2016-11-12 17:40:11', '08324276423', NULL),
 (51, 'Cynthia', 3, 0, 1, 2, 1, 0, 'I', '1', '2016-11-12 17:40:11', '08324235741', NULL),
-(52, 'Nina', 2, 0, 1, 3, 1, 0, 'I', '1', '2016-11-12 17:40:11', '0832423271', NULL),
-(53, 'Budiman', 1, 0, 0, 1, 1, 0, 'I', '1', '2016-11-12 17:40:11', '08324233324', NULL),
+(52, 'Nina', 2, 0, 0, 3, 1, 0, 'U', '1', '2016-11-23 15:01:34', '0832423271', NULL),
+(53, 'Budiman', 1, 0, 0, 1, 1, 0, 'U', '17', '2016-11-23 14:15:06', '08324233324', NULL),
 (54, 'Deborah', 3, 0, 0, 3, 1, 0, 'I', '1', '2016-11-12 17:40:11', '08324124234', NULL),
 (55, 'Joko', 1, 0, 0, 4, 1, 0, 'I', '1', '2016-11-12 17:40:11', '08324233331', NULL),
 (56, 'Debby', 4, 0, 0, 4, 1, 0, 'I', '1', '2016-11-12 17:40:11', '08379312423', NULL),
-(57, 'ASF', 3, 0, 1, 3, 1, 0, 'I', '1', '2016-11-12 17:40:12', '8234523423', NULL),
+(57, 'ASF', 3, 0, 2, 3, 1, 0, 'U', '1', '2016-11-23 14:53:32', '8234523423', NULL),
 (58, 'qwer', 1, 0, 0, 4, 1, 0, 'I', '1', '2016-11-12 17:40:12', '2354565454', NULL),
-(59, 'aewf', 4, 0, 0, 4, 1, 0, 'I', '1', '2016-11-12 17:40:12', '345345345', NULL);
+(59, 'aewf', 4, 0, 0, 4, 1, 0, 'U', '1', '2016-11-24 15:55:25', '345345345', NULL);
 
 -- --------------------------------------------------------
 
@@ -588,17 +602,13 @@ CREATE TABLE `participant_facility` (
 --
 
 INSERT INTO `participant_facility` (`event_id`, `facility_id`, `participant_id`, `reserve_at`, `checkin_at`, `_status`, `_user`, `_date`) VALUES
-(1, 140, 52, '2016-11-12 17:57:33', NULL, 'I', '1', '2016-11-12 17:57:33'),
-(1, 141, 52, '2016-11-12 17:57:33', NULL, 'I', '1', '2016-11-12 17:57:33'),
 (1, 143, 47, '2016-11-12 17:55:43', NULL, 'I', '1', '2016-11-12 17:55:43'),
 (1, 144, 49, '2016-11-12 17:59:17', NULL, 'I', '1', '2016-11-12 17:59:17'),
 (1, 145, 47, '2016-11-12 17:55:43', NULL, 'I', '1', '2016-11-12 17:55:43'),
-(1, 154, 57, '2016-11-12 18:02:30', NULL, 'I', '1', '2016-11-12 18:02:30'),
-(1, 155, 57, '2016-11-12 18:02:30', NULL, 'I', '1', '2016-11-12 18:02:30'),
 (1, 157, 45, '2016-11-12 18:01:20', NULL, 'I', '1', '2016-11-12 18:01:20'),
 (1, 159, 45, '2016-11-12 18:01:20', NULL, 'I', '1', '2016-11-12 18:01:20'),
-(1, 160, 53, '2016-11-12 18:01:39', NULL, 'I', '1', '2016-11-12 18:01:39'),
-(1, 177, 59, '2016-11-12 17:59:39', NULL, 'I', '1', '2016-11-12 17:59:39'),
+(1, 160, 53, '2016-11-12 18:01:39', NULL, 'U', '17', '2016-11-23 14:15:06'),
+(1, 177, 59, '2016-11-12 17:59:39', NULL, 'U', '1', '2016-11-24 15:55:25'),
 (1, 178, 58, '2016-11-12 17:59:57', NULL, 'I', '1', '2016-11-12 17:59:57'),
 (1, 179, 55, '2016-11-12 18:00:14', NULL, 'I', '1', '2016-11-12 18:00:14'),
 (1, 181, 50, '2016-11-12 17:56:43', NULL, 'I', '1', '2016-11-12 17:56:43');
@@ -628,7 +638,10 @@ CREATE TABLE `prize` (
 
 INSERT INTO `prize` (`prize_id`, `event_id`, `prize_name`, `prize_descr`, `prize_priority`, `prize_img`, `total_winner`, `_status`, `_user`, `_date`) VALUES
 (23, 1, 'gelas', 'gelas cantik', 2, 'gelas-cantik.jpg', 3, 'I', '1', '2016-10-09 21:23:57'),
-(24, 1, 'payung', 'payung cantik', 1, 'payung.jpg', 1, 'I', '1', '2016-10-09 21:24:11');
+(24, 1, 'payung', 'payung cantik', 1, 'payung.jpg', 1, 'I', '1', '2016-10-09 21:24:11'),
+(25, 1, 'asd', 'asd', 0, 'logo_acara_2.png', 0, 'D', '1', '2016-11-24 13:31:51'),
+(26, 1, '', '', 0, 'array(14) {\n  ["file_name"]=>\n  string(16) "logo_acara_2.png"\n  ["file_type"]=>\n  string(9) "image/png"\n  ["file_path"]=>\n  string(39) "C:/xampp/htdocs/date/assets/img/hadiah/"\n  ["full_path"]=>\n  string(55) "C:/xampp/htdocs/date/assets/img/hadiah/logo_acara_2.png"\n  ["raw_name"]=>\n  string(12) "log', 0, 'D', '1', '2016-11-24 13:54:21'),
+(27, 1, '', '', 0, 'logo_acara_2.png', 0, 'I', '1', '2016-11-24 14:18:40');
 
 -- --------------------------------------------------------
 
@@ -733,7 +746,8 @@ INSERT INTO `users` (`user_id`, `operator_name`, `privilege`, `username`, `passw
 (14, 'wew', 1, 'aaa', 'aaa', 'D', '1', '2016-10-07 18:59:58'),
 (15, 'wew', 2, 'wew', 'wew', 'D', '1', '2016-10-07 19:09:05'),
 (16, 'wew', 1, 'wewzz', 'wew', 'D', '0', '2016-10-07 19:09:15'),
-(17, 'feli', 2, 'feli', 'feli', 'I', '1', '2016-10-09 20:55:13');
+(17, 'feli', 2, 'feli', 'feli', 'I', '1', '2016-10-09 20:55:13'),
+(18, 'peter', 2, 'peter', 'peter', 'I', '1', '2016-11-24 12:27:10');
 
 -- --------------------------------------------------------
 
@@ -880,7 +894,7 @@ ALTER TABLE `canvas`
 -- AUTO_INCREMENT for table `card_design`
 --
 ALTER TABLE `card_design`
-  MODIFY `design_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
+  MODIFY `design_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
 --
 -- AUTO_INCREMENT for table `design_component`
 --
@@ -890,7 +904,7 @@ ALTER TABLE `design_component`
 -- AUTO_INCREMENT for table `event`
 --
 ALTER TABLE `event`
-  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 --
 -- AUTO_INCREMENT for table `facility`
 --
@@ -915,7 +929,7 @@ ALTER TABLE `participant`
 -- AUTO_INCREMENT for table `prize`
 --
 ALTER TABLE `prize`
-  MODIFY `prize_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `prize_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 --
 -- AUTO_INCREMENT for table `souvenir`
 --
@@ -930,7 +944,7 @@ ALTER TABLE `titles`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

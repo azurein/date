@@ -87,7 +87,7 @@ class Kartu_acara extends Main_Controller {
 
     public function uploadImg($name)
     {
-        $config['upload_path'] = './assets/img/';
+        $config['upload_path'] = './assets/img/kartu/';
         $config['allowed_types'] = 'gif|jpg|png';
         $config['file_name'] = $name;
         $this->load->library('upload', $config);
@@ -106,10 +106,9 @@ class Kartu_acara extends Main_Controller {
         {
 			echo json_encode(array(
                 'status' => 1 ,
-                'val' =>  'img/'.$this->upload->data()['file_name']
+                'val' =>  'img/kartu/'.$this->upload->data()['file_name']
             ));
         }
-
     }
 
     public function saveObj()

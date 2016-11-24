@@ -97,7 +97,6 @@ class Hadiah_acara extends Main_Controller {
 		{
 			$result = $this->upload->data();
 		}
-
 		echo $config['file_name'];
 	}
 

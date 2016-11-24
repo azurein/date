@@ -73,6 +73,28 @@ class Pengaturan_acara extends Main_Controller {
 		echo $result;
 	}
 
+	public function uploadEvent()
+	{
+		$config = array(
+					'upload_path'     => "assets/img/acara/",
+					'allowed_types'   => "jpg|jpeg|png",
+					'file_name'		  => $_FILES['userfile']['name'],
+					'overwrite'       => TRUE
+					);
+
+		$this->load->library('upload', $config);
+
+		if (!$this->upload->do_upload())
+		{
+			$result = $this->upload->display_errors();
+		}
+		else
+		{
+			$result = $this->upload->data();
+		}
+		echo $config['file_name'];
+	}
+
 	public function saveEvent()
 	{
 		$id = $this->input->post_get('id');
@@ -80,7 +102,7 @@ class Pengaturan_acara extends Main_Controller {
 			'event_id' => $this->input->post_get('id'),
 			'event_name' => $this->input->post_get('event_name'),
 			'event_type_id' => $this->input->post_get('event_type_id'),
-			'event_descr' => $this->input->post_get('event_name'),
+			'event_img' => $this->input->post_get('event_img'),
 			'start_at' => $this->input->post_get('start_at'),
 			'end_at' => $this->input->post_get('end_at'),
 			'address' => $this->input->post_get('address'),

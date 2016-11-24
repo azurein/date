@@ -11,7 +11,7 @@ class Pengaturan_acara_model extends CI_Model {
 		$query = 	"SELECT
 					event_id,
 					event_name,
-					event_descr,
+					event_img,
 					b.event_type_id,
 					event_type_name,
 					start_at,
@@ -38,7 +38,7 @@ class Pengaturan_acara_model extends CI_Model {
 		$query = 	"SELECT
 					event_id,
 					event_name,
-					event_descr,
+					event_img,
 					b.event_type_id,
 					event_type_name,
 					start_at,
@@ -128,7 +128,7 @@ class Pengaturan_acara_model extends CI_Model {
 		$query = "	INSERT INTO event (
 						event_type_id, 
 						event_name, 
-						event_descr, 
+						event_img, 
 						start_at, 
 						end_at, 
 						address, 
@@ -145,7 +145,7 @@ class Pengaturan_acara_model extends CI_Model {
 		$this->db->query($query,array(	
 			$data['event_type_id'], 
 			$data['event_name'],
-			$data['event_descr'], 
+			$data['event_img'], 
 			$data['start_at'], 
 			$data['end_at'],
 			$data['address'], 
@@ -163,7 +163,7 @@ class Pengaturan_acara_model extends CI_Model {
 		$query = 	"UPDATE event SET
 					event_type_id = ?,
 					event_name = ?,
-					event_descr = ?, 
+					event_img = ?, 
 					start_at = ?,
 					end_at = ?,
 					address = ?, 
@@ -177,7 +177,7 @@ class Pengaturan_acara_model extends CI_Model {
 		$data = $this->db->query($query,array(
 			$data['event_type_id'], 
 			$data['event_name'],
-			$data['event_descr'], 
+			$data['event_img'], 
 			$data['start_at'], 
 			$data['end_at'],
 			$data['address'], 

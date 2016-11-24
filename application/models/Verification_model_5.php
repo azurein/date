@@ -117,6 +117,7 @@ class Verification_model_5 extends CI_Model {
 	{
 		$query = 	"SELECT DISTINCT
 					event.event_name,
+					event.event_img,
 					event.address,
 					b.facility_name as table_name,
 					participant.follower,

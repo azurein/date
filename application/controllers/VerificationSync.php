@@ -100,7 +100,7 @@ class VerificationSync extends Main_Controller {
 			$this->verification_5->verify($participant_id, $card_id, $follower, $fixed_facilites, $canceled_facilities, $additional_facilities, $followers);
 		}
 
-        // $this->printStruk($data, $follower, count($followers));
+        $this->printStruk($data, $follower, count($followers));
 
         $this->view('admin/home');
 	}
@@ -116,7 +116,7 @@ class VerificationSync extends Main_Controller {
         /* Open the printer; this will change depending on how it is connected */
         $connector = new FilePrintConnector($this->config->item('printer'));
         $printer = new Printer($connector);
-        $logo = EscposImage::load($_SERVER["DOCUMENT_ROOT"]."/date/assets/img/acara/logo_acara.png", false);
+        $logo = EscposImage::load($_SERVER["DOCUMENT_ROOT"]."/date/assets/img/acara/".$data[0]['event_img'] , false);
 
         /* Date is kept the same for testing */
         date_default_timezone_set('Asia/Jakarta');
@@ -125,12 +125,15 @@ class VerificationSync extends Main_Controller {
         /* Start the printer */
         $printer = new Printer($connector);
 
-        $printer -> setJustification(Printer::JUSTIFY_CENTER);
+        $printer -> text(" \n");
+        $printer -> setReverseColors(false);
         $printer -> bitImage($logo);
+        $printer -> text("\n\n");
 
         /* Judul, Tanggal */
+        $printer -> setJustification(Printer::JUSTIFY_CENTER);
         $printer -> selectPrintMode(Printer::MODE_DOUBLE_WIDTH);
-        $printer -> text( $data[0]['event_name']."\n");
+        $printer -> text($data[0]['event_name']."\n");
         $printer -> selectPrintMode();
         $printer -> text($data[0]['address']."\n");
         $printer -> text($date."\n\n");
@@ -155,7 +158,7 @@ class VerificationSync extends Main_Controller {
         $printer -> selectPrintMode(Printer::MODE_DOUBLE_WIDTH);
         $printer -> text("Souvenir : ".($souvenir+1)."\n");
         $printer -> selectPrintMode();
-        $printer -> text("*Please show this ticket to our usher\n\n\n\n\n");
+        $printer -> text("*Please show this ticket to our usher\n\n\n\n");
 
         $printer -> cut();
         $printer -> close();

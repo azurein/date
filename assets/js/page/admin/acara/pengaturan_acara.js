@@ -1,8 +1,11 @@
 $(document).ready(function() {
 	$('title').html("D.A.T.E - Pengaturan Acara");
+
 	$('#StartDate').datetimepicker();
 	$('#EndDate').datetimepicker();
+
 	getEvent();
+
 	$("#addButton").click(function(){
 		loadAddEditModal("Tambah Acara");
 	});
@@ -258,6 +261,8 @@ function changeEventStatus(text='', status=0, id=0) {
 }
 
 function loadAddEditModal(text="Tambah/Ubah Acara", eventData='') {
+	var id = '';
+
 	$("#addEditTitle").text(text);
 	$("#addEditModal").modal("show");
 
@@ -266,6 +271,7 @@ function loadAddEditModal(text="Tambah/Ubah Acara", eventData='') {
 	$("#EndDate").val('');
 	$("#AddressText").val('');
 	$("#ParticipantText").val('');
+	$("#eventimage").val('');
 
 	$.ajax({
 		type : 'GET',
@@ -281,7 +287,6 @@ function loadAddEditModal(text="Tambah/Ubah Acara", eventData='') {
 				$("#CityDdl").append('<option value="'+data.city[i].city+'">'+data.city[i].city+'</option>');
 			}
 
-			var id = '';
 			if(text == 'Ubah Acara')
 			{
 				id = eventData.event_id;
@@ -293,16 +298,35 @@ function loadAddEditModal(text="Tambah/Ubah Acara", eventData='') {
 				$("#CityDdl").val(eventData.city);
 				$("#ParticipantText").val(eventData.total_invitation);
 			}
+		}
+	});
 
-			$("#saveButton").unbind('click');
-			$("#saveButton").click(function(){
-				saveEvent(id);
-			});
+	$("#saveButton").unbind('click').click(function(){
+		uploadEvent(id);
+	});
+}
+
+function uploadEvent(event_id)
+{
+	var formData = new FormData($("#formEvent")[0]);
+	$.ajax({
+		type : 'POST',
+		url : BASE_URL + 'acara/Pengaturan_acara/uploadEvent',
+		dataType : 'json',
+		data : formData,
+		cache : false,
+		contentType : false,
+		processData : false,
+		success : function(data){
+
+		},
+		error : function(data){
+			saveEvent(data['responseText'], event_id);
 		}
 	});
 }
 
-function saveEvent(id){
+function saveEvent(data, id){
 	$.ajax({
 		type : 'POST',
 		url : BASE_URL + 'acara/Pengaturan_acara/saveEvent',
@@ -310,6 +334,7 @@ function saveEvent(id){
 		data : {
 			'id'				: id,
 			'event_name'		: $("#EventText").val(),
+			'event_img'			: data,
 			'event_type_id'		: $("#EventTypeDdl").val(),
 			'start_at'			: $("#StartDate").val(),
 			'end_at'			: $("#EndDate").val(),
