@@ -126,7 +126,6 @@ class VerificationSync extends Main_Controller {
         $printer = new Printer($connector);
 
         $printer -> text(" \n");
-        $printer -> setReverseColors(false);
         $printer -> bitImage($logo);
         $printer -> text("\n\n");
 
