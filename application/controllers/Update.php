@@ -39,24 +39,28 @@ class Update extends Main_Controller {
 		if(isset($_SESSION['user_id'])) {
 			if($this->model_2) {
 				$this->update_2->lastUpdate();
-				echo "<script>alert('Update berhasil dari ".$this->config->item('model_2')."');</script>";
+				echo "<script>alert('Update berhasil dari ".$this->config->item('model_2').". Silahkan Login kembali.');</script>";
+				$this->logout();
 			}
 			else if($this->model_3) {
 				$this->update_3->lastUpdate();
-				echo "<script>alert('Update berhasil dari ".$this->config->item('model_3')."');</script>";
+				echo "<script>alert('Update berhasil dari ".$this->config->item('model_3').". Silahkan Login kembali.');</script>";
+				$this->logout();
 			}
 			else if($this->model_4) {
 				$this->update_4->lastUpdate();
-				echo "<script>alert('Update berhasil dari ".$this->config->item('model_4')."');</script>";
+				echo "<script>alert('Update berhasil dari ".$this->config->item('model_4').". Silahkan Login kembali.');</script>";
+				$this->logout();
 			} else if($this->model_5) {
 				$this->update_5->lastUpdate();
-				echo "<script>alert('Update berhasil dari ".$this->config->item('model_5')."');</script>";
+				echo "<script>alert('Update berhasil dari ".$this->config->item('model_5').". Silahkan Login kembali.');</script>";
+				$this->logout();
 			} else {
 				echo "<script>alert('Update gagal');</script>";
 			}
 
-			$this->view('admin/home');
-			
+			$this->view('admin/login');
+
         } else {
             header('Location: '.base_url());
         }
@@ -74,5 +78,13 @@ class Update extends Main_Controller {
 			return TRUE;
 	    }
 	}
+
+	public function logout()
+    {
+        unset($_SESSION['user_id']);
+        unset($_SESSION['event_id']);
+        unset($_SESSION['privilege']);
+        unset($_SESSION['operator_name']);
+    }
 
 }

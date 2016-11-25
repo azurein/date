@@ -39,6 +39,9 @@ class Login extends Main_Controller {
     public function logout()
     {
         unset($_SESSION['user_id']);
+        unset($_SESSION['event_id']);
+        unset($_SESSION['privilege']);
+        unset($_SESSION['operator_name']);
         header('Location: '.base_url());
     }
 }
