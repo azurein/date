@@ -137,7 +137,6 @@ class Kehadiran_model_2 extends CI_Model {
 
 	public function deactiveVerificationLog($data)
 	{
-		echo $data['log_id']; die();
 		$query = 	"UPDATE verification SET
 					_status = 'D',
 					_user = ?,
