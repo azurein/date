@@ -12,7 +12,7 @@ class Kehadiran_model extends CI_Model {
 			$userCondition = "AND a._user = '".$user_id."'";
 		}
 		$query = 	"SELECT DISTINCT
-					CONCAT(DATE_FORMAT(a.verification_date, '%Y%m%d%H%i%s'), a.card_id) as log_id,
+					CONCAT(DATE_FORMAT(a.verification_date, '%Y%m%d%H%i'), a.card_id) as log_id,
 					a.card_id,
                     COALESCE(d.title_name, '') as title_name,
 					c.participant_name,
