@@ -99,7 +99,7 @@ class Kehadiran_model_4 extends CI_Model {
 					AND c._status <> 'D'
 
 					LEFT JOIN participant d
-					ON c.delegate_to = d.delegate_to
+					ON c.delegate_to = d.participant_id
 					AND d._status <> 'D'
 
 					LEFT JOIN titles e

@@ -90,13 +90,13 @@ class Verification_model extends CI_Model {
 					$_SESSION['user_id']
 				));
 
-				// //unbook fasilitas pendamping
-				// $query = 	"DELETE FROM participant_facility WHERE participant_id in (
-				// 				SELECT participant_id FROM card WHERE card_id = ?
-				// 			)";
-				// $this->db->query($query,array(
-				// 	$followers[$i]
-				// ));
+				//unbook fasilitas pendamping
+				$query = 	"DELETE FROM participant_facility WHERE participant_id in (
+								SELECT participant_id FROM card WHERE card_id = ?
+							)";
+				$this->db->query($query,array(
+					$followers[$i]
+				));
 
 				//update konfirmasi hadir menjadi silang
 				$query = 	"UPDATE participant SET is_confirm = 0, _status = 'U', _user = ?, _date = NOW() WHERE participant_id in (
