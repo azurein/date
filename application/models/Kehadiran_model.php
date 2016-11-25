@@ -141,7 +141,7 @@ class Kehadiran_model extends CI_Model {
 					_status = 'D',
 					_user = ?,
 					_date = NOW()
-					WHERE CONCAT(DATE_FORMAT(verification_date, '%Y%m%d%H%i%s'), card_id) = ?
+					WHERE CONCAT(DATE_FORMAT(verification_date, '%Y%m%d%H%i'), card_id) = ?
 					";
 
 		$data = $this->db->query($query,array(

@@ -137,11 +137,12 @@ class Kehadiran_model_2 extends CI_Model {
 
 	public function deactiveVerificationLog($data)
 	{
+		echo $data['log_id']; die();
 		$query = 	"UPDATE verification SET
 					_status = 'D',
 					_user = ?,
 					_date = NOW()
-					WHERE CONCAT(DATE_FORMAT(verification_date, '%Y%m%d%H%i%s'), card_id) = ?
+					WHERE CONCAT(DATE_FORMAT(verification_date, '%Y%m%d%H%i'), card_id) = ?
 					";
 
 		$data = $this->db->query($query,array(

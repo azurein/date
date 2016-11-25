@@ -77,7 +77,7 @@ function populateTableVerification(data){
 	});
 
 	$('#verification-log').DataTable({
-		"order"		: [[ 3, "desc" ]]
+		"order"		: [[ 2, "desc" ]]
 	});
 
 	getVerificationSummary();
