@@ -34,14 +34,16 @@ class Verification_model_2 extends CI_Model {
 		));
 
 		//fasilitas yang tetap jadi
-		$fixed_facilites = implode(",", $fixed_facilites);
-		$fixed_facilites_condition = "AND facility_id IN (".$fixed_facilites.")";
-		$query = "UPDATE participant_facility SET checkin_at = NOW(), _status = 'U', _user = ?, _date = NOW() WHERE participant_id = ? ?";
-		$this->db->query($query,array(
-			$_SESSION['user_id'],
-			$participant_id,
-			$fixed_facilites_condition
-		));
+		if ($fixed_facilites) {
+			$fixed_facilites = implode(",", $fixed_facilites);
+			$fixed_facilites_condition = "AND facility_id IN (".$fixed_facilites.")";
+			$query = "UPDATE participant_facility SET checkin_at = NOW(), _status = 'U', _user = ?, _date = NOW() WHERE participant_id = ? ?";
+			$this->db->query($query,array(
+				$_SESSION['user_id'],
+				$participant_id,
+				$fixed_facilites_condition
+			));
+		}
 
 		//fasilitas yang tidak jadi
 		if ($canceled_facilities) {
@@ -144,15 +146,15 @@ class Verification_model_2 extends CI_Model {
 					JOIN groups
 					ON participant.group_id = groups.group_id
 
-					JOIN participant_facility
+					LEFT JOIN participant_facility
 					ON participant.participant_id = participant_facility.participant_id
 					AND participant_facility._status <> 'D'
 
-					JOIN facility a
+					LEFT JOIN facility a
 					ON participant_facility.facility_id = a.facility_id
 					AND a._status <> 'D'
 
-					JOIN facility b
+					LEFT JOIN facility b
 					ON a.facility_parent_id = b.facility_id
 					AND b._status <> 'D'
 

@@ -170,7 +170,7 @@ function VerificationValidation() {
     if(undangan == penempatan) {
         $("#scannerFormQrSubmit").show();
     } else {
-        if(undangan == 0) {
+        if(parseInt($("#participantFollower1").val()) == 0) {
             $("#scannerFormQrSubmit").show();
         } else {
             $("#scannerFormQrSubmit").hide();

@@ -29,20 +29,22 @@ function getVerificationLog(key=''){
 }
 
 function getVerificationSummary(key=''){
-	$.ajax({
-		type : 'POST',
-		url : BASE_URL + 'Kehadiran/getTotalVerifiedByUser',
-		dataType : 'json',
-		data : {
-			'key' : key
-		},
-		success : function(data){
-			if(data.length > 0)
-			{
-				$('#totalVerified').html(data[0].TotalVerified);
+	if(PRIVILEGE != 1) {
+		$.ajax({
+			type : 'POST',
+			url : BASE_URL + 'Kehadiran/getTotalVerifiedByUser',
+			dataType : 'json',
+			data : {
+				'key' : key
+			},
+			success : function(data){
+				if(data.length > 0)
+				{
+					$('#totalVerified').html(data[0].TotalVerified);
+				}
 			}
-		}
-	});
+		});
+	}
 
 	$.ajax({
 		type : 'POST',
@@ -79,6 +81,10 @@ function populateTableVerification(data){
 	$('#verification-log').DataTable({
 		"order"		: [[ 2, "desc" ]]
 	});
+
+	if(PRIVILEGE == 1) {
+		$('#totalVerified').html(data.length);
+	}
 
 	getVerificationSummary();
 }

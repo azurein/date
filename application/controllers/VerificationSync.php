@@ -71,20 +71,26 @@ class VerificationSync extends Main_Controller {
         $facilities = $this->input->post_get('selectFacility');
         $followers = $this->input->post_get('selectRepresentation');
 
-        //ambil fasilitas yang di-booking
         $curr_facilites = array();
-        $temp_facilites = $this->peserta->getParticipantFacility($participant_id);
-        foreach ($temp_facilites as $temp_facility) {
-            array_push($curr_facilites, $temp_facility->facility_id);
-        }
+        $fixed_facilites = array();
+        $canceled_facilities = array();
+        $additional_facilities = array();
 
-        //compare fasilitas yang di-booking dengan fasilitas yang akan di-checkin, adanya tiga kemungkinan:
-        //fasilitas yang tetap jadi
-        $fixed_facilites = array_values(array_intersect($curr_facilites, $facilities));
-        //fasilitas yang tidak jadi
-        $canceled_facilities = array_values(array_diff($curr_facilites, $facilities));
-        //fasilitas tambahan
-        $additional_facilities = array_values(array_diff($facilities, $curr_facilites));
+        if(count($facilities) > 0) {
+            //ambil fasilitas yang di-booking
+            $temp_facilites = $this->peserta->getParticipantFacility($participant_id);
+            foreach ($temp_facilites as $temp_facility) {
+                array_push($curr_facilites, $temp_facility->facility_id);
+            }
+
+            //compare fasilitas yang di-booking dengan fasilitas yang akan di-checkin, adanya tiga kemungkinan:
+            //fasilitas yang tetap jadi
+            $fixed_facilites = array_values(array_intersect($curr_facilites, $facilities));
+            //fasilitas yang tidak jadi
+            $canceled_facilities = array_values(array_diff($curr_facilites, $facilities));
+            //fasilitas tambahan
+            $additional_facilities = array_values(array_diff($facilities, $curr_facilites));
+        }
 
         $data = $this->verification->verify($participant_id, $card_id, $follower, $fixed_facilites, $canceled_facilities, $additional_facilities, $followers);
         if($this->model_2) {
@@ -141,7 +147,11 @@ class VerificationSync extends Main_Controller {
 
         /* Meja, Pemdamping */
         $printer -> setTextSize(2, 2);
-        $printer -> text("Table : ".$data[0]['table_name']."\n");
+
+        if($data[0]['table_name']) {
+            $printer -> text("Table : ".$data[0]['table_name']."\n");
+        }
+        
         $printer -> selectPrintMode();
         $printer -> text("Number of Coming Guest(s) : ".($guest+1)."\n\n");
 
@@ -157,7 +167,7 @@ class VerificationSync extends Main_Controller {
         $printer -> selectPrintMode(Printer::MODE_DOUBLE_WIDTH);
         $printer -> text("Souvenir : ".($souvenir+1)."\n");
         $printer -> selectPrintMode();
-        $printer -> text("*Please show this ticket to our usher\n\n\n\n");
+        $printer -> text("*Please show this ticket to our usher\n\n\n\n\n");
 
         $printer -> cut();
         $printer -> close();
