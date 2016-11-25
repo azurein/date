@@ -43,6 +43,10 @@ class Undian_model extends CI_Model {
 		ON p.participant_id = c.participant_id
 		AND c._status <> 'D'
 
+		JOIN verification d
+		ON c.card_id = d.card_id
+		AND d._status <> 'D'
+
 		LEFT JOIN lottery win
 		ON win.participant_id = p.participant_id
 
@@ -194,6 +198,10 @@ class Undian_model extends CI_Model {
 		ON p.participant_id = c.participant_id
 		AND c._status <> 'D'
 
+		JOIN verification d
+		ON c.card_id = d.card_id
+		AND d._status <> 'D'
+		
 		JOIN titles t
 		ON p.title_id = t.title_id
 		AND t._status <> 'D'

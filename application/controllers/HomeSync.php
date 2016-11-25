@@ -1,6 +1,11 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+require __DIR__ . '/../../assets/autoload.php';
+use Mike42\Escpos\Printer;
+use Mike42\Escpos\EscposImage;
+use Mike42\Escpos\PrintConnectors\FilePrintConnector;
+
 class HomeSync extends Main_Controller {
 
     public $model_2;
@@ -117,9 +122,11 @@ class HomeSync extends Main_Controller {
             'event_id' => $_SESSION['event_id']
         );
 
+        $follower = $this->input->post_get('participantFollower2');
         $facilities = $this->input->post_get('selectFacility2');
+        $souvenir = $this->input->post_get('totalSouvenir2');
 
-        $this->home->directRegistration($data, $facilities);
+        $result = $this->home->directRegistration($data, $facilities);
         if($this->model_2) {
             $this->home_2->directRegistration($data, $facilities);
         }
@@ -133,7 +140,65 @@ class HomeSync extends Main_Controller {
             $this->home_5->directRegistration($data, $facilities);
         }
 
+        $this->printStruk($result, $follower, $souvenir);
+
         $this->view('admin/home');
+    }
+
+    public function printStruk($data, $guest, $souvenir)
+    {
+        /* Open the printer; this will change depending on how it is connected */
+        $connector = new FilePrintConnector($this->config->item('printer'));
+        $printer = new Printer($connector);
+        $logo = EscposImage::load($_SERVER["DOCUMENT_ROOT"]."/date/assets/img/acara/".$data[0]['event_img'] , false);
+
+        /* Date is kept the same for testing */
+        date_default_timezone_set('Asia/Jakarta');
+        $date = date('D, jS M Y h:i A');
+
+        /* Start the printer */
+        $printer = new Printer($connector);
+
+        $printer -> text(" \n");
+        $printer -> bitImage($logo);
+        $printer -> text("\n\n");
+
+        /* Judul, Tanggal */
+        $printer -> setJustification(Printer::JUSTIFY_CENTER);
+        $printer -> selectPrintMode(Printer::MODE_DOUBLE_WIDTH);
+        $printer -> text($data[0]['event_name']."\n");
+        $printer -> selectPrintMode();
+        $printer -> text($data[0]['address']."\n");
+        $printer -> text($date."\n\n");
+
+        $printer -> text("-------------------------------\n\n");
+
+        /* Meja, Pemdamping */
+        $printer -> setTextSize(2, 2);
+
+        if($data[0]['table_name']) {
+            $printer -> text("Table : ".$data[0]['table_name']."\n");
+        }
+        
+        $printer -> selectPrintMode();
+        $printer -> text("Number of Coming Guest(s) : ".($guest+1)."\n\n");
+
+        /* Peserta, Doorprize */
+        $printer -> setJustification();
+        $printer -> text("  Name      : ".$data[0]['participant_name']."\n");
+        $printer -> text("  Group     : ".$data[0]['group_name']."\n");
+        $printer -> text("  Doorprize : ".$data[0]['lottery_num']."\n\n");
+
+        $printer -> text("-------------------------------\n\n");
+
+        /* Footer */
+        $printer -> selectPrintMode(Printer::MODE_DOUBLE_WIDTH);
+        $printer -> text("Souvenir : ".($souvenir+1)."\n");
+        $printer -> selectPrintMode();
+        $printer -> text("*Please show this ticket to our usher\n\n\n\n\n");
+
+        $printer -> cut();
+        $printer -> close();
     }
 
 }

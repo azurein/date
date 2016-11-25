@@ -91,32 +91,27 @@ $(document).ready(function() {
 		}
 		else if($('#rbParticipants').prop('checked') == true)
 		{
-			for(var i = 0; i < totalWinner; i++)
+			var originalTotalWinner = totalWinner;
+			for(var i = 0; i < originalTotalWinner; i++)
 			{
-				if($('#txtParticipant'+i+'').val().trim() == '')
+				if($('#txtParticipant'+i).val().trim() == '')
 				{
-					if(i == 0)
-					{
-						showMessage("Participant " + (i+1) + " harus diisi!");
-					}
-					else
-					{
-						showMessage("Participant " + (i+1) + " harus diisi!");
-					}
-					return;
+					totalWinner--;
 				}
 			}
+			
+			// if(totalWinner > 0) {
+			// 	for(var i = 0; i < originalTotalWinner; i++)
+			// 	{
+			// 		if($.inArray($('#txtParticipant'+i+'').val().trim(), participantName) == -1)
+			// 		{
+			// 			showMessage("Participant " + $('#txtParticipant'+i+'').val() + " tidak ada!")
+			// 			return;
+			// 		}
+			// 	}
+			// }
 
-			for(var i = 0; i < totalWinner; i++)
-			{
-				if($.inArray($('#txtParticipant'+i+'').val().trim(), participantName) == -1)
-				{
-					showMessage("Participant " + $('#txtParticipant'+i+'').val() + " tidak ada!")
-					return;
-				}
-			}
-
-			for(var i = 0; i < totalWinner; i++)
+			for(var i = 0; i < originalTotalWinner; i++)
 			{
 				titles += $('#txtParticipant'+i+'').val().split(' ', 2)[0] + ',';
 				check += $('#txtParticipant'+i+'').val().split(' ', 2)[1] + ',';
@@ -151,20 +146,23 @@ $(document).ready(function() {
 				});
 			}
 
-			$.ajax({
-				type : 'POST',
-				url : BASE_URL + 'acara/Hadiah_acara/saveParticipants',
-				async : false,
-				dataType : 'json',
-				data : {
-					'prize_id'			: prize_id,
-					'participants'		: check,
-					'titles'			: titles
-				},
-				success : function(data){
-					getPrize();
-				}
-			});
+			if(totalWinner > 0) {
+				$.ajax({
+					type : 'POST',
+					url : BASE_URL + 'acara/Hadiah_acara/saveParticipants',
+					async : false,
+					dataType : 'json',
+					data : {
+						'prize_id'			: prize_id,
+						'participants'		: check,
+						'titles'			: titles
+					},
+					success : function(data){
+						getPrize();
+					}
+				});
+			}
+			$("#settingModal").modal("hide");
 		}
 	});
 });
