@@ -180,7 +180,8 @@
                         </canvas>
                     </div>
                 </div>
-                <input id="uploadExcelTemplate" type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" style="display:none;">
+                <!-- <input id="uploadExcelTemplate" type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" style="display:none;"> -->
+                <input id="uploadExcelTemplate" type="file" style="display:none;">
                 <img src="../../assets/img/denah/default.jpg" id="imgBackgroundCanvas" style="display:none;"/>
             </div>
         </div>

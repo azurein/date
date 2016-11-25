@@ -934,7 +934,7 @@ function registerObj(idx,side){
 		},
 		error :function(){
 			alert('Error : cannot save canvas object state to database');
-			location.reload();
+			// location.reload();
 		},
 		success: function(id){
 			obj.dbid = id;
@@ -1146,7 +1146,7 @@ function finishPrint(pdf){
 	normalizeCanvas();
 	$('#loadingModal').modal('hide');
 
-	pdf.save("download.pdf");
+	pdf.save("cetak_kartu.pdf");
 }
 
 function mirrorCanvas(){

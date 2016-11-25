@@ -22,18 +22,18 @@ class PesertaSync extends Main_Controller {
 			$this->load->model("Peserta_model_2","peserta_2");
 			$this->model_2 = TRUE;
 		}
-		if($this->ping($this->config->item('model_3'))) {
-			$this->load->model("Peserta_model_3","peserta_3");
-			$this->model_3 = TRUE;
-		}
-		if($this->ping($this->config->item('model_4'))) {
-			$this->load->model("Peserta_model_4","peserta_4");
-			$this->model_4 = TRUE;
-		}
-		if($this->ping($this->config->item('model_5'))) {
-			$this->load->model("Peserta_model_5","peserta_5");
-			$this->model_5 = TRUE;
-		}
+		// if($this->ping($this->config->item('model_3'))) {
+		// 	$this->load->model("Peserta_model_3","peserta_3");
+		// 	$this->model_3 = TRUE;
+		// }
+		// if($this->ping($this->config->item('model_4'))) {
+		// 	$this->load->model("Peserta_model_4","peserta_4");
+		// 	$this->model_4 = TRUE;
+		// }
+		// if($this->ping($this->config->item('model_5'))) {
+		// 	$this->load->model("Peserta_model_5","peserta_5");
+		// 	$this->model_5 = TRUE;
+		// }
 	}
 
 	public function index()
@@ -189,23 +189,25 @@ class PesertaSync extends Main_Controller {
 				'phone_num' => $this->input->post_get('phone_num'),
 				'group' => $this->input->post_get('group'),
 				'follower' => $this->input->post_get('follower'),
+				'is_confirm' => '0',
 				'delegate' => $this->input->post_get('delegate'),
 				'userID' => $_SESSION['user_id'],
 				'eventID' => $_SESSION['event_id']
 			);
 
 			$result = $this->peserta->createParticipant1($data);
+
 			if($this->model_2) {
-				$this->peserta_2->createParticipant1($data);
+				$this->peserta_2->createParticipant1($data, $result);
 			}
 			if($this->model_3) {
-				$this->peserta_3->createParticipant1($data);
+				$this->peserta_3->createParticipant1($data, $result);
 			}
 			if($this->model_4) {
-				$this->peserta_4->createParticipant1($data);
+				$this->peserta_4->createParticipant1($data, $result);
 			}
 			if($this->model_5) {
-				$this->peserta_5->createParticipant1($data);
+				$this->peserta_5->createParticipant1($data, $result);
 			}
 
  			$newID = $this->getNewID();

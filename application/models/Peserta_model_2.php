@@ -166,24 +166,45 @@ class Peserta_model_2 extends CI_Model {
 		return $data;
 	}
 
-	public function createParticipant1($data){
-		$query = 	"INSERT INTO participant
-					(participant_name,phone_num,title_id,delegate_to,follower,group_id,_status,_user,_date,event_id)
-					VALUES(?,?,?,?,?,?,'I',?,NOW(),?)
-					";
+	public function createParticipant1($data, $newid=0){
 
-		$this->db->query($query,array(
-			$data['name'],
-			$data['phone_num'],
-			$data['title'],
-			$data['delegate'],
-			$data['follower'],
-			$data['group'],
-			$data['userID'],
-			$data['eventID']
-		));
-		$data = $this->db->insert_id();
-
+		if($newid == 0) {
+			$query = "INSERT INTO participant
+			(participant_name,phone_num,title_id,delegate_to,follower,is_confirm,group_id,_status,_user,_date,event_id)
+			VALUES(?,?,?,?,?,?,?,'I',?,NOW(),?)
+			";
+			$this->db->query($query,array(
+				$data['name'],
+				$data['phone_num'],
+				$data['title'],
+				$data['delegate'],
+				$data['follower'],
+				$data['is_confirm'],
+				$data['group'],
+				$data['userID'],
+				$data['eventID']
+			));
+			$data = $this->db->insert_id();
+		} else {
+			$query = "INSERT INTO participant
+			(participant_id,participant_name,phone_num,title_id,delegate_to,follower,is_confirm,group_id,_status,_user,_date,
+			event_id)
+			VALUES(?,?,?,?,?,?,?,?,'I',?,NOW(),?)
+			";
+			$this->db->query($query,array(
+				$newid,
+				$data['name'],
+				$data['phone_num'],
+				$data['title'],
+				$data['delegate'],
+				$data['follower'],
+				$data['is_confirm'],
+				$data['group'],
+				$data['userID'],
+				$data['eventID']
+			));
+		}
+		
 		return $data;
 	}
 
@@ -399,7 +420,7 @@ class Peserta_model_2 extends CI_Model {
 					'title' => empty($title_id)? 0 : $title_id[0]['title_id'],
 					'delegate' => 'null',
 					'follower' => array_key_exists('F',$row)? $row['F']: 0,
-					'follower' => array_key_exists('G',$row)? $row['G']: 0,
+					'is_confirm' => array_key_exists('G',$row)? $row['G']: 0,
 					'group' => empty($group_id)? 0 : $group_id[0]['group_id'],
 					'userID' => $user['userID'],
 					'eventID' => $user['eventID']

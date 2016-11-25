@@ -10,6 +10,7 @@ var _first;
 var old_data = [];
 
 $(document).ready(function(){
+    $('title').html("D.A.T.E - Undian");
     init();
     $('nav').hide();
     $('body').on('click', '.fa-close', function() {
@@ -32,7 +33,10 @@ function init(){
         url       : BASE_URL + 'Undian/getAllParticipant',
         dataType  : 'JSON',
         success   : function(data){
-            allParticipant = data;
+            if(data.length > 0) {
+                $(".lottery-start").show();
+                allParticipant = data;
+            }
         }
     }).then(function(){
         getPrize(0);

@@ -233,9 +233,9 @@ function populateTableParticipant(data){
 	{
 		var activeflag = "";
 		if(data[i].is_confirm == 1) {
-			activeflag = '<i class="fa fa-check"></i>';
+			activeflag = '<i class="fa fa-check"><span style="display:none">1</span></i>';
 		} else {
-			activeflag = '<i class="fa fa-remove"></i>';
+			activeflag = '<i class="fa fa-remove"><span style="display:none">0</span></i>';
 		}
 
 		var followerBadge = "";

@@ -28,9 +28,9 @@ $(document).ready(function(){
 
 	$("#btnSaveCanvasImage").click(function(){
 		if($('#ufUploadCanvasImage').val() == ""){
-			validationModal('tidak dapat mengunggah gambar karena gambar belum dimasukan');
+			alert('Upload gagal karena gambar belum dipilih');
 		}else if(currentCanvasID == -1){
-			validationModal('tidak dapat mengunggah gambar karena denah masih kosong');
+			alert('Upload gagal karena Denah masih kosong');
 		}else{
 			uploadCanvasImage(currentCanvasID);
 		}
@@ -152,6 +152,10 @@ $(document).ready(function(){
 		setGroupByParent();
 	});
 
+	$('.btn-success').click(function(){
+		$('body').css('padding-right','0px');
+	});
+
 	getDetailCanvas();
 	getFacilityGroup();
 	loadFacilityFrom();
@@ -238,7 +242,7 @@ function insertNewCanvasName(e){
 	if(e.keyCode == 13){
 		$('#txtCanvasName').focusout();
 		if($('#txtCanvasName').val().trim() == ""){
-			validationModal('isi kan nama dengan benar');
+			alert('Isi nama dengan benar');
 		}else{
 			$.ajax({
 				type : 'POST',
@@ -251,7 +255,7 @@ function insertNewCanvasName(e){
 				},
 				success : function(data){
 					if(data.length > 0){
-						validationModal('nama canvas sudah terpakai');
+						alert('Nama Denah sudah terpakai');
 						$('#txtCanvasName').val(currentCanvasName);
 					}else{
 						if(currentCanvasID == -1){
@@ -500,7 +504,7 @@ function insertNewCanvas(){
 		},
 		success : function(data){
 			currentCanvasID = data;
-			validationModal('Berhasil membuat Denah');
+			alert('Berhasil membuat Denah');
 		}
 	});
 }
@@ -516,7 +520,7 @@ function updateCanvasName(){
 			'canvas_id': currentCanvasID
 		},
 		success : function(data){
-			validationModal('Berhasil merubah nama Denah');
+			alert('Berhasil merubah nama Denah');
 		}
 	});
 }
@@ -531,7 +535,7 @@ function deleteCanvas(){
 		},
 		success : function(data){
 			$('#txtCanvasName').val('');
-			validationModal('Berhasil menghapus Denah');
+			alert('Berhasil menghapus Denah');
 			getDetailCanvas();
 		}
 	});
@@ -627,7 +631,7 @@ function AddEditFacility(type){
 				'facility_name': $('#txtAddEditFacilityName').val()
 			},
 			success : function(data){
-				validationModal('Berhasil menambahkan fasilitas');
+				// validationModal('Berhasil menambahkan fasilitas');
 				$('#txtAddEditFacilityName').val('');
 			}
 		});
@@ -659,7 +663,7 @@ function AddEditFacility(type){
 						}
 					});
 				}
-				validationModal('Berhasil mengubah fasilitas');
+				// validationModal('Berhasil mengubah fasilitas');
 				$('#txtAddEditFacilityName').val('');
 			}
 		});
@@ -703,7 +707,7 @@ function saveCanvasImage(fileName, CanvasId)
 		},
 		success : function(data){
 			$('#imgBackgroundCanvas').attr('src','../../assets/img/denah/'+fileName);
-			validationModal('Sukses mengunggah gambar');
+			// validationModal('Sukses mengunggah gambar');
 			$('#ufUploadCanvasImage').val("");
 			getDetailCanvas();
 		}
@@ -718,7 +722,7 @@ function deleteFacility(){
 			'facility_id': currentFacilityID
 		},
 		success : function(data){
-			validationModal('Sukses menghapus fasilitas');
+			// validationModal('Sukses menghapus fasilitas');
 			getDetailCanvas();
 		}
 	});
@@ -764,10 +768,10 @@ function saveParticipantFacility(){
 		},
 		success : function(data){
 			if(data > 0){//the number of seats required
-				validationModal('kursi yang dibutuhkan kurang '+data+' kursi lagi');
+				alert('Kursi yang dibutuhkan kurang '+data+' kursi lagi');
 			}else{
 				getDetailCanvas();
-				validationModal('sukses merubah peserta');
+				// validationModal('sukses merubah peserta');
 			}
 		}
 	});
@@ -838,9 +842,9 @@ function loadExcel(){
 		success : function(data){
 			if(data == 'sukses'){
 				getDetailCanvas();
-				validationModal('Sukses memasukan data dari excel');
+				alert('Sukses memasukan data dari Excel');
 			}else{
-				validationModal(data);
+				alert(data);
 			}
 
 		}

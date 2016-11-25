@@ -18,6 +18,10 @@ class Undian_model extends CI_Model {
 		ON p.participant_id = c.participant_id
 		AND c._status <> 'D'
 
+		JOIN verification d
+		ON c.card_id = d.card_id
+		AND d._status <> 'D'
+
 		WHERE p._status <> 'D'
 		AND p.event_id = ".$param['event_id']."
 

@@ -11,26 +11,23 @@ class Undian extends Main_Controller {
 
 	public function index()
 	{
-		$_SESSION['user_id'] = '0';
-		$_SESSION['event_id'] = '1';
-
-		$this->view('admin/undian');
-	}
-
-	private function getSession($key){
-		return $_SESSION[$key];
+    if(isset($_SESSION['user_id'])) {
+      $this->view('admin/undian');
+    } else {
+      header('Location: '.base_url());
+    }
 	}
 
   public function getAllParticipant(){
     $param = array(
-      'event_id' => $this->getSession('event_id')
+      'event_id' => $_SESSION['event_id']
     );
 		echo json_encode($this->undian->getAllParticipant($param));
 	}
 
 	public function getAllRightfulParticipant(){
     $param = array(
-      'event_id' => $this->getSession('event_id'),
+      'event_id' => $_SESSION['event_id'],
       'prize_id' => $this->input->post_get('prize_id')
     );
 		echo json_encode($this->undian->getAllRightfulParticipant($param));
@@ -38,7 +35,7 @@ class Undian extends Main_Controller {
 
   public function getPrize(){
     $idx = $this->input->post_get('index');
-    $event_id = $this->getSession('event_id');
+    $event_id = $_SESSION['event_id'];
 		$prizes = $this->undian->getPrize($event_id,$idx);
 
     // for( $i = 0 ; $i < count($prizes) ; $i++ ){
@@ -87,7 +84,7 @@ class Undian extends Main_Controller {
     $old_participant = $this->input->post_get('old_participant');
     $participant = $this->input->post_get('participant');
     $prize_id = $this->input->post_get('prize_id');
-    $user_id = $this->getSession('user_id');
+    $user_id = $_SESSION['user_id'];
 
     $this->undian->deletePrevData($prize_id, $old_participant);
 

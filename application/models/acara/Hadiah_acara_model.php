@@ -31,7 +31,8 @@ class Hadiah_acara_model extends CI_Model {
 					JOIN titles b ON a.title_id = b.title_id
 					WHERE a._status <> 'D'
 					AND b._status <> 'D'
-					AND a.participant_id NOT IN (SELECT DISTINCT participant_id from prize_setting WHERE _status <> 'D') ";
+					AND a.participant_id NOT IN (SELECT DISTINCT participant_id from prize_setting WHERE _status <> 'D') 
+					AND a.event_id = '".$_SESSION['event_id']."'";
 
 		$data = $this->db->query($query)->result_array();
 
@@ -52,7 +53,8 @@ class Hadiah_acara_model extends CI_Model {
 					AND c._status <> 'D'
 					AND a.prize_id = '".$prize_id."' 
 					AND a.participant_id <> 0
-					AND a.group_id = 0 ";
+					AND a.group_id = 0 
+					AND d.event_id = '".$_SESSION['event_id']."'";
 
 		$data = $this->db->query($query)->result_array();
 
@@ -88,7 +90,7 @@ class Hadiah_acara_model extends CI_Model {
 					prize_img,
 					total_winner
 					FROM prize
-					WHERE _status <> 'D' ";
+					WHERE _status <> 'D' AND event_id = '".$_SESSION['event_id']."'";
 
 		$data = $this->db->query($query)->result_array();
 
@@ -107,7 +109,8 @@ class Hadiah_acara_model extends CI_Model {
 					total_winner
 					FROM prize
 					WHERE _status <> 'D' 
-					AND prize_id = '".$prize_id."' ";
+					AND prize_id = '".$prize_id."' 
+					AND event_id = '".$_SESSION['event_id']."'";
 
 		$data = $this->db->query($query)->result();
 

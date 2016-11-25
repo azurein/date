@@ -41,7 +41,7 @@
                 <button id="prev-prize" class="btn btn-link btn-lg lottery-btn" type="button"><i class="glyphicon glyphicon-chevron-left pull-left"></i> Hadiah Sebelumnya</button>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                <button id="trigger-btn" class="btn btn-success btn-lg lottery-btn lottery-start" type="button">START</button>
+                <button id="trigger-btn" class="btn btn-success btn-lg lottery-btn lottery-start" type="button" style="display:none">START</button>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                 <button id="next-prize" class="btn btn-link btn-lg lottery-btn" type="button">Hadiah Selanjutnya <i class="glyphicon glyphicon-chevron-right pull-right"></i></button>
