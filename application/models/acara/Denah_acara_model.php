@@ -21,7 +21,8 @@ class Denah_acara_model extends CI_Model {
 		JOIN canvas x ON y.canvas_id=x.canvas_id
 		WHERE y._status <> 'D'
 		AND x._status <> 'D'
-		AND z.event_id = ".$_SESSION['event_id'].")";
+		AND z.event_id = ".$_SESSION['event_id'].")
+		AND a.event_id = ".$_SESSION['event_id']."";
 		$data = $this->db->query($query)->result_array();
 		return $data;
 	}
