@@ -33,9 +33,21 @@ function checkCard(card_id){
             'card_id'       : card_id
         },
         success : function(data){
+
             if(data[0].checkVerification == 0) {
-                $("#scannerInputQr").val(card_id);
-                getParticipantByCardID(card_id);
+                if(data[0].is_confirm) {                    
+                    $("#scannerInputQr").val(card_id);
+                    getParticipantByCardID(card_id);
+                } else {
+                    var r = confirm("Kartu "+card_id+" belum terkonfirmasi, apakah ingin melanjutkan?");
+                    if (r == true) {
+                        $("#scannerInputQr").val(card_id);
+                        getParticipantByCardID(card_id);
+                    } else {
+                        $("#scannerInputQr2").val("");
+                        $("#scannerInputQr").val("");
+                    }
+                }
             } else if(data[0].checkVerification == 1) {
                 var r = confirm("Kartu "+card_id+" sudah diverfikasi, apakah ingin perbarui verifikasi?");
                 if (r == true) {
@@ -171,7 +183,11 @@ function VerificationValidation() {
         $("#scannerFormQrSubmit").show();
     } else {
         if(parseInt($("#participantFollower1").val()) == 0) {
-            $("#scannerFormQrSubmit").show();
+            if(undangan > 1) {
+                $("#scannerFormQrSubmit").hide();
+            } else {
+                $("#scannerFormQrSubmit").show();
+            }
         } else {
             $("#scannerFormQrSubmit").hide();
         }

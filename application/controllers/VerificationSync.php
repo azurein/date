@@ -93,6 +93,9 @@ class VerificationSync extends Main_Controller {
         }
 
         $data = $this->verification->verify($participant_id, $card_id, $follower, $fixed_facilites, $canceled_facilities, $additional_facilities, $followers);
+
+        $this->printStruk($data, $follower, count($followers));
+        
         if($this->model_2) {
 			$this->verification_2->verify($participant_id, $card_id, $follower, $fixed_facilites, $canceled_facilities, $additional_facilities, $followers);
 		}
@@ -105,8 +108,6 @@ class VerificationSync extends Main_Controller {
 		if($this->model_5) {
 			$this->verification_5->verify($participant_id, $card_id, $follower, $fixed_facilites, $canceled_facilities, $additional_facilities, $followers);
 		}
-
-        $this->printStruk($data, $follower, count($followers));
 
         $this->view('admin/home');
 	}
@@ -137,9 +138,9 @@ class VerificationSync extends Main_Controller {
 
         /* Judul, Tanggal */
         $printer -> setJustification(Printer::JUSTIFY_CENTER);
-        $printer -> selectPrintMode(Printer::MODE_DOUBLE_WIDTH);
-        $printer -> text($data[0]['event_name']."\n");
-        $printer -> selectPrintMode();
+        // $printer -> selectPrintMode(Printer::MODE_DOUBLE_WIDTH);
+        // $printer -> text($data[0]['event_name']."\n");
+        // $printer -> selectPrintMode();
         $printer -> text($data[0]['address']."\n");
         $printer -> text($date."\n\n");
 

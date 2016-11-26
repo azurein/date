@@ -82,6 +82,7 @@ class Kehadiran_model extends CI_Model {
 						WHEN b.card_id IS NOT NULL THEN 1
 						ELSE 0
 					END AS checkVerification,
+					d.is_confirm,
 					e.title_name,
 					d.participant_name
 
