@@ -39,14 +39,14 @@ $(document).ready(function(){
 	//create canvas
 	__canvas[0] = new fabric.Canvas(__canvas.id[0],{
 		backgroundColor : "white",
-		width 		: 500,
-		height 		: 300,
+		width 		: 520,
+		height 		: 320,
 		selection 	: false
 	});
 	__canvas[1] = new fabric.Canvas(__canvas.id[1],{
 		backgroundColor : "white",
-		width 		: 500,
-		height 		: 300,
+		width 		: 520,
+		height 		: 320,
 		selection 	: false
 	});
 	setInterval(function(){
@@ -331,7 +331,7 @@ function createObj(param,resolve){
 			name 	: param.nama,
 			type 	: param.type,
 			scale 	: obj.getScaleX(),
-			x 		: __canvas.rotation[__curr] == 0 ? obj.getTop() : 500 - obj.getLeft(),
+			x 		: __canvas.rotation[__curr] == 0 ? obj.getTop() : 520 - obj.getLeft(),
 			y 		: __canvas.rotation[__curr] == 0 ? obj.getLeft() : obj.getTop(),
 			rotation: __canvas.rotation[__curr] == 0 ? obj.getAngle() : obj.getAngle() + 270,
 			fontType: null,
@@ -856,9 +856,9 @@ function rotateCard(){
 
 	__canvas[__curr].forEachObject(function(obj,i){
 		var l = obj.getLeft();
-		l = isH ? 500-l : l;
+		l = isH ? 520-l : l;
 		var t = obj.getTop();
-		t = isH ? t : 500-t;
+		t = isH ? t : 520-t;
 		var d = obj.getAngle();
 		d = parseFloat(d);
 		d += isH ? 270.00 : -270.00 ;
@@ -892,7 +892,7 @@ function updateControls(data){
 			}
 			else {
 				__map[__curr][i].x = obj.getLeft();
-				__map[__curr][i].y = 500 - obj.getTop();
+				__map[__curr][i].y = 520 - obj.getTop();
 			}
 
 
