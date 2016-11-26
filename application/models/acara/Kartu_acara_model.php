@@ -181,7 +181,7 @@ class Kartu_acara_model extends CI_Model {
 		card.card_id,
 		CONCAT(TRIM(titles.title_name), ' ' , participant.participant_name) as participant_name,
 		groups.group_name,
-		participant.follower as follower,
+		participant.follower+1 as follower,
 		MAX(card_design.side) as is_flip
 
 		FROM participant
@@ -204,7 +204,6 @@ class Kartu_acara_model extends CI_Model {
 		AND card_design._status <> 'D'
 
 		WHERE card.event_id = '".$event_id."'
-		AND participant.is_confirm = '1'
 
 		GROUP BY card.card_id,
 		titles.title_name,
