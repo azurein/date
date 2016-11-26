@@ -179,7 +179,7 @@ class Kartu_acara_model extends CI_Model {
 		$query = "
 		SELECT
 		card.card_id,
-		CONCAT(TRIM(titles.title_name), ' ' , participant.participant_name) as participant_name,
+		participant_name,
 		groups.group_name,
 		participant.follower+1 as follower,
 		MAX(card_design.side) as is_flip

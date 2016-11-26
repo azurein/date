@@ -39,14 +39,14 @@ $(document).ready(function(){
 	//create canvas
 	__canvas[0] = new fabric.Canvas(__canvas.id[0],{
 		backgroundColor : "white",
-		width 		: 520,
-		height 		: 320,
+		width 		: 500,
+		height 		: 300,
 		selection 	: false
 	});
 	__canvas[1] = new fabric.Canvas(__canvas.id[1],{
 		backgroundColor : "white",
-		width 		: 520,
-		height 		: 320,
+		width 		: 500,
+		height 		: 300,
 		selection 	: false
 	});
 	setInterval(function(){
@@ -331,7 +331,7 @@ function createObj(param,resolve){
 			name 	: param.nama,
 			type 	: param.type,
 			scale 	: obj.getScaleX(),
-			x 		: __canvas.rotation[__curr] == 0 ? obj.getTop() : 520 - obj.getLeft(),
+			x 		: __canvas.rotation[__curr] == 0 ? obj.getTop() : 500 - obj.getLeft(),
 			y 		: __canvas.rotation[__curr] == 0 ? obj.getLeft() : obj.getTop(),
 			rotation: __canvas.rotation[__curr] == 0 ? obj.getAngle() : obj.getAngle() + 270,
 			fontType: null,
@@ -856,9 +856,9 @@ function rotateCard(){
 
 	__canvas[__curr].forEachObject(function(obj,i){
 		var l = obj.getLeft();
-		l = isH ? 520-l : l;
+		l = isH ? 500-l : l;
 		var t = obj.getTop();
-		t = isH ? t : 520-t;
+		t = isH ? t : 500-t;
 		var d = obj.getAngle();
 		d = parseFloat(d);
 		d += isH ? 270.00 : -270.00 ;
@@ -892,7 +892,7 @@ function updateControls(data){
 			}
 			else {
 				__map[__curr][i].x = obj.getLeft();
-				__map[__curr][i].y = 520 - obj.getTop();
+				__map[__curr][i].y = 500 - obj.getTop();
 			}
 
 
@@ -1033,16 +1033,16 @@ function prepareMassPrint() {
 					$("#flipCard").click();
 				}
 
-	    		mirrorCanvas();
+	    		// mirrorCanvas();
 
 				var jspdf = new jsPDF();
 
 				var pdf = {
-					topoffset 	: 6,
-					leftoffset 	: 6,
-					height 		: 52,
-					width 		: 89,
-					gutter		: 14,
+					topoffset 	: 3.5,
+					leftoffset 	: 8,
+					height 		: 56,
+					width 		: 88,
+					gutter		: 11,
 					pdf 		: jspdf
 				};
 
@@ -1156,7 +1156,7 @@ function mirrorCanvas(){
 				obj.setAngle(obj.getAngle()+180).set('flipY',true);
 			}
 			else{
-				obj.setAngle(obj.getAngle()+180).set('flipX',true);
+				// obj.setAngle(obj.getAngle()+180).set('flipX',true);
 			}
 		});
 	}
