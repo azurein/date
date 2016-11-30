@@ -194,6 +194,12 @@ function loadAddEditModal(param , participantData=''){
 				saveParticipant(id);
 			});
 			$("#addEditModal").modal("show");
+
+            if (PRIVILEGE != 1) {
+                $('.modal-body input').prop('readonly','true');
+                $('.modal-body option:not(:selected)').prop('disabled', 'true');
+                $('.modal-body #participantDelegate').removeAttr('readonly');
+            }
 		}
 	});
 }
