@@ -25,22 +25,22 @@ class VerificationSync extends Main_Controller {
         $this->load->model("Kehadiran_model","kehadiran");
         $this->load->model("Peserta_model","peserta");
 
-        // if($this->ping($this->config->item('model_2'))) {
-        // 	$this->load->model("Verification_model_2","verification_2");
-        // 	$this->model_2 = TRUE;
-        // }
-        // if($this->ping($this->config->item('model_3'))) {
-        // 	$this->load->model("Verification_model_3","verification_3");
-        // 	$this->model_3 = TRUE;
-        // }
-        // if($this->ping($this->config->item('model_4'))) {
-        // 	$this->load->model("Verification_model_4","verification_4");
-        // 	$this->model_4 = TRUE;
-        // }
-        // if($this->ping($this->config->item('model_5'))) {
-        // 	$this->load->model("Verification_model_5","verification_5");
-        // 	$this->model_5 = TRUE;
-        // }
+        if($this->ping($this->config->item('model_2'))) {
+        	$this->load->model("Verification_model_2","verification_2");
+        	$this->model_2 = TRUE;
+        }
+        if($this->ping($this->config->item('model_3'))) {
+        	$this->load->model("Verification_model_3","verification_3");
+        	$this->model_3 = TRUE;
+        }
+        if($this->ping($this->config->item('model_4'))) {
+        	$this->load->model("Verification_model_4","verification_4");
+        	$this->model_4 = TRUE;
+        }
+        if($this->ping($this->config->item('model_5'))) {
+        	$this->load->model("Verification_model_5","verification_5");
+        	$this->model_5 = TRUE;
+        }
 	}
 
     public function index()
