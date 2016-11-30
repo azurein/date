@@ -170,7 +170,7 @@ class Peserta_model_3 extends CI_Model {
 
 		if($newid == 0) {
 			$query = "INSERT INTO participant
-			(participant_name,phone_num,title_id,delegate_to,follower,is_confirm,group_id,_status,_user,_date,event_id)
+			(participant_name,phone_num,title_id,delegate_to,follower_prev,follower,is_confirm,group_id,_status,_user,_date,event_id)
 			VALUES(?,?,?,?,?,?,?,'I',?,NOW(),?)
 			";
 			$this->db->query($query,array(
@@ -178,6 +178,7 @@ class Peserta_model_3 extends CI_Model {
 				$data['phone_num'],
 				$data['title'],
 				$data['delegate'],
+				$data['follower'],
 				$data['follower'],
 				$data['is_confirm'],
 				$data['group'],
@@ -187,7 +188,7 @@ class Peserta_model_3 extends CI_Model {
 			$data = $this->db->insert_id();
 		} else {
 			$query = "INSERT INTO participant
-			(participant_id,participant_name,phone_num,title_id,delegate_to,follower,is_confirm,group_id,_status,_user,_date,
+			(participant_id,participant_name,phone_num,title_id,delegate_to,follower_prev,follower,is_confirm,group_id,_status,_user,_date,
 			event_id)
 			VALUES(?,?,?,?,?,?,?,?,'I',?,NOW(),?)
 			";
@@ -198,13 +199,14 @@ class Peserta_model_3 extends CI_Model {
 				$data['title'],
 				$data['delegate'],
 				$data['follower'],
+				$data['follower'],
 				$data['is_confirm'],
 				$data['group'],
 				$data['userID'],
 				$data['eventID']
 			));
 		}
-		
+
 		return $data;
 	}
 
@@ -260,6 +262,7 @@ class Peserta_model_3 extends CI_Model {
 					participant_name = ?,
 					phone_num = ?,
 					group_id = ?,
+					follower_prev = ?,
 					follower = ?,
 					delegate_to = ?,
 					_user = ?,
@@ -274,6 +277,7 @@ class Peserta_model_3 extends CI_Model {
 			$data['name'],
 			$data['phone_num'],
 			$data['group'],
+			$data['follower'],
 			$data['follower'],
 			$data['delegate'],
 			$data['userID'],

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.1
--- http://www.phpmyadmin.net
+-- version 4.6.3
+-- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Nov 24, 2016 at 10:03 AM
--- Server version: 10.1.13-MariaDB
--- PHP Version: 5.6.23
+-- Host: localhost
+-- Generation Time: Nov 30, 2016 at 11:36 AM
+-- Server version: 5.7.13
+-- PHP Version: 5.6.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -47,7 +47,9 @@ INSERT INTO `canvas` (`canvas_id`, `event_id`, `canvas_name`, `canvas_slideid`, 
 (28, 1, 'Hall A', 1, '28.png', 1000, 600, 'U', '0', '2016-10-17 11:42:23'),
 (29, 1, 'Hall B', 2, '29.jpg', 1000, 600, 'U', '0', '2016-10-17 11:42:30'),
 (30, 1, 'Hall C', 3, 'default.jpg', 1000, 600, 'D', '0', '2016-10-23 13:15:26'),
-(31, 1, 'Hall C', 3, 'default.jpg', 1000, 600, 'D', '0', '2016-10-23 13:25:51');
+(31, 1, 'Hall C', 3, 'default.jpg', 1000, 600, 'D', '0', '2016-10-23 13:25:51'),
+(32, 42, 'HALL A', 1, '32.png', 1000, 600, 'U', '1', '2016-11-26 15:39:17'),
+(33, 42, 'test', 2, 'default.jpg', 1000, 600, 'I', '1', '2016-11-30 17:27:15');
 
 -- --------------------------------------------------------
 
@@ -69,6 +71,14 @@ CREATE TABLE `card` (
 --
 
 INSERT INTO `card` (`card_id`, `event_id`, `participant_id`, `_status`, `_user`, `_date`) VALUES
+('1001-100', 42, 60, 'I', '1', '2016-11-26 13:45:39'),
+('1002-101', 42, 61, 'I', '1', '2016-11-26 13:45:39'),
+('1003-102', 42, 62, 'I', '1', '2016-11-26 13:45:39'),
+('1004-103', 42, 63, 'I', '1', '2016-11-26 13:45:39'),
+('1005-104', 42, 64, 'I', '1', '2016-11-26 13:45:39'),
+('1006-105', 42, 65, 'I', '1', '2016-11-26 13:45:39'),
+('1007-106', 42, 66, 'I', '1', '2016-11-26 13:45:39'),
+('1008-107', 42, 67, 'I', '1', '2016-11-26 13:45:40'),
 ('100816000001', 1, 59, 'I', '1', '2016-11-12 17:40:12'),
 ('100816000111', 1, 53, 'I', '1', '2016-11-12 17:40:11'),
 ('100816000192', 1, 52, 'I', '1', '2016-11-12 17:40:11'),
@@ -83,7 +93,21 @@ INSERT INTO `card` (`card_id`, `event_id`, `participant_id`, `_status`, `_user`,
 ('100816001324', 1, 48, 'I', '1', '2016-11-12 17:40:11'),
 ('100816001325', 1, 47, 'I', '1', '2016-11-12 17:40:11'),
 ('100816001326', 1, 46, 'I', '1', '2016-11-12 17:40:11'),
-('100816001375', 1, 49, 'I', '1', '2016-11-12 17:40:11');
+('100816001375', 1, 49, 'I', '1', '2016-11-12 17:40:11'),
+('1009-108', 42, 68, 'I', '1', '2016-11-26 13:45:40'),
+('1010-109', 42, 69, 'I', '1', '2016-11-26 13:45:40'),
+('1011-110', 42, 70, 'I', '1', '2016-11-26 13:45:40'),
+('1012-111', 42, 71, 'I', '1', '2016-11-26 13:45:40'),
+('20161128153713-112', 42, 72, 'I', '1', '2016-11-28 15:37:13'),
+('20161128153730-113', 42, 73, 'I', '1', '2016-11-28 15:37:30'),
+('20161128153737-114', 42, 74, 'I', '1', '2016-11-28 15:37:37'),
+('20161130133135-115', 42, 75, 'I', '1', '2016-11-30 13:31:35'),
+('20161130133357-116', 42, 76, 'I', '1', '2016-11-30 13:33:57'),
+('20161130134705-117', 42, 77, 'I', '1', '2016-11-30 13:47:05'),
+('20161130150741-119', 42, 78, 'U', '1', '2016-11-30 15:07:41'),
+('20161130151617-120', 42, 79, 'I', '1', '2016-11-30 15:16:17'),
+('20161130151715-121', 42, 80, 'I', '1', '2016-11-30 15:17:15'),
+('20161130151838-122', 42, 81, 'I', '1', '2016-11-30 15:18:38');
 
 -- --------------------------------------------------------
 
@@ -118,12 +142,12 @@ CREATE TABLE `card_design` (
 
 INSERT INTO `card_design` (`design_id`, `event_id`, `component_id`, `size`, `x_axis`, `y_axis`, `rotation`, `z_index`, `font_type`, `font_size`, `color`, `opacity`, `value`, `side`, `comp_name`, `_status`, `_user`, `_date`) VALUES
 (59, 1, 1, 1, 150, 250, 0, 0, NULL, NULL, NULL, NULL, NULL, 0, 'comp_221214', 'D', '2', '2016-09-13 22:12:18'),
-(60, 1, 1, 0.72, 49.969, 444.844, 0, 1, NULL, NULL, NULL, NULL, NULL, 0, 'qr', 'U', '1', '2016-10-23 12:32:21'),
+(60, 1, 1, 0.72, 31.969, 487.844, 0, 1, NULL, NULL, NULL, NULL, NULL, 0, 'qr', 'U', '1', '2016-11-26 14:26:49'),
 (61, 1, 2, 0.51, 150, 250, 0, 0, NULL, NULL, NULL, NULL, 'img/kartu/comp_221954.png', 0, 'comp_221954', 'U', '2', '2016-09-19 22:58:17'),
 (62, 1, 3, 1.58, 108.934, 243.884, 0, 2, 'Arial Black', 12, '#ff0000', 1, 's', 0, 'comp_222020', 'U', '2', '2016-09-13 22:20:37'),
 (63, 1, 4, 1.04, 141.284, 244.106, 0, 3, 'Abril Fatface', 12, '#000000', 1, 'g', 0, 'comp_222051', 'U', '2', '2016-09-13 22:22:22'),
 (64, 1, 5, 6.87, 216, 236, 0, 4, 'Arial Rounded MT Bold', 12, '#1100ff', 0.39, 's', 0, 'comp_222123', 'U', '2', '2016-09-19 23:06:21'),
-(65, 1, 6, 1.63, 277.277, 157.014, 0, 5, 'Arial', 12, '#000000', 1, 'sTerima Kasih atas kedatangannya', 0, 'comp_222210', 'U', '2', '2016-09-13 22:22:16'),
+(65, 1, 6, 1.63, 307.277, 147.014, 0, 5, 'Arial', 12, '#000000', 1, 'sTerima Kasih atas kedatangannya', 0, 'comp_222210', 'U', '1', '2016-11-26 14:26:52'),
 (66, 1, 2, 0.38, 143, 205, 0, 0, NULL, NULL, NULL, NULL, 'img/kartu/thx.png', 1, 'thx', 'D', '2', '2016-09-13 22:27:28'),
 (67, 1, 3, 1, 150, 250, 0, 2, 'Arial', 12, '#000000', 1, 's', 1, 'comp_222412', 'D', '2', '2016-09-13 22:26:26'),
 (68, 1, 2, 0.55, 149, 222, 0, 0, NULL, NULL, NULL, NULL, 'img/kartu/comp_222450.png', 1, 'comp_222450', 'D', '2', '2016-09-13 22:26:47'),
@@ -140,7 +164,23 @@ INSERT INTO `card_design` (`design_id`, `event_id`, `component_id`, `size`, `x_a
 (79, 1, 2, 1, 150, 250, 0, 6, NULL, NULL, NULL, NULL, 'img/comp_142637.png', 0, 'comp_142637', 'D', '1', '2016-11-24 14:27:39'),
 (80, 1, 2, 1, 150, 250, 0, 6, NULL, NULL, NULL, NULL, 'img/comp_142810.png', 0, 'comp_142810', 'D', '1', '2016-11-24 14:28:31'),
 (81, 1, 2, 1, 150, 250, 0, 6, NULL, NULL, NULL, NULL, 'img/test.png', 0, 'test', 'D', '1', '2016-11-24 14:32:43'),
-(82, 1, 2, 1, 150, 250, 0, 6, NULL, NULL, NULL, NULL, 'img/kartu/comp_143250.png', 0, 'comp_143250', 'D', '1', '2016-11-24 14:33:17');
+(82, 1, 2, 1, 150, 250, 0, 6, NULL, NULL, NULL, NULL, 'img/kartu/comp_143250.png', 0, 'comp_143250', 'D', '1', '2016-11-24 14:33:17'),
+(83, 42, 4, 1, 150, 250, 0, 0, 'Arial', 12, '#000000', 1, 's', 0, 'comp_130817', 'D', '1', '2016-11-30 13:17:19'),
+(84, 42, 4, 1, 141, 330, 0, 1, 'Arial', 12, '#000000', 1, 's', 0, 'asdsadasd', 'D', '1', '2016-11-30 13:17:31'),
+(85, 42, 1, 1, 160, 368, 0, 0, NULL, NULL, NULL, NULL, NULL, 0, 'comp_131739', 'D', '1', '2016-11-30 13:18:09'),
+(86, 42, 3, 1, 150, 250, 0, 1, 'Arial', NULL, '#000000', 1, 's', 0, 'comp_131744', 'D', '1', '2016-11-30 13:18:08'),
+(87, 42, 3, 1, 133, 197, 0, 0, 'Arial', 12, '#000000', 1, 's', 0, 'comp_131819', 'D', '1', '2016-11-30 13:18:23'),
+(88, 42, 4, 1, 162, 187, 0, 0, 'Arial', 12, '#000000', 1, 's', 0, 'comp_131828', 'D', '1', '2016-11-30 13:18:43'),
+(89, 42, 4, 1, 150, 250, 0, 1, 'Arial', 12, '#000000', 1, 's', 0, 'comp_131838', 'D', '1', '2016-11-30 13:18:41'),
+(90, 42, 3, 1, 120, 79, 0, 0, 'Arial', 12, '#000000', 1, 's', 0, 'comp_131849', 'D', '1', '2016-11-30 13:19:09'),
+(91, 42, 1, 1, 68, 429, 0, 1, NULL, NULL, NULL, NULL, NULL, 0, 'comp_154755', 'U', '1', '2016-11-30 15:49:03'),
+(92, 42, 2, 1, 166, 166, 0, 0, NULL, NULL, NULL, NULL, 'img/kartu/comp_154853.jpeg', 0, 'comp_154853', 'U', '1', '2016-11-30 15:50:40'),
+(93, 42, 3, 1.67, 26.4437, 92.4365, 0, 2, 'Cherry Cream Soda', 12, '#000000', 1, 'g', 0, 'comp_154930', 'U', '1', '2016-11-30 15:49:43'),
+(94, 42, 6, 4.04, 254.376, 407.691, 0, 3, 'Caesar Dressing', 12, '#000000', 1, 'gThanks', 0, 'Thanks', 'U', '1', '2016-11-30 15:50:19'),
+(95, 42, 4, 1, 51, 25, 0, 4, 'Arial Black', 12, '#ff0000', 1, 's', 0, 'comp_155033', 'U', '1', '2016-11-30 16:07:50'),
+(96, 42, 6, 1, 50, 77, 0, 5, 'Arial Black', 12, '#000000', 1, 'syang hadir', 0, 'comp_155108', 'U', '1', '2016-11-30 15:51:14'),
+(97, 42, 5, 2.16, 30.1154, 287.051, 0, 6, 'Sancreek', 12, '#000000', 1, 'g', 0, 'comp_155135', 'U', '1', '2016-11-30 15:51:45'),
+(98, 42, 2, 1.1, 149.372, 183.378, 0, 0, NULL, NULL, NULL, NULL, 'img/kartu/comp_155220.jpeg', 1, 'comp_155220', 'U', '1', '2016-11-30 15:52:27');
 
 -- --------------------------------------------------------
 
@@ -273,6 +313,18 @@ CREATE TABLE `delegate_verification` (
   `_date` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `delegate_verification`
+--
+
+INSERT INTO `delegate_verification` (`card_id`, `verification_date`, `delegate_to`, `_status`, `_user`, `_date`) VALUES
+('1006-105', '2016-11-26 16:37:14', 67, 'D', '20', '2016-11-26 16:38:38'),
+('1006-105', '2016-11-26 16:38:38', 67, 'I', '20', '2016-11-26 16:38:38'),
+('1007-106', '2016-11-30 13:35:51', 63, 'D', '1', '2016-11-30 13:36:08'),
+('1007-106', '2016-11-30 13:36:08', 63, 'I', '1', '2016-11-30 13:36:08'),
+('1010-109', '2016-11-26 16:25:32', 61, 'I', '17', '2016-11-26 16:25:32'),
+('20161128153713-112', '2016-11-30 14:47:34', 77, 'I', '1', '2016-11-30 14:47:34');
+
 -- --------------------------------------------------------
 
 --
@@ -297,7 +349,7 @@ INSERT INTO `design_component` (`component_id`, `component_name`, `default_img`,
 (1, 'QR Code', 'img/qrcode-sample.png', 1, 'A', 'admin', '2016-08-27 00:00:00'),
 (2, 'Gambar', NULL, 0, 'A', 'admin', '2016-08-27 00:00:00'),
 (3, 'Nama Peserta', NULL, 1, 'A', 'admin', '2016-08-27 00:00:00'),
-(4, 'Jumlah Undangan', NULL, 1, 'A', 'admin', '2016-08-27 00:00:00'),
+(4, '0', NULL, 1, 'A', 'admin', '2016-08-27 00:00:00'),
 (5, 'Nama Grup', NULL, 1, 'A', 'admin', '2016-08-27 00:00:00'),
 (6, 'Text', NULL, 0, 'A', 'Admin', '2016-09-08 20:40:37');
 
@@ -329,7 +381,7 @@ CREATE TABLE `event` (
 --
 
 INSERT INTO `event` (`event_id`, `event_type_id`, `event_name`, `event_img`, `start_at`, `end_at`, `address`, `city`, `late_tolerance`, `total_invitation`, `is_active`, `_status`, `_user`, `_date`) VALUES
-(1, 1, 'Woman''s Festival', 'logo_acara_2.png', '2016-08-10 09:00:00', '2016-08-10 14:00:00', 'Jl. Letjen. S. Parman No.28, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11470', 'Jakarta', 0, 1500, 1, 'U', '1', '2016-11-24 15:15:49'),
+(1, 1, 'Woman\'s Festival', 'logo_acara_2.png', '2016-08-10 09:00:00', '2016-08-10 14:00:00', 'Jl. Letjen. S. Parman No.28, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11470', 'Jakarta', 0, 1500, 0, 'U', '1', '2016-11-24 15:15:49'),
 (2, 2, 'Pernikahan A dan B', NULL, '2016-12-29 19:00:00', '2016-12-29 21:00:00', 'Jl. Jend. Gatot Subroto, Jakarta Selatan, Daerah Khusus Ibukota Jakarta 10270', 'Jakarta', 30, 500, 0, 'U', '0', '2016-08-27 08:49:36'),
 (3, 2, 'testz', NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'asdz', 'Bengkulu', 0, 111, 0, 'D', '0', '2016-08-27 07:56:34'),
 (4, 1, '', NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', 'Ambon', 0, 0, 0, 'D', '0', '2016-08-25 23:28:13'),
@@ -363,13 +415,14 @@ INSERT INTO `event` (`event_id`, `event_type_id`, `event_name`, `event_img`, `st
 (32, 1, '', 'string(43) "<p>You did not select a file to upload.</p>"\nlogo_acara_2.png', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', 'Ambon', 0, 0, 0, 'D', '1', '2016-11-24 14:33:27'),
 (33, 1, '', 'array(5) {\n  ["name"]=>\n  string(16) "logo_acara_2.png"\n  ["type"]=>\n  string(9) "image/png"\n  ["tmp_name"]=>\n  string(24) "C:\\xampp\\tmp\\phpBA49.tmp"\n  ["error"]=>\n  int(0)\n  ["size"]=>\n  int(9670)\n}\nstring(43) "<p>You did not select a file to upload.</p>"\nlogo_acara_2.png', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', 'Ambon', 0, 0, 0, 'D', '1', '2016-11-24 14:33:30'),
 (34, 1, '', 'array(14) {\n  ["file_name"]=>\n  string(16) "logo_acara_2.png"\n  ["file_type"]=>\n  string(9) "image/png"\n  ["file_path"]=>\n  string(38) "C:/xampp/htdocs/date/assets/img/acara/"\n  ["full_path"]=>\n  string(54) "C:/xampp/htdocs/date/assets/img/acara/logo_acara_2.png"\n  ["raw_name"]=>\n  string(12) "logo_', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', 'Ambon', 0, 0, 0, 'D', '1', '2016-11-24 15:01:26'),
-(35, 1, 'Woman''s Festival', 'array(14) {\n  ["file_name"]=>\n  string(16) "logo_acara_2.png"\n  ["file_type"]=>\n  string(9) "image/png"\n  ["file_path"]=>\n  string(38) "C:/xampp/htdocs/date/assets/img/acara/"\n  ["full_path"]=>\n  string(54) "C:/xampp/htdocs/date/assets/img/acara/logo_acara_2.png"\n  ["raw_name"]=>\n  string(12) "logo_', '2016-08-10 09:00:00', '2016-08-10 14:00:00', 'Jl. Letjen. S. Parman No.28, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11470', 'Jakarta', 0, 1500, 0, 'D', '1', '2016-11-24 15:01:58'),
-(36, 1, 'Woman''s Festival', 'array(14) {\n  ["file_name"]=>\n  string(16) "logo_acara_2.png"\n  ["file_type"]=>\n  string(9) "image/png"\n  ["file_path"]=>\n  string(38) "C:/xampp/htdocs/date/assets/img/acara/"\n  ["full_path"]=>\n  string(54) "C:/xampp/htdocs/date/assets/img/acara/logo_acara_2.png"\n  ["raw_name"]=>\n  string(12) "logo_', '2016-08-10 09:00:00', '2016-08-10 14:00:00', 'Jl. Letjen. S. Parman No.28, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11470', 'Jakarta', 0, 1500, 0, 'D', '1', '2016-11-24 15:03:12'),
+(35, 1, 'Woman\'s Festival', 'array(14) {\n  ["file_name"]=>\n  string(16) "logo_acara_2.png"\n  ["file_type"]=>\n  string(9) "image/png"\n  ["file_path"]=>\n  string(38) "C:/xampp/htdocs/date/assets/img/acara/"\n  ["full_path"]=>\n  string(54) "C:/xampp/htdocs/date/assets/img/acara/logo_acara_2.png"\n  ["raw_name"]=>\n  string(12) "logo_', '2016-08-10 09:00:00', '2016-08-10 14:00:00', 'Jl. Letjen. S. Parman No.28, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11470', 'Jakarta', 0, 1500, 0, 'D', '1', '2016-11-24 15:01:58'),
+(36, 1, 'Woman\'s Festival', 'array(14) {\n  ["file_name"]=>\n  string(16) "logo_acara_2.png"\n  ["file_type"]=>\n  string(9) "image/png"\n  ["file_path"]=>\n  string(38) "C:/xampp/htdocs/date/assets/img/acara/"\n  ["full_path"]=>\n  string(54) "C:/xampp/htdocs/date/assets/img/acara/logo_acara_2.png"\n  ["raw_name"]=>\n  string(12) "logo_', '2016-08-10 09:00:00', '2016-08-10 14:00:00', 'Jl. Letjen. S. Parman No.28, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11470', 'Jakarta', 0, 1500, 0, 'D', '1', '2016-11-24 15:03:12'),
 (37, 1, 'asd', 'string(43) "<p>You did not select a file to upload.</p>"\n', '2016-11-24 15:03:00', '2016-11-25 15:03:00', 'sad', 'Ambon', 0, 1, 0, 'D', '1', '2016-11-24 15:03:40'),
-(38, 1, 'Woman''s Festival', 'string(43) "<p>You did not select a file to upload.</p>"\n', '2016-08-10 09:00:00', '2016-08-10 14:00:00', 'Jl. Letjen. S. Parman No.28, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11470', 'Jakarta', 0, 1500, 0, 'D', '1', '2016-11-24 15:03:46'),
-(39, 1, 'Woman''s Festival', 'string(43) "<p>You did not select a file to upload.</p>"\n', '2016-08-10 09:00:00', '2016-08-10 14:00:00', 'Jl. Letjen. S. Parman No.28, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11470', 'Jakarta', 0, 1500, 0, 'D', '1', '2016-11-24 15:06:14'),
-(40, 1, 'Woman''s Festival', 'string(43) "<p>You did not select a file to upload.</p>"\n', '2016-08-10 09:00:00', '2016-08-10 14:00:00', 'Jl. Letjen. S. Parman No.28, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11470', 'Jakarta', 0, 1500, 0, 'D', '1', '2016-11-24 15:10:13'),
-(41, 1, 'Woman''s Festival', 'string(43) "<p>You did not select a file to upload.</p>"\n', '2016-08-10 09:00:00', '2016-08-10 14:00:00', 'Jl. Letjen. S. Parman No.28, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11470', 'Jakarta', 0, 1500, 0, 'D', '1', '2016-11-24 15:11:02');
+(38, 1, 'Woman\'s Festival', 'string(43) "<p>You did not select a file to upload.</p>"\n', '2016-08-10 09:00:00', '2016-08-10 14:00:00', 'Jl. Letjen. S. Parman No.28, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11470', 'Jakarta', 0, 1500, 0, 'D', '1', '2016-11-24 15:03:46'),
+(39, 1, 'Woman\'s Festival', 'string(43) "<p>You did not select a file to upload.</p>"\n', '2016-08-10 09:00:00', '2016-08-10 14:00:00', 'Jl. Letjen. S. Parman No.28, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11470', 'Jakarta', 0, 1500, 0, 'D', '1', '2016-11-24 15:06:14'),
+(40, 1, 'Woman\'s Festival', 'string(43) "<p>You did not select a file to upload.</p>"\n', '2016-08-10 09:00:00', '2016-08-10 14:00:00', 'Jl. Letjen. S. Parman No.28, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11470', 'Jakarta', 0, 1500, 0, 'D', '1', '2016-11-24 15:10:13'),
+(41, 1, 'Woman\'s Festival', 'string(43) "<p>You did not select a file to upload.</p>"\n', '2016-08-10 09:00:00', '2016-08-10 14:00:00', 'Jl. Letjen. S. Parman No.28, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11470', 'Jakarta', 0, 1500, 0, 'D', '1', '2016-11-24 15:11:02'),
+(42, 2, 'Chris&Steffi Wedding', 'acara.png', '2016-11-27 11:53:00', '2016-11-27 17:00:00', 'Hotel Mulia', 'Jakarta', 0, 1000, 1, 'I', '1', '2016-11-26 11:54:41');
 
 -- --------------------------------------------------------
 
@@ -465,7 +518,37 @@ INSERT INTO `facility` (`facility_id`, `facility_type_id`, `facility_parent_id`,
 (182, 2, 142, 28, 1, 1, 2, 'kursi a4', 519, 335, 'U', '1', '2016-11-15 14:43:23'),
 (183, 2, 136, 28, 1, 1, 3, 'kursi b4', 783, 73, 'U', '1', '2016-11-15 14:43:43'),
 (184, 2, 176, 28, 1, 1, 4, 'kursi c4', 184, 407, 'U', '1', '2016-11-15 14:43:55'),
-(185, 2, 156, 29, 2, 1, 1, 'kursi tambahan 2', 637, 242, 'U', '1', '2016-11-15 14:44:11');
+(185, 2, 156, 29, 2, 1, 1, 'kursi tambahan 2', 637, 242, 'U', '1', '2016-11-15 14:44:11'),
+(186, 1, 0, 32, 1, 42, 1, 'A', 903, 207, 'U', '1', '2016-11-26 15:38:39'),
+(187, 1, 0, 32, 1, 42, 2, 'B', 641, 92, 'U', '1', '2016-11-26 15:38:39'),
+(188, 1, 0, 32, 1, 42, 3, 'C', 537, 310, 'U', '1', '2016-11-26 15:38:39'),
+(189, 1, 0, 32, 1, 42, 4, 'D', 396, 210, 'U', '1', '2016-11-26 15:38:39'),
+(190, 2, 186, 32, 1, 42, 1, 'A1', 875, 181, 'U', '1', '2016-11-26 15:38:39'),
+(191, 2, 186, 32, 1, 42, 1, 'A2', 878, 236, 'U', '1', '2016-11-26 15:38:39'),
+(192, 2, 186, 32, 1, 42, 1, 'A3', 930, 181, 'U', '1', '2016-11-26 15:38:39'),
+(193, 2, 186, 32, 1, 42, 1, 'A4', 928, 236, 'U', '1', '2016-11-26 15:38:39'),
+(194, 2, 187, 32, 1, 42, 2, 'B1', 671, 118, 'U', '1', '2016-11-26 15:38:39'),
+(195, 2, 187, 32, 1, 42, 2, 'B2', 672, 67, 'U', '1', '2016-11-26 15:38:39'),
+(196, 2, 187, 32, 1, 42, 2, 'B3', 606, 118, 'U', '1', '2016-11-26 15:38:39'),
+(197, 2, 187, 32, 1, 42, 2, 'B4', 607, 68, 'U', '1', '2016-11-26 15:38:39'),
+(198, 2, 188, 32, 1, 42, 3, 'C1', 564, 335, 'U', '1', '2016-11-26 15:38:39'),
+(199, 2, 188, 32, 1, 42, 3, 'C2', 506, 284, 'U', '1', '2016-11-26 15:38:39'),
+(200, 2, 188, 32, 1, 42, 3, 'C3', 507, 336, 'U', '1', '2016-11-26 15:38:39'),
+(201, 2, 188, 32, 1, 42, 3, 'C4', 563, 282, 'U', '1', '2016-11-26 15:38:39'),
+(202, 2, 189, 32, 1, 42, 4, 'D1', 363, 235, 'U', '1', '2016-11-26 15:38:39'),
+(203, 2, 189, 32, 1, 42, 4, 'D2', 425, 176, 'U', '1', '2016-11-26 15:38:39'),
+(204, 2, 189, 32, 1, 42, 4, 'D3', 427, 236, 'U', '1', '2016-11-26 15:38:39'),
+(205, 2, 189, 32, 1, 42, 4, 'D4', 367, 175, 'U', '1', '2016-11-26 15:38:39'),
+(206, 1, 0, 32, 1, 42, 7, 'S', 151, 367, 'U', '1', '2016-11-26 15:38:39'),
+(207, 2, 206, 32, 1, 42, 7, 'S1', 169, 323, 'U', '1', '2016-11-26 15:38:39'),
+(208, 2, 206, 32, 1, 42, 7, 'S2', 116, 381, 'U', '1', '2016-11-26 15:38:39'),
+(209, 2, 206, 32, 1, 42, 7, 'S3', 168, 402, 'U', '1', '2016-11-26 15:38:39'),
+(210, 2, 206, 32, 1, 42, 7, 'S4', 135, 403, 'U', '1', '2016-11-26 15:38:39'),
+(211, 2, 206, 32, 1, 42, 7, 'S5', 116, 343, 'U', '1', '2016-11-26 15:38:39'),
+(212, 2, 206, 32, 1, 42, 7, 'S6', 139, 324, 'U', '1', '2016-11-26 15:38:39'),
+(213, 2, 189, 32, 1, 42, 4, 'D5', 396, 245, 'U', '1', '2016-11-26 15:59:08'),
+(214, 2, 186, 32, 1, 42, 1, 'A5', 864, 208, 'U', '1', '2016-11-26 16:47:13'),
+(215, 2, 186, 32, 1, 42, 1, 'A6', 902, 170, 'U', '1', '2016-11-26 16:47:24');
 
 -- --------------------------------------------------------
 
@@ -537,6 +620,15 @@ CREATE TABLE `lottery` (
   `_date` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `lottery`
+--
+
+INSERT INTO `lottery` (`participant_id`, `prize_id`, `_status`, `_user`, `_date`) VALUES
+(64, 28, 'I', '1', '2016-11-30 10:50:25'),
+(63, 28, 'I', '1', '2016-11-30 10:50:25'),
+(60, 29, 'I', '1', '2016-11-30 10:50:26');
+
 -- --------------------------------------------------------
 
 --
@@ -548,6 +640,7 @@ CREATE TABLE `participant` (
   `participant_name` varchar(100) DEFAULT NULL,
   `title_id` int(11) DEFAULT NULL,
   `delegate_to` int(11) DEFAULT NULL,
+  `follower_prev` int(11) DEFAULT NULL,
   `follower` int(11) DEFAULT NULL,
   `group_id` int(11) DEFAULT NULL,
   `event_id` int(11) DEFAULT NULL,
@@ -556,29 +649,52 @@ CREATE TABLE `participant` (
   `_user` varchar(50) DEFAULT NULL,
   `_date` datetime DEFAULT NULL,
   `phone_num` varchar(100) DEFAULT NULL,
-  `is_confirm` tinyint(1) DEFAULT NULL
+  `is_confirm` tinyint(1) DEFAULT NULL,
+  `souvenir_qty` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `participant`
 --
 
-INSERT INTO `participant` (`participant_id`, `participant_name`, `title_id`, `delegate_to`, `follower`, `group_id`, `event_id`, `additional_chair`, `_status`, `_user`, `_date`, `phone_num`, `is_confirm`) VALUES
-(45, 'Gunawan', 1, 0, 1, 1, 1, 0, 'I', '1', '2016-11-12 17:40:10', '08324224523', NULL),
-(46, 'test', 1, 0, 1, 3, 1, 0, 'I', '1', '2016-11-12 17:40:10', '9876654321', NULL),
-(47, 'asd', 1, 0, 1, 2, 1, 0, 'I', '1', '2016-11-12 17:40:11', '123', NULL),
-(48, 'sudi mampir', 1, 0, 1, 1, 1, 0, 'I', '1', '2016-11-12 17:40:11', '123123', NULL),
-(49, 'kantika', 4, 0, 0, 3, 1, 0, 'I', '1', '2016-11-12 17:40:11', '0832423123', NULL),
-(50, 'Bagus', 1, 0, 0, 2, 1, 0, 'I', '1', '2016-11-12 17:40:11', '08324276423', NULL),
-(51, 'Cynthia', 3, 0, 1, 2, 1, 0, 'I', '1', '2016-11-12 17:40:11', '08324235741', NULL),
-(52, 'Nina', 2, 0, 0, 3, 1, 0, 'U', '1', '2016-11-23 15:01:34', '0832423271', NULL),
-(53, 'Budiman', 1, 0, 0, 1, 1, 0, 'U', '17', '2016-11-23 14:15:06', '08324233324', NULL),
-(54, 'Deborah', 3, 0, 0, 3, 1, 0, 'I', '1', '2016-11-12 17:40:11', '08324124234', NULL),
-(55, 'Joko', 1, 0, 0, 4, 1, 0, 'I', '1', '2016-11-12 17:40:11', '08324233331', NULL),
-(56, 'Debby', 4, 0, 0, 4, 1, 0, 'I', '1', '2016-11-12 17:40:11', '08379312423', NULL),
-(57, 'ASF', 3, 0, 2, 3, 1, 0, 'U', '1', '2016-11-23 14:53:32', '8234523423', NULL),
-(58, 'qwer', 1, 0, 0, 4, 1, 0, 'I', '1', '2016-11-12 17:40:12', '2354565454', NULL),
-(59, 'aewf', 4, 0, 0, 4, 1, 0, 'U', '1', '2016-11-24 15:55:25', '345345345', NULL);
+INSERT INTO `participant` (`participant_id`, `participant_name`, `title_id`, `delegate_to`, `follower_prev`, `follower`, `group_id`, `event_id`, `additional_chair`, `_status`, `_user`, `_date`, `phone_num`, `is_confirm`, `souvenir_qty`) VALUES
+(45, 'Gunawan', 1, 0, 0, 1, 1, 1, 0, 'I', '1', '2016-11-12 17:40:10', '08324224523', NULL, 1),
+(46, 'test', 1, 0, 0, 1, 3, 1, 0, 'I', '1', '2016-11-12 17:40:10', '9876654321', NULL, 1),
+(47, 'asd', 1, 0, 0, 1, 2, 1, 0, 'I', '1', '2016-11-12 17:40:11', '123', NULL, 1),
+(48, 'sudi mampir', 1, 0, 0, 1, 1, 1, 0, 'I', '1', '2016-11-12 17:40:11', '123123', NULL, 1),
+(49, 'kantika', 4, 0, 0, 0, 3, 1, 0, 'I', '1', '2016-11-12 17:40:11', '0832423123', NULL, 1),
+(50, 'Bagus', 1, 0, 0, 0, 2, 1, 0, 'I', '1', '2016-11-12 17:40:11', '08324276423', NULL, 1),
+(51, 'Cynthia', 3, 0, 0, 1, 2, 1, 0, 'I', '1', '2016-11-12 17:40:11', '08324235741', NULL, 1),
+(52, 'Nina', 2, 0, 0, 0, 3, 1, 0, 'U', '1', '2016-11-23 15:01:34', '0832423271', NULL, 1),
+(53, 'Budiman', 1, 0, 0, 0, 1, 1, 0, 'U', '17', '2016-11-23 14:15:06', '08324233324', NULL, 1),
+(54, 'Deborah', 3, 0, 0, 0, 3, 1, 0, 'I', '1', '2016-11-12 17:40:11', '08324124234', NULL, 1),
+(55, 'Joko', 1, 0, 0, 0, 4, 1, 0, 'I', '1', '2016-11-12 17:40:11', '08324233331', NULL, 1),
+(56, 'Debby', 4, 0, 0, 0, 4, 1, 0, 'I', '1', '2016-11-12 17:40:11', '08379312423', NULL, 1),
+(57, 'ASF', 3, 0, 0, 2, 3, 1, 0, 'U', '1', '2016-11-23 14:53:32', '8234523423', NULL, 1),
+(58, 'qwer', 1, 0, 0, 0, 4, 1, 0, 'I', '1', '2016-11-12 17:40:12', '2354565454', NULL, 1),
+(59, 'aewf', 4, 0, 0, 0, 4, 1, 0, 'U', '1', '2016-11-24 15:55:25', '345345345', NULL, 1),
+(60, 'Anton', 1, 0, 0, 1, 1, 42, 0, 'U', '17', '2016-11-26 16:21:35', '081234567801', 1, 1),
+(61, 'Alicia', 2, 0, 0, 0, 2, 42, 0, 'U', '17', '2016-11-26 16:25:32', '081234567802', 1, 1),
+(62, 'Agnes', 3, 0, 0, 0, 3, 42, 0, 'U', '17', '2016-11-26 16:41:07', '081234567803', 1, 1),
+(63, 'Anna', 4, 0, 0, 0, 4, 42, 0, 'U', '1', '2016-11-30 13:36:08', '081234567804', 1, NULL),
+(64, 'Budi', 1, 0, 0, 0, 1, 42, 0, 'U', '17', '2016-11-26 16:54:36', '081234567805', 1, 1),
+(65, 'Billy', 1, 67, 0, 1, 2, 42, 0, 'U', '20', '2016-11-26 16:38:38', '081234567806', 0, 1),
+(66, 'Bella', 3, 63, 0, 1, 3, 42, 0, 'U', '1', '2016-11-30 13:36:08', '081234567807', 0, 1),
+(67, 'Betty', 4, 0, 0, 0, 4, 42, 0, 'U', '20', '2016-11-26 16:38:38', '081234567808', 0, 1),
+(68, 'Doni', 1, 0, 0, 1, 1, 42, 0, 'U', '1', '2016-11-26 16:48:57', '081234567809', 1, 1),
+(69, 'Debby', 2, 61, 0, 2, 2, 42, 0, 'U', '17', '2016-11-26 16:25:32', '081234567810', 0, 1),
+(70, 'Della', 3, 0, 0, 2, 3, 42, 0, 'U', '17', '2016-11-26 16:18:27', '081234567811', 1, 1),
+(71, 'Dora', 4, 0, 0, 1, 4, 42, 0, 'U', '17', '2016-11-26 16:41:49', '081234567812', 1, 1),
+(72, 'peserta tambahan', 0, 77, 0, 0, 1, 42, 0, 'U', '1', '2016-11-30 14:47:34', '', 0, 1),
+(73, 'peserta tambahan', 0, NULL, 0, 0, 2, 42, 0, 'I', '1', '2016-11-28 15:37:30', '', 0, 1),
+(74, 'peserta tambahan', 0, NULL, 0, 0, 2, 42, 0, 'I', '1', '2016-11-28 15:37:37', '', 0, 1),
+(75, 'testing enhancement', 1, 61, 12, 12, 1, 42, 0, 'D', '1', '2016-11-30 13:32:02', '123', 0, 0),
+(76, 'wew', 0, NULL, 0, 0, 0, 42, 0, 'I', '1', '2016-11-30 13:33:17', '', 0, 0),
+(77, 'testing enhancement', 1, NULL, 1, 2, 2, 42, 0, 'U', '1', '2016-11-30 14:47:34', 'wew', 0, 2),
+(78, 'Billy', 1, NULL, 0, 0, 2, 42, 0, 'U', '1', '2016-11-30 14:09:12', '', 0, 0),
+(79, 'okeoke', 1, NULL, 1, 1, 4, 42, 0, 'I', '1', '2016-11-30 15:16:17', '123', 1, 3),
+(80, 'okeokeoke', 1, NULL, 1, 1, 4, 42, 0, 'I', '1', '2016-11-30 15:17:15', '123', 1, 3),
+(81, 'okeokeokeoke', 1, NULL, 1, 1, 4, 42, 0, 'I', '1', '2016-11-30 15:18:38', '123', 1, 3);
 
 -- --------------------------------------------------------
 
@@ -611,7 +727,27 @@ INSERT INTO `participant_facility` (`event_id`, `facility_id`, `participant_id`,
 (1, 177, 59, '2016-11-12 17:59:39', NULL, 'U', '1', '2016-11-24 15:55:25'),
 (1, 178, 58, '2016-11-12 17:59:57', NULL, 'I', '1', '2016-11-12 17:59:57'),
 (1, 179, 55, '2016-11-12 18:00:14', NULL, 'I', '1', '2016-11-12 18:00:14'),
-(1, 181, 50, '2016-11-12 17:56:43', NULL, 'I', '1', '2016-11-12 17:56:43');
+(1, 181, 50, '2016-11-12 17:56:43', NULL, 'I', '1', '2016-11-12 17:56:43'),
+(42, 190, 60, '2016-11-26 15:40:53', '2016-11-26 16:21:35', 'U', '17', '2016-11-26 16:21:35'),
+(42, 191, 64, '2016-11-26 15:51:10', '2016-11-26 16:54:36', 'U', '17', '2016-11-26 16:54:36'),
+(42, 192, 64, '2016-11-26 15:51:10', '2016-11-26 16:54:36', 'U', '17', '2016-11-26 16:54:36'),
+(42, 193, 60, NULL, '2016-11-26 16:21:35', 'I', '17', '2016-11-26 16:21:35'),
+(42, 194, 61, '2016-11-26 15:57:21', '2016-11-26 16:25:32', 'U', '17', '2016-11-26 16:25:32'),
+(42, 195, 77, '2016-11-30 14:15:47', '2016-11-30 14:47:34', 'U', '1', '2016-11-30 14:47:34'),
+(42, 196, 77, '2016-11-30 14:15:47', '2016-11-30 14:47:34', 'U', '1', '2016-11-30 14:47:34'),
+(42, 197, 77, NULL, '2016-11-30 14:47:34', 'I', '1', '2016-11-30 14:47:34'),
+(42, 198, 62, '2016-11-26 15:59:40', '2016-11-26 16:41:07', 'U', '17', '2016-11-26 16:41:07'),
+(42, 199, 70, '2016-11-26 15:59:59', '2016-11-26 16:18:27', 'U', '17', '2016-11-26 16:18:27'),
+(42, 200, 70, '2016-11-26 15:59:59', '2016-11-26 16:18:27', 'U', '17', '2016-11-26 16:18:27'),
+(42, 201, 70, '2016-11-26 15:59:59', '2016-11-26 16:18:27', 'U', '17', '2016-11-26 16:18:27'),
+(42, 202, 71, '2016-11-26 15:57:58', '2016-11-26 16:41:49', 'U', '17', '2016-11-26 16:41:49'),
+(42, 203, 71, '2016-11-26 15:57:58', '2016-11-26 16:41:49', 'U', '17', '2016-11-26 16:41:49'),
+(42, 204, 81, NULL, '2016-11-30 15:18:38', 'I', '1', '2016-11-30 15:18:38'),
+(42, 205, 63, '2016-11-26 15:59:16', '2016-11-30 13:36:08', 'U', '1', '2016-11-30 13:36:08'),
+(42, 207, 67, NULL, '2016-11-26 16:38:38', 'U', '20', '2016-11-26 16:38:38'),
+(42, 213, 81, NULL, '2016-11-30 15:18:38', 'I', '1', '2016-11-30 15:18:38'),
+(42, 214, 68, '2016-11-26 16:48:16', '2016-11-26 16:48:57', 'U', '1', '2016-11-26 16:48:57'),
+(42, 215, 68, '2016-11-26 16:48:16', '2016-11-26 16:48:57', 'U', '1', '2016-11-26 16:48:57');
 
 -- --------------------------------------------------------
 
@@ -641,7 +777,9 @@ INSERT INTO `prize` (`prize_id`, `event_id`, `prize_name`, `prize_descr`, `prize
 (24, 1, 'payung', 'payung cantik', 1, 'payung.jpg', 1, 'I', '1', '2016-10-09 21:24:11'),
 (25, 1, 'asd', 'asd', 0, 'logo_acara_2.png', 0, 'D', '1', '2016-11-24 13:31:51'),
 (26, 1, '', '', 0, 'array(14) {\n  ["file_name"]=>\n  string(16) "logo_acara_2.png"\n  ["file_type"]=>\n  string(9) "image/png"\n  ["file_path"]=>\n  string(39) "C:/xampp/htdocs/date/assets/img/hadiah/"\n  ["full_path"]=>\n  string(55) "C:/xampp/htdocs/date/assets/img/hadiah/logo_acara_2.png"\n  ["raw_name"]=>\n  string(12) "log', 0, 'D', '1', '2016-11-24 13:54:21'),
-(27, 1, '', '', 0, 'logo_acara_2.png', 0, 'I', '1', '2016-11-24 14:18:40');
+(27, 1, '', '', 0, 'logo_acara_2.png', 0, 'I', '1', '2016-11-24 14:18:40'),
+(28, 42, 'Tiket JKT - SIN Round Trip', 'Tiket pulang pergi JKT - SIN - Garuda Indonesia', 2, 'tiket.jpg', 2, 'I', '1', '2016-11-26 12:01:23'),
+(29, 42, 'IPhone 7', 'Iphone 7 Black', 1, 'iphone7.jpg', 1, 'I', '1', '2016-11-26 12:01:42');
 
 -- --------------------------------------------------------
 
@@ -682,7 +820,10 @@ INSERT INTO `souvenir` (`souvenir_id`, `event_id`, `souvenir_name`, `souvenir_qt
 (1, 1, 'gelas', 10, 'A', '0', '2016-08-27 08:02:48'),
 (2, 1, 'senter', 5, 'A', '0', '2016-08-27 08:02:48'),
 (98, 2, 'piring', 25, 'I', '0', '2016-08-27 09:21:07'),
-(99, 2, 'boneka', 50, 'I', '0', '2016-08-27 09:21:07');
+(99, 2, 'boneka', 50, 'I', '0', '2016-08-27 09:21:07'),
+(100, 42, NULL, NULL, 'D', '1', '2016-11-29 22:57:07'),
+(101, 42, 'gelas', 1000, 'I', '1', '2016-11-29 22:57:07'),
+(102, 42, 'piring', 500, 'I', '1', '2016-11-29 22:57:07');
 
 -- --------------------------------------------------------
 
@@ -747,7 +888,9 @@ INSERT INTO `users` (`user_id`, `operator_name`, `privilege`, `username`, `passw
 (15, 'wew', 2, 'wew', 'wew', 'D', '1', '2016-10-07 19:09:05'),
 (16, 'wew', 1, 'wewzz', 'wew', 'D', '0', '2016-10-07 19:09:15'),
 (17, 'feli', 2, 'feli', 'feli', 'I', '1', '2016-10-09 20:55:13'),
-(18, 'peter', 2, 'peter', 'peter', 'I', '1', '2016-11-24 12:27:10');
+(18, 'peter', 2, 'peter', 'peter', 'I', '1', '2016-11-24 12:27:10'),
+(19, 'robin', 2, 'robin', 'robin', 'I', '1', '2016-11-26 16:08:20'),
+(20, 'refata', 2, 'refata', 'refata', 'I', '1', '2016-11-26 16:08:32');
 
 -- --------------------------------------------------------
 
@@ -762,6 +905,28 @@ CREATE TABLE `verification` (
   `_user` varchar(50) NOT NULL,
   `_date` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `verification`
+--
+
+INSERT INTO `verification` (`card_id`, `verification_date`, `_status`, `_user`, `_date`) VALUES
+('1001-100', '2016-11-26 16:21:35', 'I', '17', '2016-11-26 16:21:35'),
+('1002-101', '2016-11-26 16:25:31', 'I', '17', '2016-11-26 16:25:31'),
+('1003-102', '2016-11-26 16:41:07', 'I', '17', '2016-11-26 16:41:07'),
+('1004-103', '2016-11-26 16:55:54', 'D', '1', '2016-11-30 13:36:08'),
+('1004-103', '2016-11-30 13:35:51', 'D', '1', '2016-11-30 13:36:08'),
+('1004-103', '2016-11-30 13:36:08', 'I', '1', '2016-11-30 13:36:08'),
+('1005-104', '2016-11-26 16:54:35', 'D', '1', '2016-11-30 15:31:15'),
+('1008-107', '2016-11-26 16:37:13', 'D', '20', '2016-11-26 16:38:37'),
+('1008-107', '2016-11-26 16:38:38', 'I', '20', '2016-11-26 16:38:38'),
+('1009-108', '2016-11-26 16:48:57', 'I', '1', '2016-11-26 16:48:57'),
+('1011-110', '2016-11-26 16:18:26', 'I', '17', '2016-11-26 16:18:26'),
+('1012-111', '2016-11-26 16:41:49', 'I', '17', '2016-11-26 16:41:49'),
+('20161130134705-117', '2016-11-30 14:47:34', 'I', '1', '2016-11-30 14:47:34'),
+('20161130151617-120', '2016-11-30 15:16:17', 'I', '1', '2016-11-30 15:16:17'),
+('20161130151715-121', '2016-11-30 15:17:15', 'I', '1', '2016-11-30 15:17:15'),
+('20161130151838-122', '2016-11-30 15:18:38', 'D', '1', '2016-11-30 15:31:54');
 
 --
 -- Indexes for dumped tables
@@ -889,12 +1054,12 @@ ALTER TABLE `verification`
 -- AUTO_INCREMENT for table `canvas`
 --
 ALTER TABLE `canvas`
-  MODIFY `canvas_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `canvas_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 --
 -- AUTO_INCREMENT for table `card_design`
 --
 ALTER TABLE `card_design`
-  MODIFY `design_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
+  MODIFY `design_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
 --
 -- AUTO_INCREMENT for table `design_component`
 --
@@ -904,12 +1069,12 @@ ALTER TABLE `design_component`
 -- AUTO_INCREMENT for table `event`
 --
 ALTER TABLE `event`
-  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 --
 -- AUTO_INCREMENT for table `facility`
 --
 ALTER TABLE `facility`
-  MODIFY `facility_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=186;
+  MODIFY `facility_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=216;
 --
 -- AUTO_INCREMENT for table `facility_type`
 --
@@ -924,17 +1089,17 @@ ALTER TABLE `groups`
 -- AUTO_INCREMENT for table `participant`
 --
 ALTER TABLE `participant`
-  MODIFY `participant_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `participant_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
 --
 -- AUTO_INCREMENT for table `prize`
 --
 ALTER TABLE `prize`
-  MODIFY `prize_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `prize_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 --
 -- AUTO_INCREMENT for table `souvenir`
 --
 ALTER TABLE `souvenir`
-  MODIFY `souvenir_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
+  MODIFY `souvenir_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
 --
 -- AUTO_INCREMENT for table `titles`
 --
@@ -944,7 +1109,7 @@ ALTER TABLE `titles`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

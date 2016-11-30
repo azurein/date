@@ -104,7 +104,7 @@
                                     <select id="ddlStatusParticipant" class="form-control">
                                         <option value="0" selected="">Available</option>
                                         <option value="1" selected="">Booking</option>
-                                        <!-- <option value="2">Check In</option> -->
+                                        <option value="2">Check In</option>
                                     </select>
                                 </div>
                             </div>
@@ -217,7 +217,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="table-responsive">
-                    <table class="table">
+                    <table class="table" id="tableInfo">
                         <thead>
                             <tr>
                                 <th>Ringkasan Fasilitas</th>
@@ -270,6 +270,7 @@
             </div>
         </div>
     </div>
+    <div id="canvas_container"></div>
 </body>
 <!-- JS untuk Canvas-->
 <script src = "../../Assets/js/canvas.js"></script>

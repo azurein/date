@@ -24,23 +24,23 @@ class HomeSync extends Main_Controller {
 		$this->load->model("Home_model","home");
         $this->load->model("Peserta_model","peserta");
 		$this->load->model("acara/Pengaturan_acara_model","pengaturan_acara");
-        
-        if($this->ping($this->config->item('model_2'))) {
-        	$this->load->model("Home_model_2","home_2");
-        	$this->model_2 = TRUE;
-        }
-        if($this->ping($this->config->item('model_3'))) {
-        	$this->load->model("Home_model_3","home_3");
-        	$this->model_3 = TRUE;
-        }
-        if($this->ping($this->config->item('model_4'))) {
-        	$this->load->model("Home_model_4","home_4");
-        	$this->model_4 = TRUE;
-        }
-        if($this->ping($this->config->item('model_5'))) {
-        	$this->load->model("Home_model_5","home_5");
-        	$this->model_5 = TRUE;
-        }
+
+        // if($this->ping($this->config->item('model_2'))) {
+        // 	$this->load->model("Home_model_2","home_2");
+        // 	$this->model_2 = TRUE;
+        // }
+        // if($this->ping($this->config->item('model_3'))) {
+        // 	$this->load->model("Home_model_3","home_3");
+        // 	$this->model_3 = TRUE;
+        // }
+        // if($this->ping($this->config->item('model_4'))) {
+        // 	$this->load->model("Home_model_4","home_4");
+        // 	$this->model_4 = TRUE;
+        // }
+        // if($this->ping($this->config->item('model_5'))) {
+        // 	$this->load->model("Home_model_5","home_5");
+        // 	$this->model_5 = TRUE;
+        // }
 	}
 
 	public function index()
@@ -72,7 +72,7 @@ class HomeSync extends Main_Controller {
 			return TRUE;
 	    }
 	}
-    
+
     public function getNewID()
 	{
 		$newid = $this->peserta->getNewID();
@@ -111,6 +111,7 @@ class HomeSync extends Main_Controller {
 
     public function directRegistration()
     {
+        $souvenir = $this->input->post_get('totalSouvenir2');
         $data = array(
             'new_id' => $this->getNewID(),
             'title' => $this->input->post_get('titleDdl'),
@@ -119,12 +120,12 @@ class HomeSync extends Main_Controller {
             'group' => $this->input->post_get('groupDdl'),
             'follower' => $this->input->post_get('participantFollower2'),
             'user_id' => $_SESSION['user_id'],
-            'event_id' => $_SESSION['event_id']
+            'event_id' => $_SESSION['event_id'],
+            'souvenir_qty' => $souvenir
         );
 
         $follower = $this->input->post_get('participantFollower2');
         $facilities = $this->input->post_get('selectFacility2');
-        $souvenir = $this->input->post_get('totalSouvenir2');
 
         $result = $this->home->directRegistration($data, $facilities);
         if($this->model_2) {
@@ -140,7 +141,7 @@ class HomeSync extends Main_Controller {
             $this->home_5->directRegistration($data, $facilities);
         }
 
-        $this->printStruk($result, $follower, $souvenir);
+        // $this->printStruk($result, $follower, $souvenir);
 
         $this->view('admin/home');
     }
@@ -179,7 +180,7 @@ class HomeSync extends Main_Controller {
         if($data[0]['table_name']) {
             $printer -> text("Table : ".$data[0]['table_name']."\n");
         }
-        
+
         $printer -> selectPrintMode();
         $printer -> text("Number of Coming Guest(s) : ".($guest+1)."\n\n");
 

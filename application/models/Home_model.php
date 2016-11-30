@@ -223,16 +223,18 @@ class Home_model extends CI_Model {
 	public function directRegistration($data, $facilities)
 	{
 		$query = 	"INSERT INTO participant (
-					participant_name, phone_num, title_id, delegate_to, follower, group_id, _status, _user, _date, event_id, is_confirm
-					) VALUES(?, ?, ?, NULL, ?, ?, 'I', ?, NOW(), ?, '1')";
+					participant_name, phone_num, title_id, delegate_to, follower_prev, follower, group_id, _status, _user, _date, event_id, is_confirm, souvenir_qty
+					) VALUES(?, ?, ?, NULL, ?, ?, ?, 'I', ?, NOW(), ?, '1', ?)";
 		$this->db->query($query,array(
 			$data['name'],
 			$data['phone_num'],
 			$data['title'],
 			$data['follower'],
+			$data['follower'],
 			$data['group'],
 			$data['user_id'],
-			$data['event_id']
+			$_SESSION['event_id'],
+			$data['souvenir_qty']
 		));
 		$new_participant_id = $this->db->insert_id();
 

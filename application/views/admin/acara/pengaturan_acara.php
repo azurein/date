@@ -173,6 +173,7 @@
                                         <?php
                                         if ($_SESSION['privilege'] == 1) { ?>
                                         <button class="btn btn-primary" type="button" id="addButton">Tambah Acara</button>
+                                        <button class="btn btn-success" type="button" id="exportButton">Cetak Berita Acara</button>
                                         <?php
                                         } ?>
                                     </div>

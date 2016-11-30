@@ -128,7 +128,11 @@ function initEvents(){
 				$('#compType',e.target).empty();
 				for(var i = 0 ; i < data.length ; i++)
 				{
-					$('#compType',e.target).append('<option value="'+data[i].component_id+'" source="'+data[i].value+'">'+data[i].component_name+'</option>');
+					var componentName = data[i].component_name;
+					if(data[i].component_id == '4') {
+						componentName = 'Jumlah Peserta'
+					}
+					$('#compType',e.target).append('<option value="'+data[i].component_id+'" source="'+data[i].value+'">'+componentName+'</option>');
 					$('#compType option:last-child').data({
 						source  : data[i].value,
 						dynamic : parseInt(data[i].is_dynamic)
@@ -482,7 +486,11 @@ function loadObj(data,idx){
 function createControl(param){//title,nama,idx,type,compname,fontType){
 	var ctrl = '<tr id="control'+ param.id +'">';
 	ctrl += '<td class="title">' + param.nama + '</td>';
-	ctrl += '<td class="type">' + param.compTypeName + '</td>';
+	if(param.id == '4') {
+		ctrl += '<td class="type">Jumlah Peserta</td>';
+	} else {
+		ctrl += '<td class="type">' + param.compTypeName + '</td>';
+	}
 	// if(param.img)
 	// {
 	// 	ctrl += '<td class="font">-</td>';
@@ -554,7 +562,13 @@ function editModal(idx){
 			$('#editCompType',"#editModal").empty();
 			for(var i = 0 ; i < data.length ; i++)
 			{
-				$('#editCompType',"#editModal").append('<option value="'+data[i].component_id+'" source="'+data[i].value+'">'+data[i].component_name+'</option>');
+				var componentName = "";
+				if(data[i].component_id == '4') {
+					componentName = 'Jumlah Peserta'
+				} else {
+					componentName = data[i].component_name;
+				}
+				$('#editCompType',"#editModal").append('<option value="'+data[i].component_id+'" source="'+data[i].value+'">'+componentName+'</option>');
 				$('#editCompType option:last-child').data({
 					source  : data[i].value,
 					dynamic : parseInt(data[i].is_dynamic)
@@ -1015,43 +1029,45 @@ function deactiveState(idx){
 }
 
 function prepareMassPrint() {
-	$("#loadingModal").modal('show');
-	$.ajax({
-	    type: 'POST',
-	    url: BASE_URL + 'acara/Kartu_acara/prepareMassPrint',
-	    dataType: 'JSON',
-	    error:function(e) {
-	    	alert('Error : cannot remove canvas object from database');
-			location.reload();
-	    },
-	    success:function(data) {
-	    	if(data.length > 0){
+	if(objSize(__map[0]) > 0 || objSize(__map[1]) > 0){
+		$("#loadingModal").modal('show');
+		$.ajax({
+		    type: 'POST',
+		    url: BASE_URL + 'acara/Kartu_acara/prepareMassPrint',
+		    dataType: 'JSON',
+		    error:function(e) {
+		    	alert('Error : cannot remove canvas object from database');
+				location.reload();
+		    },
+		    success:function(data) {
+		    	if(data.length > 0){
 
-				if(__canvas['rotation'][__curr]!= 0){
-					$('#rotateCard').click();
-					$("#flipCard").click();
-					$("#flipCard").click();
-				}
+					if(__canvas['rotation'][__curr]!= 0){
+						$('#rotateCard').click();
+						$("#flipCard").click();
+						$("#flipCard").click();
+					}
 
-	    		// mirrorCanvas();
+		    		mirrorCanvas();
 
-				var jspdf = new jsPDF();
+					var jspdf = new jsPDF();
 
-				var pdf = {
-					topoffset 	: 3.5,
-					leftoffset 	: 8,
-					height 		: 56,
-					width 		: 88,
-					gutter		: 11,
-					pdf 		: jspdf
-				};
+					var pdf = {
+						topoffset 	: 3.5,
+						leftoffset 	: 8,
+						height 		: 56,
+						width 		: 88,
+						gutter		: 11,
+						pdf 		: jspdf
+					};
 
-				massPrint(0,data,pdf,0);
-	    	} else {
-				alert('Nothing to print');
-			}
-	    }
-  	});
+					massPrint(0,data,pdf,0);
+		    	}
+		    }
+	  	});
+	} else {
+		alert('Nothing to print');
+	}
 }
 
 function massPrint(count,data,pdf,idx){
@@ -1156,7 +1172,7 @@ function mirrorCanvas(){
 				obj.setAngle(obj.getAngle()+180).set('flipY',true);
 			}
 			else{
-				// obj.setAngle(obj.getAngle()+180).set('flipX',true);
+				obj.setAngle(obj.getAngle()+180).set('flipX',true);
 			}
 		});
 	}

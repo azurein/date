@@ -35,7 +35,7 @@ function checkCard(card_id){
         success : function(data){
 
             if(data[0].checkVerification == 0) {
-                if(data[0].is_confirm) {                    
+                if(data[0].is_confirm == 1) {
                     $("#scannerInputQr").val(card_id);
                     getParticipantByCardID(card_id);
                 } else {
@@ -66,6 +66,10 @@ function checkCard(card_id){
                     $("#scannerInputQr2").val("");
                     $("#scannerInputQr").val("");
                 }
+            } else {
+                alert('Kartu '+card_id+' tidak terdaftar');
+                $("#scannerInputQr2").val("");
+                $("#scannerInputQr").val("");
             }
         }
     });

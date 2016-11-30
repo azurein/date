@@ -10,6 +10,10 @@ $(document).ready(function() {
 		loadAddEditModal("Tambah Acara");
 	});
 
+	$("#exportButton").click(function(){
+		exportExcelReport();
+	});
+
 	var souvenirValue = 0;
 });
 
@@ -379,4 +383,15 @@ function getEventByID(id) {
 			loadAddEditModal('Ubah Acara',data[0]);
 		}
 	})
+}
+
+function exportExcelReport(){
+	var url = BASE_URL+'acara/Pengaturan_acara/export';
+	$.ajax({
+		type : 'GET',
+		url : url,
+		success:function(data){
+			window.open(url,'_blank');
+		}
+	});
 }

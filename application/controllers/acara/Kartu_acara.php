@@ -75,7 +75,7 @@ class Kartu_acara extends Main_Controller {
     public function uploadImg($name)
     {
         $config['upload_path'] = './assets/img/kartu/';
-        $config['allowed_types'] = 'gif|jpg|png';
+        $config['allowed_types'] = 'gif|jpg|png|jpeg';
         $config['file_name'] = $name;
         $this->load->library('upload', $config);
 

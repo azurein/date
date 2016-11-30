@@ -98,7 +98,7 @@
                                     </div>
                                     <div class="col-md-4 col-xs-12">
                                         <label>Jumlah Souvenir</label>
-                                        <input id="totalSouvenir" name="totalSouvenir" type="number" class="form-control" required disabled>
+                                        <input id="totalSouvenir" name="totalSouvenir" type="number" class="form-control" required readonly>
                                     </div>
                                 </div>
                             </div>
