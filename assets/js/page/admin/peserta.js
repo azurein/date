@@ -124,23 +124,23 @@ function getParticipantSummary(key=''){
 			{
 				TotalVerified = data[0].TotalVerified;
 				$('#totalVerified').html(TotalVerified);
-			}
-		}
-	});
-
-	$.ajax({
-		type : 'POST',
-		url : BASE_URL + 'Peserta/getTotalParticipant',
-		dataType : 'json',
-		data : {
-			'key' : key
-		},
-		success : function(data){
-			if(data.length > 0)
-			{
-				TotalParticipant = data[0].TotalParticipant;
-				TotalUnverified = TotalParticipant - TotalVerified;
-				$('#totalUnverified').html(TotalUnverified);
+                
+                $.ajax({
+                    type : 'POST',
+                    url : BASE_URL + 'Peserta/getTotalParticipant',
+                    dataType : 'json',
+                    data : {
+                        'key' : key
+                    },
+                    success : function(data){
+                        if(data.length > 0)
+                        {
+                            TotalParticipant = data[0].TotalParticipant;
+                            TotalUnverified = TotalParticipant - TotalVerified;
+                            $('#totalUnverified').html(TotalUnverified);
+                        }
+                    }
+                });
 			}
 		}
 	});

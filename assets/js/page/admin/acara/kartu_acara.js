@@ -1030,7 +1030,7 @@ function deactiveState(idx){
 
 function prepareMassPrint() {
 	if(objSize(__map[0]) > 0 || objSize(__map[1]) > 0){
-		$("#loadingModal").modal('show');
+		// $("#loadingModal").modal('show');
 		$.ajax({
 		    type: 'POST',
 		    url: BASE_URL + 'acara/Kartu_acara/prepareMassPrint',
@@ -1053,7 +1053,7 @@ function prepareMassPrint() {
 					var jspdf = new jsPDF();
 
 					var pdf = {
-						topoffset 	: 3.5,
+						topoffset 	: 3,
 						leftoffset 	: 8,
 						height 		: 56,
 						width 		: 88,
@@ -1080,7 +1080,6 @@ function massPrint(count,data,pdf,idx){
 				count = 0;
 		    }
 
-		    //
 			var front = __canvas[0].toDataURL('JPG',1.0);
 		    pdf.pdf.addImage(front,'JPG',pdf.leftoffset+((count%2)*(pdf.width+pdf.leftoffset+pdf.gutter)),pdf.topoffset+(Math.floor(count/2)*(pdf.height+pdf.topoffset)),pdf.width,pdf.height);
 		    pdf.pdf.rect((pdf.leftoffset+((count%2)*(pdf.width+pdf.leftoffset+pdf.gutter))),(pdf.topoffset+(Math.floor(count/2)*(pdf.height+pdf.topoffset))),pdf.width,pdf.height);
@@ -1114,6 +1113,9 @@ function updateCanvas(data,idx,r){
 					r();
 				});
 			}
+			else {
+            	r();
+            }
 		});
 	}
 	else{
@@ -1144,6 +1146,9 @@ function updateElm(idx,data,count,resolve,isRear) {
 					__canvas[isRear].item(count).setText(data[idx].group_name);
 					res();
 				}
+				else{
+                    res();
+                }
 			}
 			else{
 				res();
@@ -1168,12 +1173,9 @@ function finishPrint(pdf){
 function mirrorCanvas(){
 	for(var i = 0 ; i < 2 ; i++){
 		__canvas[i].forEachObject(function(obj){
-			if(obj.getAngle()>0 && obj.getAngle()<181){
-				obj.setAngle(obj.getAngle()+180).set('flipY',true);
-			}
-			else{
-				obj.setAngle(obj.getAngle()+180).set('flipX',true);
-			}
+			obj.setLeft( 500 - obj.getLeft());
+			obj.setAngle( 360 - obj.getAngle() );
+			obj.setAngle(obj.getAngle()+180).set('flipY',true);
 		});
 	}
 }
