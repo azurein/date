@@ -421,7 +421,7 @@ class Peserta_model extends CI_Model {
 			{
 				$param = array(
 					'name' => array_key_exists('C',$row)? $row['C']: '',
-					'phone_num' => array_key_exists('C',$row)? $row['D']: '',
+					'phone_num' => array_key_exists('D',$row)? $row['D']: '',
 					'title' => empty($title_id)? 0 : $title_id[0]['title_id'],
 					'delegate' => 'null',
 					'follower' => array_key_exists('F',$row)? $row['F']: 0,
@@ -447,11 +447,12 @@ class Peserta_model extends CI_Model {
 			{
 				$this->db->query($update,array(
 					array_key_exists('B',$row)? $row['B']: '',
-					array_key_exists('C',$row)? $row['C']: '',
+				 	array_key_exists('C',$row)? $row['C']: '',
 					array_key_exists('D',$row)? $row['D']: '',
 					array_key_exists('E',$row)? $row['E']: '',
-					array_key_exists('F',$row)? $row['F']: '',
-					array_key_exists('F',$row)? $row['G']: '',
+					array_key_exists('F',$row)? $row['F']: 0,
+					array_key_exists('F',$row)? $row['F']: 0,
+					array_key_exists('G',$row)? $row['G']: 0,
 					$user['eventID'],
 					$user['userID'],
 					array_key_exists('A',$row)? $row['A']: ''
