@@ -46,7 +46,7 @@ class PesertaSync extends Main_Controller {
 	}
 
 	// Function to check response time
-	public function ping($host,$port=80,$timeout=10) {
+	public function ping($host,$port=80,$timeout=2) {
 	    $fsock = fsockopen($host, $port, $errno, $errstr, $timeout);
 	    if (!$fsock) {
 	    	// fclose();
@@ -180,7 +180,8 @@ class PesertaSync extends Main_Controller {
 	public function saveParticipant()
 	{
 		$id = $this->input->post_get('id');
-
+		$result = '';
+		
 		if($id == '')
 		{
 			$data = array(
@@ -196,43 +197,31 @@ class PesertaSync extends Main_Controller {
 			);
 
 			$result = $this->peserta->createParticipant1($data);
-
-			if($this->model_2) {
-				$this->peserta_2->createParticipant1($data, $result);
-			}
-			if($this->model_3) {
-				$this->peserta_3->createParticipant1($data, $result);
-			}
-			if($this->model_4) {
-				$this->peserta_4->createParticipant1($data, $result);
-			}
-			if($this->model_5) {
-				$this->peserta_5->createParticipant1($data, $result);
-			}
-
- 			$newID = $this->getNewID();
-
-			$data = array(
-				'newID' => $newID,
+			$data2 = array(
+				'newID' => $this->getNewID(),
 				'participantID' => $result,
 				'userID' => $_SESSION['user_id'],
 				'eventID' => $_SESSION['event_id']
 			);
+			$result2 = $this->peserta->createCard($data2);
 
-			$result = $this->peserta->createCard($data);
 			if($this->model_2) {
-				$this->peserta_2->createCard($data);
+				$this->peserta_2->createParticipant1($data, $result);
+				$this->peserta_2->createCard($data2);
 			}
 			if($this->model_3) {
-				$this->peserta_3->createCard($data);
+				$this->peserta_3->createParticipant1($data, $result);
+				$this->peserta_3->createCard($data2);
 			}
 			if($this->model_4) {
-				$this->peserta_4->createCard($data);
+				$this->peserta_4->createParticipant1($data, $result);
+				$this->peserta_4->createCard($data2);
 			}
 			if($this->model_5) {
-				$this->peserta_5->createCard($data);
+				$this->peserta_5->createParticipant1($data, $result);
+				$this->peserta_5->createCard($data2);
 			}
-			echo $result;
+			$result = $result2;
 		}
 		else
 		{
@@ -261,8 +250,8 @@ class PesertaSync extends Main_Controller {
 			if($this->model_5) {
 				$this->peserta_5->editParticipant($data);
 			}
-			echo $result;
 		}
+		echo $result;
 	}
 
 	public function getNewID()
