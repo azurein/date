@@ -170,8 +170,8 @@ class Peserta_model_3 extends CI_Model {
 
 		if($newid == 0) {
 			$query = "INSERT INTO participant
-			(participant_name,phone_num,title_id,delegate_to,follower_prev,follower,is_confirm,group_id,_status,_user,_date,event_id)
-			VALUES(?,?,?,?,?,?,?,'I',?,NOW(),?)
+			(participant_name,phone_num,title_id,delegate_to,follower_prev,follower,is_confirm,group_id,_status,_user,_date,event_id,souvenir_qty)
+			VALUES(?,?,?,?,?,?,?,?,'I',?,NOW(),?,'0')
 			";
 			$this->db->query($query,array(
 				$data['name'],
@@ -189,8 +189,8 @@ class Peserta_model_3 extends CI_Model {
 		} else {
 			$query = "INSERT INTO participant
 			(participant_id,participant_name,phone_num,title_id,delegate_to,follower_prev,follower,is_confirm,group_id,_status,_user,_date,
-			event_id)
-			VALUES(?,?,?,?,?,?,?,?,'I',?,NOW(),?)
+			event_id,souvenir_qty)
+			VALUES(?,?,?,?,?,?,?,?,?,'I',?,NOW(),?,'0')
 			";
 			$this->db->query($query,array(
 				$newid,
@@ -399,6 +399,7 @@ class Peserta_model_3 extends CI_Model {
 						WHERE LOWER(TRIM(group_name))  = LOWER(TRIM(?))
 						AND _status <> 'D'
 					),0),
+					a.follower_prev = ?,
 					a.follower = ?,
 					a.is_confirm = ?,
 					a.event_id = ?,
@@ -423,6 +424,7 @@ class Peserta_model_3 extends CI_Model {
 					'phone_num' => array_key_exists('C',$row)? $row['D']: '',
 					'title' => empty($title_id)? 0 : $title_id[0]['title_id'],
 					'delegate' => 'null',
+					'follower' => array_key_exists('F',$row)? $row['F']: 0,
 					'follower' => array_key_exists('F',$row)? $row['F']: 0,
 					'is_confirm' => array_key_exists('G',$row)? $row['G']: 0,
 					'group' => empty($group_id)? 0 : $group_id[0]['group_id'],
