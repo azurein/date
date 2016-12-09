@@ -39,14 +39,14 @@ $(document).ready(function(){
 	//create canvas
 	__canvas[0] = new fabric.Canvas(__canvas.id[0],{
 		backgroundColor : "white",
-		width 		: 500,
-		height 		: 300,
+		width 		: 800,
+		height 		: 480,
 		selection 	: false
 	});
 	__canvas[1] = new fabric.Canvas(__canvas.id[1],{
 		backgroundColor : "white",
-		width 		: 500,
-		height 		: 300,
+		width 		: 800,
+		height 		: 480,
 		selection 	: false
 	});
 	setInterval(function(){
@@ -335,7 +335,7 @@ function createObj(param,resolve){
 			name 	: param.nama,
 			type 	: param.type,
 			scale 	: obj.getScaleX(),
-			x 		: __canvas.rotation[__curr] == 0 ? obj.getTop() : 500 - obj.getLeft(),
+			x 		: __canvas.rotation[__curr] == 0 ? obj.getTop() : 900 - obj.getLeft(),
 			y 		: __canvas.rotation[__curr] == 0 ? obj.getLeft() : obj.getTop(),
 			rotation: __canvas.rotation[__curr] == 0 ? obj.getAngle() : obj.getAngle() + 270,
 			fontType: null,
@@ -870,9 +870,9 @@ function rotateCard(){
 
 	__canvas[__curr].forEachObject(function(obj,i){
 		var l = obj.getLeft();
-		l = isH ? 500-l : l;
+		l = isH ? 800-l : l;
 		var t = obj.getTop();
-		t = isH ? t : 500-t;
+		t = isH ? t : 800-t;
 		var d = obj.getAngle();
 		d = parseFloat(d);
 		d += isH ? 270.00 : -270.00 ;
@@ -906,7 +906,7 @@ function updateControls(data){
 			}
 			else {
 				__map[__curr][i].x = obj.getLeft();
-				__map[__curr][i].y = 500 - obj.getTop();
+				__map[__curr][i].y = 800 - obj.getTop();
 			}
 
 
@@ -1053,11 +1053,11 @@ function prepareMassPrint() {
 					var jspdf = new jsPDF();
 
 					var pdf = {
-						topoffset 	: 3,
-						leftoffset 	: 8,
-						height 		: 56,
-						width 		: 88,
-						gutter		: 11,
+						topoffset 	: 2,
+						leftoffset 	: 7,
+						height 		: 55,
+						width 		: 87,
+						gutter		: 5,
 						pdf 		: jspdf
 					};
 
@@ -1173,7 +1173,7 @@ function finishPrint(pdf){
 function mirrorCanvas(){
 	for(var i = 0 ; i < 2 ; i++){
 		__canvas[i].forEachObject(function(obj){
-			obj.setLeft( 500 - obj.getLeft());
+			obj.setLeft( 800 - obj.getLeft());
 			obj.setAngle( 360 - obj.getAngle() );
 			obj.setAngle(obj.getAngle()+180).set('flipY',true);
 		});
