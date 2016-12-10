@@ -335,7 +335,7 @@ function createObj(param,resolve){
 			name 	: param.nama,
 			type 	: param.type,
 			scale 	: obj.getScaleX(),
-			x 		: __canvas.rotation[__curr] == 0 ? obj.getTop() : 900 - obj.getLeft(),
+			x 		: __canvas.rotation[__curr] == 0 ? obj.getTop() : 800 - obj.getLeft(),
 			y 		: __canvas.rotation[__curr] == 0 ? obj.getLeft() : obj.getTop(),
 			rotation: __canvas.rotation[__curr] == 0 ? obj.getAngle() : obj.getAngle() + 270,
 			fontType: null,
