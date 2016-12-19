@@ -50,7 +50,7 @@ $(document).ready(function(){
 		selection 	: false
 	});
 	setInterval(function(){
-    refreshCanvas(__curr);
+		refreshCanvas(__curr);
 	},16);
 
 	$("#currStat").text(__canvas.status[__curr]+' - '+(__canvas.rotation[__curr] == 0 ? 'Mode Horizontal' : 'Mode Vertikal'));
@@ -174,16 +174,16 @@ function initEvents(){
 				},
 				success: function(data){
 					if(data.status)
-						createObj({
-							type 		: $('#compType').val(),
-							data 		: data.val,
-							nama 		: nama,
-							id 			: id,
-							img 		: true,
-							compTypeName: $('#compType option:selected').text(),
-							newObj		: true,
-							dynamic		: dynamic
-						});
+					createObj({
+						type 		: $('#compType').val(),
+						data 		: data.val,
+						nama 		: nama,
+						id 			: id,
+						img 		: true,
+						compTypeName: $('#compType option:selected').text(),
+						newObj		: true,
+						dynamic		: dynamic
+					});
 				}
 			});
 		}
@@ -218,10 +218,10 @@ function initEvents(){
 				type = 'g';
 				fontType = $('.addGoogleFonts').val();
 				WebFont.load({
-		        	google: {
-		        		families: [fontType]
-		        	}
-			  	});
+					google: {
+						families: [fontType]
+					}
+				});
 			}
 			createObj({
 				type 		: $('#compType').val(),
@@ -257,24 +257,24 @@ function initEvents(){
 	__canvas[0].on({
 		'object:modified':updateControls,
 		'object:moving': updateControls,
-	    'object:scaling': updateControls,
-	    'object:resizing': updateControls,
-	    'object:rotating': updateControls,
+		'object:scaling': updateControls,
+		'object:resizing': updateControls,
+		'object:rotating': updateControls,
 		'mouse:up' : afterInteract
 	});
 
 	__canvas[1].on({
 		'object:modified':updateControls,
 		'object:moving': updateControls,
-	    'object:scaling': updateControls,
-	    'object:resizing': updateControls,
-	    'object:rotating': updateControls,
+		'object:scaling': updateControls,
+		'object:resizing': updateControls,
+		'object:rotating': updateControls,
 		'mouse:up' : afterInteract
 	});
 
-  $('#exportButton').click(function(){
-    prepareMassPrint();
-  });
+	$('#exportButton').click(function(){
+		prepareMassPrint();
+	});
 }
 
 function flipCard(){
@@ -282,16 +282,16 @@ function flipCard(){
 
 	var t = __curr;
 
-  if(__curr == 0){
-    __curr = 1;
-    $('#flipCard').text('Ke Depan');
-  }else{
-    __curr = 0;
-    $('#flipCard').text('Ke Belakang');
-  }
+	if(__curr == 0){
+		__curr = 1;
+		$('#flipCard').text('Ke Depan');
+	}else{
+		__curr = 0;
+		$('#flipCard').text('Ke Belakang');
+	}
 
 	if(__canvas.rotation[__curr] != __canvas.rotation[t])
-		rotateCard();
+	rotateCard();
 
 	$("#currStat").text(__canvas.status[__curr]+' - '+(__canvas.rotation[__curr] == 0 ? 'Mode Horizontal' : 'Mode Vertikal'));
 	$('#'+__canvas.id[__curr]).parent().removeClass('hide');
@@ -356,13 +356,13 @@ function createObj(param,resolve){
 		}
 
 		if(curr == __curr)
-			createControl({
-				nama		: param.nama,
-				id			: param.id,
-				idx  		: idx,
-				compTypeName: param.compTypeName,
-				img	 		: param.img
-			});
+		createControl({
+			nama		: param.nama,
+			id			: param.id,
+			idx  		: idx,
+			compTypeName: param.compTypeName,
+			img	 		: param.img
+		});
 
 		if(param.newObj != undefined && param.newObj)
 		{
@@ -370,7 +370,7 @@ function createObj(param,resolve){
 		}
 
 		if(resolve != undefined)
-			resolve(parseInt(param.idx)+1);
+		resolve(parseInt(param.idx)+1);
 	});
 }
 
@@ -424,7 +424,7 @@ function loadDesign(){
 		},
 		success: function(data){
 			if(data.length > 0)
-				loadObj(data,0);
+			loadObj(data,0);
 		}
 	});
 }
@@ -637,27 +637,27 @@ function editComp(idx){
 			},
 			success: function(data){
 				if(data.status)
-					changeObj({
-						type 		: $('#editCompType').val(),
-						data 		: data.val,
-						nama 		: nama,
-						id 			: id,
-						img 		: true,
-						compTypeName: $('#editCompType option:selected').text(),
-						newObj		: false,
-						idx			: idx,
-						side		: __curr,
-						dynamic		: dynamic,
-						oldState	: {
-							dbid	: __map[__curr][idx].dbid,
-							id 		: __map[__curr][idx].id,
-							top		: __map[__curr][idx].x,
-							left	: __map[__curr][idx].y,
-							scale	: __map[__curr][idx].scale,
-							angle	: __map[__curr][idx].rotation,
-							side	: __curr
-						}
-					});
+				changeObj({
+					type 		: $('#editCompType').val(),
+					data 		: data.val,
+					nama 		: nama,
+					id 			: id,
+					img 		: true,
+					compTypeName: $('#editCompType option:selected').text(),
+					newObj		: false,
+					idx			: idx,
+					side		: __curr,
+					dynamic		: dynamic,
+					oldState	: {
+						dbid	: __map[__curr][idx].dbid,
+						id 		: __map[__curr][idx].id,
+						top		: __map[__curr][idx].x,
+						left	: __map[__curr][idx].y,
+						scale	: __map[__curr][idx].scale,
+						angle	: __map[__curr][idx].rotation,
+						side	: __curr
+					}
+				});
 			}
 		});
 	}
@@ -1032,15 +1032,15 @@ function prepareMassPrint() {
 	if(objSize(__map[0]) > 0 || objSize(__map[1]) > 0){
 		// $("#loadingModal").modal('show');
 		$.ajax({
-		    type: 'POST',
-		    url: BASE_URL + 'acara/Kartu_acara/prepareMassPrint',
-		    dataType: 'JSON',
-		    error:function(e) {
-		    	alert('Error : cannot remove canvas object from database');
+			type: 'POST',
+			url: BASE_URL + 'acara/Kartu_acara/prepareMassPrint',
+			dataType: 'JSON',
+			error:function(e) {
+				alert('Error : cannot remove canvas object from database');
 				location.reload();
-		    },
-		    success:function(data) {
-		    	if(data.length > 0){
+			},
+			success:function(data) {
+				if(data.length > 0){
 
 					if(__canvas['rotation'][__curr]!= 0){
 						$('#rotateCard').click();
@@ -1048,7 +1048,7 @@ function prepareMassPrint() {
 						$("#flipCard").click();
 					}
 
-		    		mirrorCanvas();
+					mirrorCanvas();
 
 					var jspdf = new jsPDF();
 
@@ -1062,9 +1062,9 @@ function prepareMassPrint() {
 					};
 
 					massPrint(0,data,pdf,0);
-		    	}
-		    }
-	  	});
+				}
+			}
+		});
 	} else {
 		alert('Nothing to print');
 	}
@@ -1078,21 +1078,21 @@ function massPrint(count,data,pdf,idx){
 			if(count%10 == 0 && count > 0){
 				pdf.pdf.addPage();
 				count = 0;
-		    }
+			}
 
 			var front = __canvas[0].toDataURL('JPG',1.0);
-		    pdf.pdf.addImage(front,'JPG',pdf.leftoffset+((count%2)*(pdf.width+pdf.leftoffset+pdf.gutter)),pdf.topoffset+(Math.floor(count/2)*(pdf.height+pdf.topoffset)),pdf.width,pdf.height);
-		    pdf.pdf.rect((pdf.leftoffset+((count%2)*(pdf.width+pdf.leftoffset+pdf.gutter))),(pdf.topoffset+(Math.floor(count/2)*(pdf.height+pdf.topoffset))),pdf.width,pdf.height);
-		    count++
+			pdf.pdf.addImage(front,'JPG',pdf.leftoffset+((count%2)*(pdf.width+pdf.leftoffset+pdf.gutter)),pdf.topoffset+(Math.floor(count/2)*(pdf.height+pdf.topoffset)),pdf.width,pdf.height);
+			pdf.pdf.rect((pdf.leftoffset+((count%2)*(pdf.width+pdf.leftoffset+pdf.gutter))),(pdf.topoffset+(Math.floor(count/2)*(pdf.height+pdf.topoffset))),pdf.width,pdf.height);
+			count++
 
-		    if(data[idx].is_flip == 1){
-		    	// __canvas[1].set('flipY', true);
+			if(data[idx].is_flip == 1){
+				// __canvas[1].set('flipY', true);
 				var rear = __canvas[1].toDataURL('JPG',1.0);
 				pdf.pdf.addImage(rear,'JPG',pdf.leftoffset+((count%2)*(pdf.width+pdf.leftoffset+pdf.gutter)),pdf.topoffset+(Math.floor(count/2)*(pdf.height+pdf.topoffset)),pdf.width,pdf.height);
 				pdf.pdf.rect((pdf.leftoffset+((count%2)*(pdf.width+pdf.leftoffset+pdf.gutter))),(pdf.topoffset+(Math.floor(count/2)*(pdf.height+pdf.topoffset))),pdf.width,pdf.height);
-		    	count++;
-		    }
-		    massPrint(count,data,pdf,idx+1);
+				count++;
+			}
+			massPrint(count,data,pdf,idx+1);
 		});
 	}
 	else
@@ -1114,8 +1114,8 @@ function updateCanvas(data,idx,r){
 				});
 			}
 			else {
-            	r();
-            }
+				r();
+			}
 		});
 	}
 	else{
@@ -1147,14 +1147,14 @@ function updateElm(idx,data,count,resolve,isRear) {
 					res();
 				}
 				else{
-                    res();
-                }
+					res();
+				}
 			}
 			else{
 				res();
 			}
 		}).then(function(){
-    		refreshCanvas(isRear);
+			refreshCanvas(isRear);
 			updateElm(idx,data,count+1,resolve,isRear);
 		});
 	}
@@ -1168,6 +1168,7 @@ function finishPrint(pdf){
 	$('#loadingModal').modal('hide');
 
 	pdf.save("cetak_kartu.pdf");
+	location.reload();
 }
 
 function mirrorCanvas(){
@@ -1205,20 +1206,20 @@ function normalizeCanvas(){
 }
 
 function refreshCanvas(idx) {
-  fabric.util.clearFabricFontCache();
-  __canvas[idx].forEachObject(function(obj,i){
-    if(__map[idx][i].fontType !== null){
-      obj._initDimensions();
-    }
-  });
-  __canvas[idx].renderAll();
-  __canvas[idx].renderAll();
+	fabric.util.clearFabricFontCache();
+	__canvas[idx].forEachObject(function(obj,i){
+		if(__map[idx][i].fontType !== null){
+			obj._initDimensions();
+		}
+	});
+	__canvas[idx].renderAll();
+	__canvas[idx].renderAll();
 }
 
 function objSize(obj) {
-    var size = 0, key;
-    for (key in obj) {
-        if (obj.hasOwnProperty(key)) size++;
-    }
-    return size;
+	var size = 0, key;
+	for (key in obj) {
+		if (obj.hasOwnProperty(key)) size++;
+	}
+	return size;
 };
