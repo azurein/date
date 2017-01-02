@@ -138,6 +138,7 @@ function getParticipantByCardID(card_id){
 }
 
 function getParticipantFacility(group_id, participant_id) {
+	$('#listFacilityTable').DataTable().destroy();
     $.ajax({
         type : 'POST',
         url : BASE_URL + 'Home/getParticipantFacility',
@@ -158,6 +159,9 @@ function getParticipantFacility(group_id, participant_id) {
                 $('#listFacilityContent').append('<tr value="'+ data[i].facility_id +'"><td>'+ data[i].canvas_name +'</td><td>'+ data[i].group_name +'</td><td>'+ data[i].table_name +'</td><td>'+ data[i].chair_name +'</td><td>'+checkbox+'</td></tr>');
             }
             // $("#listFacilityTable").scrollTableBody();
+            $('#listFacilityTable').DataTable({
+        		"order"		: [[ 4, "desc" ]]
+        	});
             VerificationValidation();
         }
     });
@@ -254,6 +258,8 @@ function checkAvailableFacility() {
     var follower = $("#participantFollower2").val();
     $('#listFacilityContent2').html("");
 
+    $('#listFacilityTable2').DataTable().destroy();
+
     $.ajax({
         type : 'GET',
         url : BASE_URL + 'Home/checkAvailableFacility',
@@ -267,6 +273,11 @@ function checkAvailableFacility() {
                 for(var i = 0 ; i < data.length ; i++) {
                     $('#listFacilityContent2').append('<tr value="'+ data[i].facility_id +'"><td>'+ data[i].canvas_name +'</td><td>'+ data[i].group_name +'</td><td>'+ data[i].table_name +'</td><td>'+ data[i].chair_name +'</td><td><input type="checkbox" class="selectFacility2" name="selectFacility2[]" value="'+ data[i].facility_id +'"></td></tr>');
                 }
+
+                $('#listFacilityTable2').DataTable({
+                    "order"		: [[ 4, "desc" ]]
+                });
+
             } else {
                 alert("Fasilitas tidak mencukupi");
             }

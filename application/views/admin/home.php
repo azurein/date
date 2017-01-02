@@ -102,6 +102,9 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="form-group clearfix">
+                                <button id="scannerFormQrSubmit" type="submit" class="btn btn-success pull-right">Verifikasi</button>
+                            </div>
                             <div class="form-group">
                                 <h4>Fasilitas</h4>
                                 <table class="table table-striped table-hover" id="listFacilityTable">
@@ -130,9 +133,6 @@
                                     </thead>
                                     <tbody id="listRepresentationContent"></tbody>
                                 </table>
-                            </div>
-                            <div class="form-group">
-                                <button id="scannerFormQrSubmit" type="submit" class="btn btn-success">Verifikasi</button>
                             </div>
                         </form>
                     </div>
@@ -175,6 +175,7 @@
                             </div>
                             <div class="form-group">
                                 <button id="checkFacilityBtn" type="button" class="btn btn-info">Cek Ketersediaan</button>
+                                <button id="onTheSpotFormSubmit" type="submit" class="btn btn-success">Daftar dan Verifikasi</button>
                             </div>
                             <div class="form-group">
                                 <table class="table table-striped table-hover" id="listFacilityTable2">
@@ -189,9 +190,6 @@
                                     </thead>
                                     <tbody id="listFacilityContent2"></tbody>
                                 </table>
-                            </div>
-                            <div class="form-group">
-                                <button id="onTheSpotFormSubmit" type="submit" class="btn btn-success">Daftar dan Verifikasi</button>
                             </div>
                         </form>
                     </div>

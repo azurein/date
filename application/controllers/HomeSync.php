@@ -187,7 +187,7 @@ class HomeSync extends Main_Controller {
         /* Peserta, Doorprize */
         $printer -> setJustification();
         $printer -> text("  Name      : ".$data[0]['participant_name']."\n");
-        $printer -> text("  Group     : ".$data[0]['group_name']."\n");
+        // $printer -> text("  Group     : ".$data[0]['group_name']."\n");
         $printer -> text("  Doorprize : ".$data[0]['lottery_num']."\n\n");
 
         $printer -> text("-------------------------------\n\n");
