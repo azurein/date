@@ -12,6 +12,10 @@ class VerificationSync extends Main_Controller {
 	public $model_3;
 	public $model_4;
 	public $model_5;
+    public $model_6;
+    public $model_7;
+    public $model_8;
+    public $model_9;
 
    	public function __construct()
 	{
@@ -20,6 +24,10 @@ class VerificationSync extends Main_Controller {
         $this->model_3 = FALSE;
         $this->model_4 = FALSE;
         $this->model_5 = FALSE;
+        $this->model_6 = FALSE;
+        $this->model_7 = FALSE;
+        $this->model_8 = FALSE;
+        $this->model_9 = FALSE;
 
 		$this->load->model("Verification_model","verification");
         $this->load->model("Kehadiran_model","kehadiran");
@@ -40,6 +48,22 @@ class VerificationSync extends Main_Controller {
         if($this->ping($this->config->item('model_5'))) {
         	$this->load->model("Verification_model_5","verification_5");
         	$this->model_5 = TRUE;
+        }
+        if($this->ping($this->config->item('model_6'))) {
+            $this->load->model("Verification_model_6","verification_6");
+            $this->model_6 = TRUE;
+        }
+        if($this->ping($this->config->item('model_7'))) {
+            $this->load->model("Verification_model_7","verification_7");
+            $this->model_7 = TRUE;
+        }
+        if($this->ping($this->config->item('model_8'))) {
+            $this->load->model("Verification_model_8","verification_8");
+            $this->model_8 = TRUE;
+        }
+        if($this->ping($this->config->item('model_9'))) {
+            $this->load->model("Verification_model_9","verification_9");
+            $this->model_9 = TRUE;
         }
 	}
 
@@ -95,7 +119,7 @@ class VerificationSync extends Main_Controller {
 
         $data = $this->verification->verify($participant_id, $card_id, $follower, $fixed_facilites, $canceled_facilities, $additional_facilities, $followers, $souvenir_qty);
 
-        // $this->printStruk($data, $follower, count($followers));
+        $this->printStruk($data, $follower, count($followers));
 
         if($this->model_2) {
 			$this->verification_2->verify($participant_id, $card_id, $follower, $fixed_facilites, $canceled_facilities, $additional_facilities, $followers, $souvenir_qty);
@@ -109,6 +133,18 @@ class VerificationSync extends Main_Controller {
 		if($this->model_5) {
 			$this->verification_5->verify($participant_id, $card_id, $follower, $fixed_facilites, $canceled_facilities, $additional_facilities, $followers, $souvenir_qty);
 		}
+        if($this->model_6) {
+            $this->verification_6->verify($participant_id, $card_id, $follower, $fixed_facilites, $canceled_facilities, $additional_facilities, $followers, $souvenir_qty);
+        }
+        if($this->model_7) {
+            $this->verification_7->verify($participant_id, $card_id, $follower, $fixed_facilites, $canceled_facilities, $additional_facilities, $followers, $souvenir_qty);
+        }
+        if($this->model_8) {
+            $this->verification_8->verify($participant_id, $card_id, $follower, $fixed_facilites, $canceled_facilities, $additional_facilities, $followers, $souvenir_qty);
+        }
+        if($this->model_9) {
+            $this->verification_9->verify($participant_id, $card_id, $follower, $fixed_facilites, $canceled_facilities, $additional_facilities, $followers, $souvenir_qty);
+        }
 
         $this->view('admin/home');
 	}

@@ -7,6 +7,10 @@ class PesertaSync extends Main_Controller {
 	public $model_3;
 	public $model_4;
 	public $model_5;
+	public $model_6;
+	public $model_7;
+	public $model_8;
+	public $model_9;
 
    	public function __construct()
 	{
@@ -15,6 +19,10 @@ class PesertaSync extends Main_Controller {
 		$this->model_3 = FALSE;
 		$this->model_4 = FALSE;
 		$this->model_5 = FALSE;
+		$this->model_6 = FALSE;
+        $this->model_7 = FALSE;
+        $this->model_8 = FALSE;
+        $this->model_9 = FALSE;
 
 		$this->load->model("Peserta_model","peserta");
 
@@ -34,6 +42,22 @@ class PesertaSync extends Main_Controller {
 			$this->load->model("Peserta_model_5","peserta_5");
 			$this->model_5 = TRUE;
 		}
+		if($this->ping($this->config->item('model_6'))) {
+            $this->load->model("Peserta_model_6","peserta_6");
+            $this->model_6 = TRUE;
+        }
+        if($this->ping($this->config->item('model_7'))) {
+            $this->load->model("Peserta_model_7","peserta_7");
+            $this->model_7 = TRUE;
+        }
+        if($this->ping($this->config->item('model_8'))) {
+            $this->load->model("Peserta_model_8","peserta_8");
+            $this->model_8 = TRUE;
+        }
+        if($this->ping($this->config->item('model_9'))) {
+            $this->load->model("Peserta_model_9","peserta_9");
+            $this->model_9 = TRUE;
+        }
 	}
 
 	public function index()
@@ -142,6 +166,18 @@ class PesertaSync extends Main_Controller {
 		if($this->model_5) {
 			$this->peserta_5->updateTable($data,$user);
 		}
+		if($this->model_6) {
+			$this->peserta_6->updateTable($data,$user);
+		}
+		if($this->model_7) {
+			$this->peserta_7->updateTable($data,$user);
+		}
+		if($this->model_8) {
+			$this->peserta_8->updateTable($data,$user);
+		}
+		if($this->model_9) {
+			$this->peserta_9->updateTable($data,$user);
+		}
 	}
 
 	public function getParticipant()
@@ -221,6 +257,22 @@ class PesertaSync extends Main_Controller {
 				$this->peserta_5->createParticipant1($data, $result);
 				$this->peserta_5->createCard($data2);
 			}
+			if($this->model_6) {
+				$this->peserta_6->createParticipant1($data, $result);
+				$this->peserta_6->createCard($data2);
+			}
+			if($this->model_7) {
+				$this->peserta_7->createParticipant1($data, $result);
+				$this->peserta_8->createCard($data2);
+			}
+			if($this->model_8) {
+				$this->peserta_8->createParticipant1($data, $result);
+				$this->peserta_8->createCard($data2);
+			}
+			if($this->model_9) {
+				$this->peserta_9->createParticipant1($data, $result);
+				$this->peserta_9->createCard($data2);
+			}
 			$result = $result2;
 		}
 		else
@@ -249,6 +301,18 @@ class PesertaSync extends Main_Controller {
 			}
 			if($this->model_5) {
 				$this->peserta_5->editParticipant($data);
+			}
+			if($this->model_6) {
+				$this->peserta_6->editParticipant($data);
+			}
+			if($this->model_7) {
+				$this->peserta_7->editParticipant($data);
+			}
+			if($this->model_8) {
+				$this->peserta_8->editParticipant($data);
+			}
+			if($this->model_9) {
+				$this->peserta_9->editParticipant($data);
 			}
 		}
 		echo $result;
@@ -283,6 +347,18 @@ class PesertaSync extends Main_Controller {
 		if($this->model_5) {
 			$this->peserta_5->resetCardID($data);
 		}
+		if($this->model_6) {
+			$this->peserta_6->resetCardID($data);
+		}
+		if($this->model_7) {
+			$this->peserta_7->resetCardID($data);
+		}
+		if($this->model_8) {
+			$this->peserta_8->resetCardID($data);
+		}
+		if($this->model_9) {
+			$this->peserta_9->resetCardID($data);
+		}
 		echo $result;
 	}
 
@@ -304,6 +380,18 @@ class PesertaSync extends Main_Controller {
 		}
 		if($this->model_5) {
 			$this->peserta_5->deactiveParticipantById($data);
+		}
+		if($this->model_6) {
+			$this->peserta_6->deactiveParticipantById($data);
+		}
+		if($this->model_7) {
+			$this->peserta_7->deactiveParticipantById($data);
+		}
+		if($this->model_8) {
+			$this->peserta_8->deactiveParticipantById($data);
+		}
+		if($this->model_9) {
+			$this->peserta_9->deactiveParticipantById($data);
 		}
 		echo $result;
 	}

@@ -12,14 +12,22 @@ class HomeSync extends Main_Controller {
 	public $model_3;
 	public $model_4;
 	public $model_5;
+    public $model_6;
+    public $model_7;
+    public $model_8;
+    public $model_9;
 
    	public function __construct()
 	{
 		parent::__construct();
-        $this->model_2 = FALSE;
         $this->model_3 = FALSE;
         $this->model_4 = FALSE;
+        $this->model_2 = FALSE;
         $this->model_5 = FALSE;
+        $this->model_6 = FALSE;
+        $this->model_7 = FALSE;
+        $this->model_8 = FALSE;
+        $this->model_9 = FALSE;
 
 		$this->load->model("Home_model","home");
         $this->load->model("Peserta_model","peserta");
@@ -40,6 +48,22 @@ class HomeSync extends Main_Controller {
         if($this->ping($this->config->item('model_5'))) {
         	$this->load->model("Home_model_5","home_5");
         	$this->model_5 = TRUE;
+        }
+        if($this->ping($this->config->item('model_6'))) {
+            $this->load->model("Home_model_6","home_6");
+            $this->model_6 = TRUE;
+        }
+        if($this->ping($this->config->item('model_7'))) {
+            $this->load->model("Home_model_7","home_7");
+            $this->model_7 = TRUE;
+        }
+        if($this->ping($this->config->item('model_8'))) {
+            $this->load->model("Home_model_8","home_8");
+            $this->model_8 = TRUE;
+        }
+        if($this->ping($this->config->item('model_9'))) {
+            $this->load->model("Home_model_9","home_9");
+            $this->model_9 = TRUE;
         }
 	}
 
@@ -128,6 +152,8 @@ class HomeSync extends Main_Controller {
         $facilities = $this->input->post_get('selectFacility2');
 
         $result = $this->home->directRegistration($data, $facilities);
+        $this->printStruk($result, $follower, $souvenir);
+
         if($this->model_2) {
             $this->home_2->directRegistration($data, $facilities);
         }
@@ -140,8 +166,18 @@ class HomeSync extends Main_Controller {
         if($this->model_5) {
             $this->home_5->directRegistration($data, $facilities);
         }
-
-        // $this->printStruk($result, $follower, $souvenir);
+        if($this->model_6) {
+            $this->home_6->directRegistration($data, $facilities);
+        }
+        if($this->model_7) {
+            $this->home_7->directRegistration($data, $facilities);
+        }
+        if($this->model_8) {
+            $this->home_8->directRegistration($data, $facilities);
+        }
+        if($this->model_9) {
+            $this->home_9->directRegistration($data, $facilities);
+        }
 
         $this->view('admin/home');
     }

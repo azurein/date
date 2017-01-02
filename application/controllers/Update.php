@@ -7,6 +7,10 @@ class Update extends Main_Controller {
 	public $model_3;
 	public $model_4;
 	public $model_5;
+	public $model_6;
+	public $model_7;
+	public $model_8;
+	public $model_9;
 
    	public function __construct()
 	{
@@ -15,6 +19,10 @@ class Update extends Main_Controller {
 		$this->model_3 = FALSE;
 		$this->model_4 = FALSE;
 		$this->model_5 = FALSE;
+		$this->model_6 = FALSE;
+		$this->model_7 = FALSE;
+		$this->model_8 = FALSE;
+		$this->model_9 = FALSE;
 
 		if($this->ping($this->config->item('model_2'))) {
 			$this->load->model("Update_model_2","update_2");
@@ -32,6 +40,22 @@ class Update extends Main_Controller {
 			$this->load->model("Update_model_5","update_5");
 			$this->model_5 = TRUE;
 		}
+		else if($this->ping($this->config->item('model_6'))) {
+			$this->load->model("Update_model_6","update_6");
+			$this->model_6 = TRUE;
+		}
+		else if($this->ping($this->config->item('model_7'))) {
+			$this->load->model("Update_model_7","update_7");
+			$this->model_7 = TRUE;
+		}
+		else if($this->ping($this->config->item('model_8'))) {
+			$this->load->model("Update_model_8","update_8");
+			$this->model_8 = TRUE;
+		}
+		else if($this->ping($this->config->item('model_9'))) {
+			$this->load->model("Update_model_9","update_9");
+			$this->model_9 = TRUE;
+		}
 	}
 
 	public function index()
@@ -41,19 +65,33 @@ class Update extends Main_Controller {
 				$this->update_2->lastUpdate();
 				echo "<script>alert('Update berhasil dari ".$this->config->item('model_2').". Silahkan Login kembali.');</script>";
 				$this->logout();
-			}
-			else if($this->model_3) {
+			} else if($this->model_3) {
 				$this->update_3->lastUpdate();
 				echo "<script>alert('Update berhasil dari ".$this->config->item('model_3').". Silahkan Login kembali.');</script>";
 				$this->logout();
-			}
-			else if($this->model_4) {
+			} else if($this->model_4) {
 				$this->update_4->lastUpdate();
 				echo "<script>alert('Update berhasil dari ".$this->config->item('model_4').". Silahkan Login kembali.');</script>";
 				$this->logout();
 			} else if($this->model_5) {
 				$this->update_5->lastUpdate();
 				echo "<script>alert('Update berhasil dari ".$this->config->item('model_5').". Silahkan Login kembali.');</script>";
+				$this->logout();
+			} else if($this->model_6) {
+				$this->update_6->lastUpdate();
+				echo "<script>alert('Update berhasil dari ".$this->config->item('model_6').". Silahkan Login kembali.');</script>";
+				$this->logout();
+			} else if($this->model_7) {
+				$this->update_7->lastUpdate();
+				echo "<script>alert('Update berhasil dari ".$this->config->item('model_7').". Silahkan Login kembali.');</script>";
+				$this->logout();
+			} else if($this->model_8) {
+				$this->update_8->lastUpdate();
+				echo "<script>alert('Update berhasil dari ".$this->config->item('model_8').". Silahkan Login kembali.');</script>";
+				$this->logout();
+			} else if($this->model_9) {
+				$this->update_9->lastUpdate();
+				echo "<script>alert('Update berhasil dari ".$this->config->item('model_9').". Silahkan Login kembali.');</script>";
 				$this->logout();
 			} else {
 				echo "<script>alert('Update gagal');</script>";

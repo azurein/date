@@ -7,6 +7,10 @@ class KehadiranSync extends Main_Controller {
 	public $model_3;
 	public $model_4;
 	public $model_5;
+	public $model_6;
+	public $model_7;
+	public $model_8;
+	public $model_9;
 
    	public function __construct()
 	{
@@ -15,6 +19,10 @@ class KehadiranSync extends Main_Controller {
 		$this->model_3 = FALSE;
 		$this->model_4 = FALSE;
 		$this->model_5 = FALSE;
+		$this->model_6 = FALSE;
+        $this->model_7 = FALSE;
+        $this->model_8 = FALSE;
+        $this->model_9 = FALSE;
 
 		$this->load->model("Kehadiran_model","kehadiran");
 
@@ -34,6 +42,22 @@ class KehadiranSync extends Main_Controller {
 			$this->load->model("Kehadiran_model_5","kehadiran_5");
 			$this->model_5 = TRUE;
 		}
+		if($this->ping($this->config->item('model_6'))) {
+            $this->load->model("Kehadiran_model_6","kehadiran_6");
+            $this->model_6 = TRUE;
+        }
+        if($this->ping($this->config->item('model_7'))) {
+            $this->load->model("Kehadiran_model_7","kehadiran_7");
+            $this->model_7 = TRUE;
+        }
+        if($this->ping($this->config->item('model_8'))) {
+            $this->load->model("Kehadiran_model_8","kehadiran_8");
+            $this->model_8 = TRUE;
+        }
+        if($this->ping($this->config->item('model_9'))) {
+            $this->load->model("Kehadiran_model_9","kehadiran_9");
+            $this->model_9 = TRUE;
+        }
 	}
 
 	public function index()
@@ -121,6 +145,18 @@ class KehadiranSync extends Main_Controller {
 		if($this->model_5) {
 			$this->kehadiran_5->saveVerificationLog($data);
 		}
+		if($this->model_6) {
+			$this->kehadiran_6->saveVerificationLog($data);
+		}
+		if($this->model_7) {
+			$this->kehadiran_7->saveVerificationLog($data);
+		}
+		if($this->model_8) {
+			$this->kehadiran_8->saveVerificationLog($data);
+		}
+		if($this->model_9) {
+			$this->kehadiran_9->saveVerificationLog($data);
+		}
 		echo $result;
 	}
 
@@ -143,6 +179,18 @@ class KehadiranSync extends Main_Controller {
 		if($this->model_5) {
 			$this->kehadiran_5->saveVerificationLog($data);
 		}
+		if($this->model_6) {
+			$this->kehadiran_6->deactiveVerificationLog($data);
+		}
+		if($this->model_7) {
+			$this->kehadiran_7->saveVerificationLog($data);
+		}
+		if($this->model_8) {
+			$this->kehadiran_8->saveVerificationLog($data);
+		}
+		if($this->model_9) {
+			$this->kehadiran_9->saveVerificationLog($data);
+		}
 		echo $result;
 	}
 
@@ -164,6 +212,18 @@ class KehadiranSync extends Main_Controller {
 		}
 		if($this->model_5) {
 			$this->kehadiran_5->deactiveVerificationCard($data);
+		}
+		if($this->model_6) {
+			$this->kehadiran_6->deactiveVerificationCard($data);
+		}
+		if($this->model_7) {
+			$this->kehadiran_7->deactiveVerificationCard($data);
+		}
+		if($this->model_8) {
+			$this->kehadiran_8->deactiveVerificationCard($data);
+		}
+		if($this->model_9) {
+			$this->kehadiran_9->deactiveVerificationCard($data);
 		}
 		echo $result;
 	}
