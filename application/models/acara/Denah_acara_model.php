@@ -231,7 +231,8 @@ class Denah_acara_model extends CI_Model {
 					JOIN titles b ON a.title_id=b.title_id
 					WHERE a._status <> 'D'
 					AND b._status <> 'D'
-					AND CONCAT(TRIM(title_name),TRIM(participant_name)) = '".trim($data['participant_name'])."'
+					AND CONCAT(TRIM(title_name),TRIM(participant_name)) = 
+					'".trim($data['participant_name'])."'
 					LIMIT 1";
 		$data = $this->db->query($query)->result();
 		return $data;

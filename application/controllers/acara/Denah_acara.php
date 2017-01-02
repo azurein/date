@@ -240,7 +240,7 @@ class Denah_acara extends Main_Controller {
 				'participant_name' => $participant
 			);
 			$result = $this->denah_acara->getParticipantsDetail($param);
-			var_dump($result); die();
+			
 			$paramSibling = array(
 				'facility_id' => $this->input->post_get('facility_id'),
 				'facility_parent_id' => $this->input->post_get('facility_parent_id')
