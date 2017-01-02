@@ -227,12 +227,12 @@ class Denah_acara_model extends CI_Model {
 		return $data;
 	}
 	public function getParticipantsDetail($data){
-		$query = "SELECT participant_id,participant_name,a.title_id, title_name, follower FROM participant a
+		$query = "	SELECT participant_id,participant_name,a.title_id, title_name, follower FROM participant a
 					JOIN titles b ON a.title_id=b.title_id
 					WHERE a._status <> 'D'
 					AND b._status <> 'D'
-					AND TRIM(title_name) = '".trim($data['title_name'])."'
-					AND TRIM(participant_name) = '".trim($data['participant_name'])."'";
+					AND CONCAT(TRIM(title_name),TRIM(participant_name)) = '".trim($data['participant_name'])."'
+					LIMIT 1";
 		$data = $this->db->query($query)->result();
 		return $data;
 	}

@@ -222,7 +222,8 @@ class Denah_acara extends Main_Controller {
 	}
 
 	public function saveParticipantFacility(){
-		$participant = explode(' ', $this->input->post_get('participant'), 2);
+		// $participant = explode(' ', $this->input->post_get('participant'), 2);
+		$participant = $this->input->post_get('participant');
 		$status = $this->input->post_get('status');
 		$error = false;
 
@@ -235,12 +236,11 @@ class Denah_acara extends Main_Controller {
 			);
 		}else{
 			$param = array(
-				'title_name' => $participant[0],
-				'participant_name' => $participant[1]
+				// 'title_name' => $participant[0],
+				'participant_name' => $participant
 			);
-
 			$result = $this->denah_acara->getParticipantsDetail($param);
-
+			var_dump($result); die();
 			$paramSibling = array(
 				'facility_id' => $this->input->post_get('facility_id'),
 				'facility_parent_id' => $this->input->post_get('facility_parent_id')
