@@ -76,14 +76,14 @@ class Kehadiran_model_4 extends CI_Model {
 	}
 
 	public function checkVerification($code){
-		$query = 	"
-					SELECT
+		$query = 	"SELECT
 						CASE WHEN c.card_id IS NOT NULL THEN 2
 						WHEN b.card_id IS NOT NULL THEN 1
 						ELSE 0
 					END AS checkVerification,
-					e.title_name,
-					d.participant_name
+					COALESCE(f.is_confirm, 0) AS is_confirm,
+					COALESCE(e.title_name, '') AS title_name,
+					COALESCE(d.participant_name, '') AS participant_name
 
 					FROM card a
 
@@ -106,8 +106,19 @@ class Kehadiran_model_4 extends CI_Model {
 					ON d.title_id = e.title_id
 					AND e._status <> 'D'
 
+					LEFT JOIN participant f
+	                ON a.participant_id = f.participant_id
+	                AND f._status <> 'D'
+
 					WHERE a.card_id like '".$code."'
-					";
+
+					UNION
+
+					SELECT
+					-1 AS checkVerification,
+					0 AS is_confirm,
+					'' AS title_name,
+					'' as participant_name";
 
 		$data = $this->db->query($query)->result_array();
 		return $data;

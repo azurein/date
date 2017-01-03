@@ -233,6 +233,7 @@ class Home_model_5 extends CI_Model {
 			$data['follower'],
 			$data['group'],
 			$data['user_id'],
+			$_SESSION['event_id'],
 			$data['souvenir_qty']
 		));
 		$new_participant_id = $this->db->insert_id();

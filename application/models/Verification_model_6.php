@@ -6,7 +6,7 @@ class Verification_model_6 extends CI_Model {
 		$this->db = $this->load->database('model_6',TRUE);
 	}
 
-	public function verify($participant_id, $card_id, $follower, $fixed_facilites, $canceled_facilities, $additional_facilities, $followers)
+	public function verify($participant_id, $card_id, $follower, $fixed_facilites, $canceled_facilities, $additional_facilities, $followers, $souvenir_qty)
 	{
 		//non-aktif kehadiran lama
 		$query = "UPDATE verification SET _status = 'D', _user = ?, _date = NOW() WHERE card_id = ?";
@@ -26,8 +26,9 @@ class Verification_model_6 extends CI_Model {
 		));
 
 		//update follower
-		$query = "UPDATE participant SET follower = ?, _status = 'U', _user = ?, _date = NOW() WHERE participant_id = ?";
+		$query = "UPDATE participant SET souvenir_qty = ?, follower = ?, _status = 'U', _user = ?, _date = NOW() WHERE participant_id = ?";
 		$this->db->query($query,array(
+			$souvenir_qty,
 			$follower,
 			$_SESSION['user_id'],
 			$participant_id
