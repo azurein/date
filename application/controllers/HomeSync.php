@@ -203,7 +203,7 @@ class HomeSync extends Main_Controller {
         /* Judul, Tanggal */
         $printer -> setJustification(Printer::JUSTIFY_CENTER);
         $printer -> selectPrintMode(Printer::MODE_DOUBLE_WIDTH);
-        $printer -> text($data[0]['event_name']."\n");
+        //$printer -> text($data[0]['event_name']."\n");
         $printer -> selectPrintMode();
         $printer -> text($data[0]['address']."\n");
         $printer -> text($date."\n\n");
@@ -230,7 +230,7 @@ class HomeSync extends Main_Controller {
 
         /* Footer */
         $printer -> selectPrintMode(Printer::MODE_DOUBLE_WIDTH);
-        $printer -> text("Souvenir : ".($souvenir+1)."\n");
+        $printer -> text("Souvenir : ".($souvenir)."\n");
         $printer -> selectPrintMode();
         $printer -> text("*Please show this ticket to our usher\n\n\n\n\n");
 
