@@ -191,8 +191,7 @@ class KehadiranSync extends Main_Controller {
 		if($this->model_9) {
 			$this->kehadiran_9->saveVerificationLog($data);
 		}
-		// echo $result;
-		$this->index();
+		echo $result;
 	}
 
 	public function deactiveVerificationCard()
