@@ -20,9 +20,9 @@ class HomeSync extends Main_Controller {
    	public function __construct()
 	{
 		parent::__construct();
-        $this->model_2 = FALSE;
         $this->model_3 = FALSE;
         $this->model_4 = FALSE;
+        $this->model_2 = FALSE;
         $this->model_5 = FALSE;
         $this->model_6 = FALSE;
         $this->model_7 = FALSE;
