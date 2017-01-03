@@ -93,17 +93,18 @@ function deactiveVerificationLog(id,name){
 	$("#deleteName").text('Anda yakin menghapus catatan kehadiran '+ name +' ?');
 	$("#deleteModal").modal("show");
 	$("#deleteButton").unbind('click').click(function(){
-		$.ajax({
-			type : 'POST',
-			url : BASE_URL + 'KehadiranSync/deactiveVerificationLog',
-			dataType : 'json',
-			data : {
-				'id' : id
-			},
-			success : function(data){
-				getVerificationLog();
-			}
-		});
+        window.location.href = BASE_URL+"KehadiranSync/deactiveVerificationLog/?id="+id;
+		// $.ajax({
+		// 	type : 'POST',
+		// 	url : BASE_URL + 'KehadiranSync/deactiveVerificationLog',
+		// 	dataType : 'json',
+		// 	data : {
+		// 		'id' : id
+		// 	},
+		// 	success : function(data){
+		// 		getVerificationLog();
+		// 	}
+		// });
 	});
 }
 
