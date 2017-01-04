@@ -30,10 +30,10 @@ class PesertaSync extends Main_Controller {
 			$this->load->model("Peserta_model_2","peserta_2");
 			$this->model_2 = TRUE;
 		}
-		// if($this->ping($this->config->item('model_3'))) {
-		// 	$this->load->model("Peserta_model_3","peserta_3");
-		// 	$this->model_3 = TRUE;
-		// }
+		if($this->ping($this->config->item('model_3'))) {
+			$this->load->model("Peserta_model_3","peserta_3");
+			$this->model_3 = TRUE;
+		}
 		if($this->ping($this->config->item('model_4'))) {
 			$this->load->model("Peserta_model_4","peserta_4");
 			$this->model_4 = TRUE;
@@ -70,7 +70,7 @@ class PesertaSync extends Main_Controller {
 	}
 
 	// Function to check response time
-	public function ping($host,$port=80,$timeout=2) {
+	public function ping($host,$port=80,$timeout=60) {
 	    $fsock = fsockopen($host, $port, $errno, $errstr, $timeout);
 	    if (!$fsock) {
 	    	// fclose();
@@ -217,7 +217,7 @@ class PesertaSync extends Main_Controller {
 	{
 		$id = $this->input->post_get('id');
 		$result = '';
-		
+
 		if($id == '')
 		{
 			$data = array(

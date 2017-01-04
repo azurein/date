@@ -37,10 +37,10 @@ class VerificationSync extends Main_Controller {
         	$this->load->model("Verification_model_2","verification_2");
         	$this->model_2 = TRUE;
         }
-        // if($this->ping($this->config->item('model_3'))) {
-        // 	$this->load->model("Verification_model_3","verification_3");
-        // 	$this->model_3 = TRUE;
-        // }
+        if($this->ping($this->config->item('model_3'))) {
+        	$this->load->model("Verification_model_3","verification_3");
+        	$this->model_3 = TRUE;
+        }
         if($this->ping($this->config->item('model_4'))) {
         	$this->load->model("Verification_model_4","verification_4");
         	$this->model_4 = TRUE;
@@ -75,7 +75,7 @@ class VerificationSync extends Main_Controller {
     }
 
     // Function to check response time
-    public function ping($host,$port=80,$timeout=1) {
+    public function ping($host,$port=80,$timeout=60) {
         $fsock = fsockopen($host, $port, $errno, $errstr, $timeout);
         if (!$fsock) {
             // fclose();
