@@ -194,17 +194,25 @@ class Pengaturan_acara extends Main_Controller {
 		}
 		$data = $this->pengaturan_acara->getTableI();
 		$dataLen = count($data); $r--;
-		for ($i=0; $i < $dataLen ; $i++) {
-            if($i == 0) {
-                $s = $r+2;
-            } else if($i == $dataLen-1) {
-                $e = $r+2;
-            }
-			$this->excel->getActiveSheet()->setCellValue('B'.($r+2),$data[$i]['group_name'],PHPExcel_Cell_DataType::TYPE_STRING);
-			$this->excel->getActiveSheet()->setCellValue('C'.($r+2),$data[$i]['invite'],PHPExcel_Style_NumberFormat::FORMAT_GENERAL);
-			$this->excel->getActiveSheet()->setCellValue('D'.($r+2),$data[$i]['attend'],PHPExcel_Style_NumberFormat::FORMAT_GENERAL);
+        if($dataLen) {
+            for ($i=0; $i < $dataLen ; $i++) {
+                if($i == 0) {
+                    $s = $r+2;
+                } else if($i == $dataLen-1) {
+                    $e = $r+2;
+                }
+    			$this->excel->getActiveSheet()->setCellValue('B'.($r+2),$data[$i]['group_name'],PHPExcel_Cell_DataType::TYPE_STRING);
+    			$this->excel->getActiveSheet()->setCellValue('C'.($r+2),$data[$i]['invite'],PHPExcel_Style_NumberFormat::FORMAT_GENERAL);
+    			$this->excel->getActiveSheet()->setCellValue('D'.($r+2),$data[$i]['attend'],PHPExcel_Style_NumberFormat::FORMAT_GENERAL);
+                $r++;
+    		}
+        } else {
+            $s = 2;
+            $this->excel->getActiveSheet()->setCellValue('B'.($r+2),'',PHPExcel_Cell_DataType::TYPE_STRING);
+            $this->excel->getActiveSheet()->setCellValue('C'.($r+2),'',PHPExcel_Style_NumberFormat::FORMAT_GENERAL);
+            $this->excel->getActiveSheet()->setCellValue('D'.($r+2),'',PHPExcel_Style_NumberFormat::FORMAT_GENERAL);
             $r++;
-		}
+        }
         $this->excel->getActiveSheet()->getStyle('B'.($s-1).':D'.$e)->applyFromArray(
             array(
                 'borders' => array(
@@ -218,8 +226,13 @@ class Pengaturan_acara extends Main_Controller {
             )
         );
         $r++; $r++;
-        $this->excel->getActiveSheet()->setCellValue('C'.$r,'=SUM(C'.$s.':C'.$e.')');
-        $this->excel->getActiveSheet()->setCellValue('D'.$r,'=SUM(D'.$s.':D'.$e.')');
+        if($dataLen) {
+            $this->excel->getActiveSheet()->setCellValue('C'.$r,'=SUM(C'.$s.':C'.$e.')');
+            $this->excel->getActiveSheet()->setCellValue('D'.$r,'=SUM(D'.$s.':D'.$e.')');
+        } else {
+            $this->excel->getActiveSheet()->setCellValue('C'.$r,'0');
+            $this->excel->getActiveSheet()->setCellValue('D'.$r,'0');
+        }
         for($col= 'C' ; $col !== 'E' ; $col++){
             $colFill = $this->excel->getActiveSheet()->getStyle($col.$r)->getFill();
             $colFill->getStartColor()->setARGB('#ffff00');
@@ -253,19 +266,30 @@ class Pengaturan_acara extends Main_Controller {
 		}
 		$data = $this->pengaturan_acara->getTableII();
 		$dataLen = count($data); $r--;
-		for ($i=0; $i < $dataLen ; $i++) {
-            if($i == 0) {
-                $s = $r+2;
-            } else if($i == $dataLen-1) {
-                $e = $r+2;
-            }
-            $this->excel->getActiveSheet()->setCellValue('B'.($r+2),$data[$i]['group_name'],PHPExcel_Cell_DataType::TYPE_STRING);
-            $this->excel->getActiveSheet()->setCellValue('C'.($r+2),$data[$i]['title_name']." ".$data[$i]['participant_name'],PHPExcel_Cell_DataType::TYPE_STRING);
-            $this->excel->getActiveSheet()->setCellValueExplicit('D'.($r+2),$data[$i]['phone_num'],PHPExcel_Cell_DataType::TYPE_STRING);
-			$this->excel->getActiveSheet()->setCellValue('E'.($r+2),$data[$i]['follower_prev']+1,PHPExcel_Style_NumberFormat::FORMAT_GENERAL);
-			$this->excel->getActiveSheet()->setCellValue('F'.($r+2),$data[$i]['follower']+1,PHPExcel_Style_NumberFormat::FORMAT_GENERAL);
+        if($dataLen) {
+            for ($i=0; $i < $dataLen ; $i++) {
+                if($i == 0) {
+                    $s = $r+2;
+                } else if($i == $dataLen-1) {
+                    $e = $r+2;
+                }
+                $this->excel->getActiveSheet()->setCellValue('B'.($r+2),$data[$i]['group_name'],PHPExcel_Cell_DataType::TYPE_STRING);
+                $this->excel->getActiveSheet()->setCellValue('C'.($r+2),$data[$i]['title_name']." ".$data[$i]['participant_name'],PHPExcel_Cell_DataType::TYPE_STRING);
+                $this->excel->getActiveSheet()->setCellValueExplicit('D'.($r+2),$data[$i]['phone_num'],PHPExcel_Cell_DataType::TYPE_STRING);
+    			$this->excel->getActiveSheet()->setCellValue('E'.($r+2),$data[$i]['follower_prev']+1,PHPExcel_Style_NumberFormat::FORMAT_GENERAL);
+    			$this->excel->getActiveSheet()->setCellValue('F'.($r+2),$data[$i]['follower']+1,PHPExcel_Style_NumberFormat::FORMAT_GENERAL);
+                $r++;
+    		}
+        } else {
+            $s = $r+2;
+            $e = $r+2;
+            $this->excel->getActiveSheet()->setCellValue('B'.($r+2),'',PHPExcel_Cell_DataType::TYPE_STRING);
+            $this->excel->getActiveSheet()->setCellValue('C'.($r+2),'',PHPExcel_Cell_DataType::TYPE_STRING);
+            $this->excel->getActiveSheet()->setCellValueExplicit('D'.($r+2),'',PHPExcel_Cell_DataType::TYPE_STRING);
+            $this->excel->getActiveSheet()->setCellValue('E'.($r+2),'',PHPExcel_Style_NumberFormat::FORMAT_GENERAL);
+            $this->excel->getActiveSheet()->setCellValue('F'.($r+2),'',PHPExcel_Style_NumberFormat::FORMAT_GENERAL);
             $r++;
-		}
+        }
         $this->excel->getActiveSheet()->getStyle('B'.($s-1).':F'.$e)->applyFromArray(
             array(
                 'borders' => array(
@@ -279,8 +303,13 @@ class Pengaturan_acara extends Main_Controller {
             )
         );
         $r++; $r++;
-        $this->excel->getActiveSheet()->setCellValue('E'.$r,'=SUM(E'.$s.':E'.$e.')');
-        $this->excel->getActiveSheet()->setCellValue('F'.$r,'=SUM(F'.$s.':F'.$e.')');
+        if($dataLen) {
+            $this->excel->getActiveSheet()->setCellValue('E'.$r,'=SUM(E'.$s.':E'.$e.')');
+            $this->excel->getActiveSheet()->setCellValue('F'.$r,'=SUM(F'.$s.':F'.$e.')');
+        } else {
+            $this->excel->getActiveSheet()->setCellValue('E'.$r,'0');
+            $this->excel->getActiveSheet()->setCellValue('F'.$r,'0');
+        }
         for($col= 'E' ; $col !== 'G' ; $col++){
             $colFill = $this->excel->getActiveSheet()->getStyle($col.$r)->getFill();
             $colFill->getStartColor()->setARGB('#ffff00');
@@ -342,20 +371,31 @@ class Pengaturan_acara extends Main_Controller {
             }
             $data = $this->pengaturan_acara->getTableIII($operator[$i]['user_id']);
     		$dataLen = count($data); $r--;
-    		for ($j=0; $j < $dataLen ; $j++) {
-                if($j == 0) {
-                    $s = $r+2;
-                } else if($j == $dataLen-1) {
-                    $e = $r+2;
+            if($dataLen) {
+                for ($j=0; $j < $dataLen ; $j++) {
+                    if($j == 0) {
+                        $s = $r+2;
+                    } else if($j == $dataLen-1) {
+                        $e = $r+2;
+                    }
+                    $date = date_format(date_create($data[$j]['verification_date']), 'H:i');
+                    // $this->excel->getActiveSheet()->setCellValue('B'.($r+2),$j+1,PHPExcel_Cell_DataType::TYPE_STRING);
+                    $this->excel->getActiveSheet()->setCellValue('B'.($r+2),$data[$j]['title_name']." ".$data[$j]['participant_name'],PHPExcel_Cell_DataType::TYPE_STRING);
+                    $this->excel->getActiveSheet()->setCellValue('C'.($r+2),$data[$j]['group_name'],PHPExcel_Cell_DataType::TYPE_STRING);
+                    $this->excel->getActiveSheet()->setCellValue('D'.($r+2),$date,PHPExcel_Cell_DataType::TYPE_STRING);
+                    $this->excel->getActiveSheet()->setCellValue('E'.($r+2),$data[$j]['note'],PHPExcel_Cell_DataType::TYPE_STRING);
+                    $r++;
                 }
-                $date = date_format(date_create($data[$j]['verification_date']), 'H:i');
+            } else {
+                $s = $r+2;
+                $e = $r+2;
                 // $this->excel->getActiveSheet()->setCellValue('B'.($r+2),$j+1,PHPExcel_Cell_DataType::TYPE_STRING);
-                $this->excel->getActiveSheet()->setCellValue('B'.($r+2),$data[$j]['title_name']." ".$data[$j]['participant_name'],PHPExcel_Cell_DataType::TYPE_STRING);
-                $this->excel->getActiveSheet()->setCellValue('C'.($r+2),$data[$j]['group_name'],PHPExcel_Cell_DataType::TYPE_STRING);
-                $this->excel->getActiveSheet()->setCellValue('D'.($r+2),$date,PHPExcel_Cell_DataType::TYPE_STRING);
-                $this->excel->getActiveSheet()->setCellValue('E'.($r+2),$data[$j]['note'],PHPExcel_Cell_DataType::TYPE_STRING);
+                $this->excel->getActiveSheet()->setCellValue('B'.($r+2),'',PHPExcel_Cell_DataType::TYPE_STRING);
+                $this->excel->getActiveSheet()->setCellValue('C'.($r+2),'',PHPExcel_Cell_DataType::TYPE_STRING);
+                $this->excel->getActiveSheet()->setCellValue('D'.($r+2),'',PHPExcel_Cell_DataType::TYPE_STRING);
+                $this->excel->getActiveSheet()->setCellValue('E'.($r+2),'',PHPExcel_Cell_DataType::TYPE_STRING);
                 $r++;
-    		}
+            }
             if($i == 0) {
                 $this->excel->getActiveSheet()->getStyle('B'.($s).':E'.($r+1))->applyFromArray(
                     array(
@@ -400,13 +440,24 @@ class Pengaturan_acara extends Main_Controller {
         // Table IV
         $s = $r;
         $data = $this->pengaturan_acara->getTableIV();
-        $this->excel->getActiveSheet()->setCellValue('B'.$r,'Number of Souvenirs Available');
-        $this->excel->getActiveSheet()->setCellValue('D'.$r,$data[0]['souvenir_qty'].' pcs',PHPExcel_Cell_DataType::TYPE_STRING); $r++;
-        $this->excel->getActiveSheet()->setCellValue('B'.$r,'Number of Distributed Souvenirs');
-        $this->excel->getActiveSheet()->setCellValue('D'.$r,$data[0]['souvenir_dist'].' pcs',PHPExcel_Cell_DataType::TYPE_STRING); $r++;
-        $this->excel->getActiveSheet()->setCellValue('B'.$r,'Number of Leftover Souvenirs');
-        $e = $r;
-        $this->excel->getActiveSheet()->setCellValue('D'.$r,$data[0]['souvenir_left'].' pcs',PHPExcel_Cell_DataType::TYPE_STRING); $r++;
+        $dataLen = count($data);
+        if($dataLen) {
+            $this->excel->getActiveSheet()->setCellValue('B'.$r,'Number of Souvenirs Available');
+            $this->excel->getActiveSheet()->setCellValue('D'.$r,$data[0]['souvenir_qty'].' pcs',PHPExcel_Cell_DataType::TYPE_STRING); $r++;
+            $this->excel->getActiveSheet()->setCellValue('B'.$r,'Number of Distributed Souvenirs');
+            $this->excel->getActiveSheet()->setCellValue('D'.$r,$data[0]['souvenir_dist'].' pcs',PHPExcel_Cell_DataType::TYPE_STRING); $r++;
+            $this->excel->getActiveSheet()->setCellValue('B'.$r,'Number of Leftover Souvenirs');
+            $e = $r;
+            $this->excel->getActiveSheet()->setCellValue('D'.$r,$data[0]['souvenir_left'].' pcs',PHPExcel_Cell_DataType::TYPE_STRING); $r++;
+        } else {
+            $this->excel->getActiveSheet()->setCellValue('B'.$r,'Number of Souvenirs Available');
+            $this->excel->getActiveSheet()->setCellValue('D'.$r,'0 pcs',PHPExcel_Cell_DataType::TYPE_STRING); $r++;
+            $this->excel->getActiveSheet()->setCellValue('B'.$r,'Number of Distributed Souvenirs');
+            $this->excel->getActiveSheet()->setCellValue('D'.$r,'0 pcs',PHPExcel_Cell_DataType::TYPE_STRING); $r++;
+            $this->excel->getActiveSheet()->setCellValue('B'.$r,'Number of Leftover Souvenirs');
+            $e = $r;
+            $this->excel->getActiveSheet()->setCellValue('D'.$r,'0 pcs',PHPExcel_Cell_DataType::TYPE_STRING); $r++;
+        }
         $this->excel->getActiveSheet()->getStyle('B'.$s.':D'.$e)->applyFromArray(
             array(
                 'borders' => array(
@@ -477,14 +528,22 @@ class Pengaturan_acara extends Main_Controller {
         }
         $data = $this->pengaturan_acara->getTableVI();
         $dataLen = count($data); $r--;
-        for ($i=0; $i < $dataLen ; $i++) {
-            if($i == 0) {
-                $s = $r+2;
-            } else if($i == $dataLen-1) {
-                $e = $r+2;
+        if($dataLen) {
+            for ($i=0; $i < $dataLen ; $i++) {
+                if($i == 0) {
+                    $s = $r+2;
+                } else if($i == $dataLen-1) {
+                    $e = $r+2;
+                }
+                $this->excel->getActiveSheet()->setCellValue('B'.($r+2),$data[$i]['facility_name'],PHPExcel_Cell_DataType::TYPE_STRING);
+                $this->excel->getActiveSheet()->setCellValue('C'.($r+2),$data[$i]['title_name']." ".$data[$i]['participant_name'],PHPExcel_Cell_DataType::TYPE_STRING);
+                $r++;
             }
-            $this->excel->getActiveSheet()->setCellValue('B'.($r+2),$data[$i]['facility_name'],PHPExcel_Cell_DataType::TYPE_STRING);
-            $this->excel->getActiveSheet()->setCellValue('C'.($r+2),$data[$i]['title_name']." ".$data[$i]['participant_name'],PHPExcel_Cell_DataType::TYPE_STRING);
+        } else {
+            $s = $r+2;
+            $e = $r+2;
+            $this->excel->getActiveSheet()->setCellValue('B'.($r+2),'',PHPExcel_Cell_DataType::TYPE_STRING);
+            $this->excel->getActiveSheet()->setCellValue('C'.($r+2),'',PHPExcel_Cell_DataType::TYPE_STRING);
             $r++;
         }
         $this->excel->getActiveSheet()->getStyle('B'.($s-1).':C'.$e)->applyFromArray(
@@ -514,16 +573,26 @@ class Pengaturan_acara extends Main_Controller {
         }
         $data = $this->pengaturan_acara->getTableVII();
         $dataLen = count($data); $r--;
-        for ($i=0; $i < $dataLen ; $i++) {
-            if($i == 0) {
-                $s = $r+2;
-            } else if($i == $dataLen-1) {
-                $e = $r+2;
+        if($dataLen) {
+            for ($i=0; $i < $dataLen ; $i++) {
+                if($i == 0) {
+                    $s = $r+2;
+                } else if($i == $dataLen-1) {
+                    $e = $r+2;
+                }
+                $this->excel->getActiveSheet()->setCellValue('B'.($r+2),$data[$i]['total_winner'],PHPExcel_Cell_DataType::TYPE_STRING);
+                $this->excel->getActiveSheet()->setCellValue('C'.($r+2),$data[$i]['prize_name'],PHPExcel_Cell_DataType::TYPE_STRING);
+                $this->excel->getActiveSheet()->setCellValue('D'.($r+2),$data[$i]['title_name']." ".$data[$i]['participant_name'],PHPExcel_Cell_DataType::TYPE_STRING);
+                $this->excel->getActiveSheet()->setCellValue('E'.($r+2),$data[$i]['group_name'],PHPExcel_Cell_DataType::TYPE_STRING);
+                $r++;
             }
-            $this->excel->getActiveSheet()->setCellValue('B'.($r+2),$data[$i]['total_winner'],PHPExcel_Cell_DataType::TYPE_STRING);
-            $this->excel->getActiveSheet()->setCellValue('C'.($r+2),$data[$i]['prize_name'],PHPExcel_Cell_DataType::TYPE_STRING);
-            $this->excel->getActiveSheet()->setCellValue('D'.($r+2),$data[$i]['title_name']." ".$data[$i]['participant_name'],PHPExcel_Cell_DataType::TYPE_STRING);
-            $this->excel->getActiveSheet()->setCellValue('E'.($r+2),$data[$i]['group_name'],PHPExcel_Cell_DataType::TYPE_STRING);
+        } else {
+            $s = $r+2;
+            $e = $r+2;
+            $this->excel->getActiveSheet()->setCellValue('B'.($r+2),'',PHPExcel_Cell_DataType::TYPE_STRING);
+            $this->excel->getActiveSheet()->setCellValue('C'.($r+2),'',PHPExcel_Cell_DataType::TYPE_STRING);
+            $this->excel->getActiveSheet()->setCellValue('D'.($r+2),'',PHPExcel_Cell_DataType::TYPE_STRING);
+            $this->excel->getActiveSheet()->setCellValue('E'.($r+2),'',PHPExcel_Cell_DataType::TYPE_STRING);
             $r++;
         }
         $this->excel->getActiveSheet()->getStyle('B'.($s-1).':E'.$e)->applyFromArray(
