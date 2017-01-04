@@ -30,10 +30,10 @@ class KehadiranSync extends Main_Controller {
 			$this->load->model("Kehadiran_model_2","kehadiran_2");
 			$this->model_2 = TRUE;
 		}
-		if($this->ping($this->config->item('model_3'))) {
-			$this->load->model("Kehadiran_model_3","kehadiran_3");
-			$this->model_3 = TRUE;
-		}
+		// if($this->ping($this->config->item('model_3'))) {
+		// 	$this->load->model("Kehadiran_model_3","kehadiran_3");
+		// 	$this->model_3 = TRUE;
+		// }
 		if($this->ping($this->config->item('model_4'))) {
 			$this->load->model("Kehadiran_model_4","kehadiran_4");
 			$this->model_4 = TRUE;
