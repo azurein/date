@@ -368,6 +368,7 @@ class Peserta_model_4 extends CI_Model {
 	}
 
 	public function getGroupID($data) {
+		$data = str_replace("'","''",$data);
 		$query = "SELECT group_id FROM groups WHERE _status <> 'D' AND group_name = '".$data."'";
 		$data = $this->db->query($query)->result_array();
 		return $data;
