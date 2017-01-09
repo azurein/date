@@ -521,7 +521,8 @@ class Pengaturan_acara extends Main_Controller {
         $this->excel->getActiveSheet()->setCellValue('B'.$r,'Details per table number:'); $r++;
         $this->excel->getActiveSheet()->setCellValue('B'.$r,'Table No.');
         $this->excel->getActiveSheet()->setCellValue('C'.$r,'Guest Name');
-        for($col= 'B' ; $col !== 'D' ; $col++){
+        $this->excel->getActiveSheet()->setCellValue('D'.$r,'On the Spot');
+        for($col= 'B' ; $col !== 'E' ; $col++){
             $colFill = $this->excel->getActiveSheet()->getStyle($col.$r)->getFill();
             $colFill->getStartColor()->setARGB('#ffff00');
             $colFill->setFillType(PHPExcel_Style_Fill::FILL_SOLID);
@@ -537,6 +538,7 @@ class Pengaturan_acara extends Main_Controller {
                 }
                 $this->excel->getActiveSheet()->setCellValue('B'.($r+2),$data[$i]['facility_name'],PHPExcel_Cell_DataType::TYPE_STRING);
                 $this->excel->getActiveSheet()->setCellValue('C'.($r+2),$data[$i]['title_name']." ".$data[$i]['participant_name'],PHPExcel_Cell_DataType::TYPE_STRING);
+                $this->excel->getActiveSheet()->setCellValue('D'.($r+2),$data[$i]['is_onthespot'],PHPExcel_Cell_DataType::TYPE_STRING);
                 $r++;
             }
         } else {
@@ -544,9 +546,10 @@ class Pengaturan_acara extends Main_Controller {
             $e = $r+2;
             $this->excel->getActiveSheet()->setCellValue('B'.($r+2),'',PHPExcel_Cell_DataType::TYPE_STRING);
             $this->excel->getActiveSheet()->setCellValue('C'.($r+2),'',PHPExcel_Cell_DataType::TYPE_STRING);
+            $this->excel->getActiveSheet()->setCellValue('D'.($r+2),'',PHPExcel_Cell_DataType::TYPE_STRING);
             $r++;
         }
-        $this->excel->getActiveSheet()->getStyle('B'.($s-1).':C'.$e)->applyFromArray(
+        $this->excel->getActiveSheet()->getStyle('B'.($s-1).':D'.$e)->applyFromArray(
             array(
                 'borders' => array(
                     'allborders' => array(

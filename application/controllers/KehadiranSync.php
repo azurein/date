@@ -70,7 +70,7 @@ class KehadiranSync extends Main_Controller {
 	}
 
 	// Function to check response time
-	public function ping($host,$port=80,$timeout=60) {
+	public function ping($host,$port=80,$timeout=1) {
 	    $fsock = fsockopen($host, $port, $errno, $errstr, $timeout);
 	    if (!$fsock) {
 	    	// fclose();
@@ -171,25 +171,25 @@ class KehadiranSync extends Main_Controller {
 			$this->kehadiran_2->deactiveVerificationLog($data);
 		}
 		if($this->model_3) {
-			$this->kehadiran_3->saveVerificationLog($data);
+			$this->kehadiran_3->deactiveVerificationLog($data);
 		}
 		if($this->model_4) {
-			$this->kehadiran_4->saveVerificationLog($data);
+			$this->kehadiran_4->deactiveVerificationLog($data);
 		}
 		if($this->model_5) {
-			$this->kehadiran_5->saveVerificationLog($data);
+			$this->kehadiran_5->deactiveVerificationLog($data);
 		}
 		if($this->model_6) {
 			$this->kehadiran_6->deactiveVerificationLog($data);
 		}
 		if($this->model_7) {
-			$this->kehadiran_7->saveVerificationLog($data);
+			$this->kehadiran_7->deactiveVerificationLog($data);
 		}
 		if($this->model_8) {
-			$this->kehadiran_8->saveVerificationLog($data);
+			$this->kehadiran_8->deactiveVerificationLog($data);
 		}
 		if($this->model_9) {
-			$this->kehadiran_9->saveVerificationLog($data);
+			$this->kehadiran_9->deactiveVerificationLog($data);
 		}
 		// echo $result;
 		$this->index();

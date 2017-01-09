@@ -85,7 +85,7 @@ class HomeSync extends Main_Controller {
 	}
 
     // Function to check response time
-	public function ping($host,$port=80,$timeout=60) {
+	public function ping($host,$port=80,$timeout=1) {
 	    $fsock = fsockopen($host, $port, $errno, $errstr, $timeout);
 	    if (!$fsock) {
 	    	// fclose();
@@ -136,10 +136,11 @@ class HomeSync extends Main_Controller {
     public function directRegistration()
     {
         $souvenir = $this->input->post_get('totalSouvenir2');
+        $participantname = $this->input->post_get('participantName2');
         $data = array(
             'new_id' => $this->getNewID(),
             'title' => $this->input->post_get('titleDdl'),
-            'name' => $this->input->post_get('participantName2'),
+            'name' => $participantname,
             'phone_num' => $this->input->post_get('participantContact2'),
             'group' => $this->input->post_get('groupDdl'),
             'follower' => $this->input->post_get('participantFollower2'),
@@ -151,33 +152,36 @@ class HomeSync extends Main_Controller {
         $follower = $this->input->post_get('participantFollower2');
         $facilities = $this->input->post_get('selectFacility2');
 
+        $file = "C:/Users/KELOLATAMU/Desktop/error_log.txt";
+        $msg = "Failed registration on ";
+
         $result = $this->home->directRegistration($data, $facilities);
         $this->printStruk($result, $follower, $souvenir);
 
         if($this->model_2) {
             $this->home_2->directRegistration($data, $facilities);
-        }
+        } else file_put_contents($file, $msg.' '.$this->config->item('model_2').": ".$participantname.PHP_EOL, FILE_APPEND | LOCK_EX);
         if($this->model_3) {
             $this->home_3->directRegistration($data, $facilities);
-        }
+        } else file_put_contents($file, $msg.' '.$this->config->item('model_3').": ".$participantname.PHP_EOL, FILE_APPEND | LOCK_EX);
         if($this->model_4) {
             $this->home_4->directRegistration($data, $facilities);
-        }
+        } else file_put_contents($file, $msg.' '.$this->config->item('model_4').": ".$participantname.PHP_EOL, FILE_APPEND | LOCK_EX);
         if($this->model_5) {
             $this->home_5->directRegistration($data, $facilities);
-        }
+        } else file_put_contents($file, $msg.' '.$this->config->item('model_5').": ".$participantname.PHP_EOL, FILE_APPEND | LOCK_EX);
         if($this->model_6) {
             $this->home_6->directRegistration($data, $facilities);
-        }
+        } else file_put_contents($file, $msg.' '.$this->config->item('model_6').": ".$participantname.PHP_EOL, FILE_APPEND | LOCK_EX);
         if($this->model_7) {
             $this->home_7->directRegistration($data, $facilities);
-        }
+        } else file_put_contents($file, $msg.' '.$this->config->item('model_7').": ".$participantname.PHP_EOL, FILE_APPEND | LOCK_EX);
         if($this->model_8) {
             $this->home_8->directRegistration($data, $facilities);
-        }
+        } else file_put_contents($file, $msg.' '.$this->config->item('model_8').": ".$participantname.PHP_EOL, FILE_APPEND | LOCK_EX);
         if($this->model_9) {
             $this->home_9->directRegistration($data, $facilities);
-        }
+        } else file_put_contents($file, $msg.' '.$this->config->item('model_9').": ".$participantname.PHP_EOL, FILE_APPEND | LOCK_EX);
 
         $this->view('admin/home');
     }

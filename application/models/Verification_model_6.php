@@ -161,7 +161,8 @@ class Verification_model_6 extends CI_Model {
 
 					WHERE event.is_active = '1'
 					AND event.event_id = $_SESSION[event_id]
-					AND participant.participant_id = $participant_id";
+					AND participant.participant_id = $participant_id
+                    AND b.facility_name IS NOT NULL";
 
 		$data = $this->db->query($query)->result_array();
 		return $data;

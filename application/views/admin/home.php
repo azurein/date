@@ -11,7 +11,7 @@
                             <div class="well" >
                                 <form id="scannerFormQr2">
                                     <label>Kode</label>
-                                    <input type="text" id="scannerInputQr2" class="form-control" autocomplete="off" autofocus>
+                                    <input type="text" id="scannerInputQr2" class="form-control" autocomplete="off" autofocus value="<?=$this->session->flashdata('temp_card');?>">
                                 </form>
                             </div>
                         </div>

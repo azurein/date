@@ -4,95 +4,95 @@ class Update_model_8 extends CI_Model {
 	{
 		parent::__construct();
 		$this->db = $this->load->database('default',TRUE);
-		$this->db_2 = $this->load->database('model_8',TRUE);
+		$this->db_8 = $this->load->database('model_8',TRUE);
 	}
 
 	public function lastUpdate(){
-
+		
 		$query = "DELETE FROM canvas";
 		$this->db->query($query);
 		$query = $this->db_2->get('canvas');
-		foreach ($query->result() as $row) {
-		   	$this->db->insert('canvas',$row);
-		}
+		$result = $query->result();
+		if($result)
+	   		$this->db->insert_batch('canvas', $result);
 
 		$query = "DELETE FROM card";
 		$this->db->query($query);
 		$query = $this->db_2->get('card');
-		foreach ($query->result() as $row) {
-		   	$this->db->insert('card',$row);
-		}
+		$result = $query->result();
+		if($result)
+	   		$this->db->insert_batch('card',$result);
 
 		$query = "DELETE FROM delegate_verification";
 		$this->db->query($query);
 		$query = $this->db_2->get('delegate_verification');
-		foreach ($query->result() as $row) {
-			$this->db->insert('delegate_verification',$row);
-		}
+		$result = $query->result();
+		if($result)
+			$this->db->insert_batch('delegate_verification',$result);
 
 		$query = "DELETE FROM event";
 		$this->db->query($query);
 		$query = $this->db_2->get('event');
-		foreach ($query->result() as $row) {
-			$this->db->insert('event',$row);
-		}
+		$result = $query->result();
+		if($result)
+			$this->db->insert_batch('event',$result);
 
 		$query = "DELETE FROM facility";
 		$this->db->query($query);
 		$query = $this->db_2->get('facility');
-		foreach ($query->result() as $row) {
-			$this->db->insert('facility',$row);
-		}
+		$result = $query->result();
+		if($result)
+			$this->db->insert_batch('facility',$result);
 
 		$query = "DELETE FROM lottery";
 		$this->db->query($query);
 		$query = $this->db_2->get('lottery');
-		foreach ($query->result() as $row) {
-			$this->db->insert('lottery',$row);
-		}
+		$result = $query->result();
+		if($result)
+			$this->db->insert_batch('lottery',$result);
 
 		$query = "DELETE FROM participant";
 		$this->db->query($query);
 		$query = $this->db_2->get('participant');
-		foreach ($query->result() as $row) {
-			$this->db->insert('participant',$row);
-		}
+		$result = $query->result();
+		if($result)
+			$this->db->insert_batch('participant',$result);
 
 		$query = "DELETE FROM participant_facility";
 		$this->db->query($query);
 		$query = $this->db_2->get('participant_facility');
-		foreach ($query->result() as $row) {
-			$this->db->insert('participant_facility',$row);
-		}
+		$result = $query->result();
+		if($result)
+			$this->db->insert_batch('participant_facility',$result);
 
 		$query = "DELETE FROM prize";
 		$this->db->query($query);
 		$query = $this->db_2->get('prize');
-		foreach ($query->result() as $row) {
-			$this->db->insert('prize',$row);
-		}
+		$result = $query->result();
+		if($result)
+			$this->db->insert_batch('prize',$result);
 
 		$query = "DELETE FROM souvenir";
 		$this->db->query($query);
 		$query = $this->db_2->get('souvenir');
-		foreach ($query->result() as $row) {
-			$this->db->insert('souvenir',$row);
-		}
+		$result = $query->result();
+		if($result)
+			$this->db->insert_batch('souvenir',$result);
 
 		$query = "DELETE FROM users";
 		$this->db->query($query);
 		$query = $this->db_2->get('users');
-		foreach ($query->result() as $row) {
-			$this->db->insert('users',$row);
-		}
+		$result = $query->result();
+		if($result)
+			$this->db->insert_batch('users',$result);
 
 		$query = "DELETE FROM verification";
 		$this->db->query($query);
 		$query = $this->db_2->get('verification');
-		foreach ($query->result() as $row) {
-		   	$this->db->insert('verification',$row);
-		}
-
+		$result = $query->result();
+		if($result)
+		 	$this->db->insert_batch('verification',$result);
+		 
 	}
 
 }

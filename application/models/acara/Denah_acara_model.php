@@ -153,7 +153,7 @@ class Denah_acara_model extends CI_Model {
 			JOIN groups c ON a.group_id=c.group_id
 			LEFT JOIN participant_facility d ON a.facility_id=d.facility_id AND a.event_id=d.event_id AND d._status <> 'D'
 			LEFT JOIN participant e ON  d.participant_id=e.participant_id AND a.event_id=e.event_id AND e._status <> 'D'
-			LEFT JOIN titles f ON f.title_id=e.title_id AND f._status <> 'D' WHERE canvas_id = ".$data['canvas_id']." AND canvas_slideid = ".$data['canvas_slideid']." AND a.event_id = ".$_SESSION['event_id']." AND a._status <> 'D' AND b._status <> 'D' AND c._status <> 'D' ORDER BY is_parent DESC, priority ASC,facility_id ASC";
+			LEFT JOIN titles f ON f.title_id=e.title_id AND f._status <> 'D' WHERE canvas_id = ".$data['canvas_id']." AND canvas_slideid = ".$data['canvas_slideid']." AND a.event_id = ".$_SESSION['event_id']." AND a._status <> 'D' AND b._status <> 'D' AND c._status <> 'D' ORDER BY is_parent DESC, facility_id ASC, priority ASC";
 
 		$data = $this->db->query($query)->result();
 		return $data;

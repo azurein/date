@@ -132,7 +132,7 @@ class Pengaturan_acara_model extends CI_Model {
 
 					FROM groups
 
-					JOIN (
+					LEFT JOIN (
 					SELECT
 					participant.group_id,
 					COUNT(card.participant_id) as invite
@@ -150,7 +150,7 @@ class Pengaturan_acara_model extends CI_Model {
 					) invite
 					ON groups.group_id = invite.group_id
 
-					JOIN (
+					LEFT JOIN (
 					SELECT
 					participant.group_id,
 					COUNT(verification.card_id) as attend
@@ -170,7 +170,9 @@ class Pengaturan_acara_model extends CI_Model {
 					WHERE participant.event_id = '$_SESSION[event_id]'
 					GROUP BY participant.group_id
 					) attend
-					ON groups.group_id = attend.group_id";
+					ON groups.group_id = attend.group_id
+
+					WHERE invite <> '' AND attend <> ''";
 
 		$data = $this->db->query($query)->result_array();
 		return $data;
@@ -395,7 +397,7 @@ class Pengaturan_acara_model extends CI_Model {
 					ON b.title_id = b2.title_id
 					AND b2._status <> 'D'
 
-					LEFT JOIN card c
+					JOIN card c
 					ON b.delegate_to = c.participant_id
 					AND c._status <> 'D'
 
@@ -423,7 +425,8 @@ class Pengaturan_acara_model extends CI_Model {
 		$query = 	"SELECT
 					b.facility_name,
 					titles.title_name,
-					participant.participant_name
+					participant.participant_name,
+					CASE WHEN participant.phone_num LIKE '%on%the%spot%' THEN 'Ya' ELSE '' END AS is_onthespot
 
 					FROM participant_facility
 
@@ -444,7 +447,7 @@ class Pengaturan_acara_model extends CI_Model {
 					AND titles._status <> 'D'
 
 					WHERE
-					participant_facility.event_id = '42'
+					participant_facility.event_id = '$_SESSION[event_id]'
 
 					ORDER BY
 					b.facility_name";
@@ -482,7 +485,7 @@ class Pengaturan_acara_model extends CI_Model {
 					AND groups._status <> 'D'
 
 					WHERE
-					prize.event_id = '42'
+					prize.event_id = '$_SESSION[event_id]'
 
 					ORDER BY
 					prize.prize_priority";

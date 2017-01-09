@@ -345,6 +345,18 @@ class Peserta_model_2 extends CI_Model {
 			$data['participantID']
 		));
 
+		$query = 	"UPDATE participant_facility SET
+					_status = 'D',
+					_user = ?,
+					_date = NOW()
+					WHERE participant_id = ?
+					";
+
+		$this->db->query($query,array(
+			$data['userID'],
+			$data['participantID']
+		));
+
 		$query = "UPDATE participant SET
 					delegate_to = null,
 					_status = 'U',
@@ -357,6 +369,18 @@ class Peserta_model_2 extends CI_Model {
 			$data['userID'],
 			$data['participantID']
 		));
+
+		$query = 	"UPDATE participant_facility SET
+					_status = 'D',
+					_user = ?,
+					_date = NOW()
+					WHERE participant_id = ?
+					";
+
+		$this->db->query($query,array(
+			$data['userID'],
+			$data['participantID']
+		));		
 
 		return $data;
 	}

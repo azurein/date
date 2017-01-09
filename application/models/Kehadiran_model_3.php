@@ -148,6 +148,26 @@ class Kehadiran_model_3 extends CI_Model {
 
 	public function deactiveVerificationLog($data)
 	{
+		$query = 	"UPDATE participant_facility SET
+					_status = 'D',
+					_user = ?,
+					_date = NOW()
+					WHERE participant_id IN (
+						SELECT participant_id
+						FROM card
+						WHERE card_id IN (
+							SELECT card_id
+							FROM verification
+							WHERE CONCAT(DATE_FORMAT(verification_date, '%Y%m%d%H%i'), card_id) = ? 
+						)
+					)
+					";
+
+		$this->db->query($query,array(
+			$data['userID'],
+			$data['log_id']
+		));
+				
 		$query = 	"UPDATE verification SET
 					_status = 'D',
 					_user = ?,

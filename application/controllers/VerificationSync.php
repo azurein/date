@@ -75,7 +75,7 @@ class VerificationSync extends Main_Controller {
     }
 
     // Function to check response time
-    public function ping($host,$port=80,$timeout=60) {
+    public function ping($host,$port=80,$timeout=1) {
         $fsock = fsockopen($host, $port, $errno, $errstr, $timeout);
         if (!$fsock) {
             // fclose();
@@ -89,6 +89,8 @@ class VerificationSync extends Main_Controller {
 
 	public function verify()
 	{
+        try {
+
         $participant_id = $this->input->post_get('participantID');
         $card_id = $this->input->post_get('scannerInputQr');
         $follower =  $this->input->post_get('participantFollower1');
@@ -117,35 +119,43 @@ class VerificationSync extends Main_Controller {
             $additional_facilities = array_values(array_diff($facilities, $curr_facilites));
         }
 
+        $file = "C:/Users/KELOLATAMU/Desktop/error_log.txt";
+        $msg = "Failed verification on ";
+
         $data = $this->verification->verify($participant_id, $card_id, $follower, $fixed_facilites, $canceled_facilities, $additional_facilities, $followers, $souvenir_qty);
 
         $this->printStruk($data, $follower, count($followers));
 
         if($this->model_2) {
 			$this->verification_2->verify($participant_id, $card_id, $follower, $fixed_facilites, $canceled_facilities, $additional_facilities, $followers, $souvenir_qty);
-		}
+		} else file_put_contents($file, $msg.' '.$this->config->item('model_2').": ".$card_id.PHP_EOL, FILE_APPEND | LOCK_EX);
 		if($this->model_3) {
 			$this->verification_3->verify($participant_id, $card_id, $follower, $fixed_facilites, $canceled_facilities, $additional_facilities, $followers, $souvenir_qty);
-		}
+		} else file_put_contents($file, $msg.' '.$this->config->item('model_3').": ".$card_id.PHP_EOL, FILE_APPEND | LOCK_EX);
 		if($this->model_4) {
 			$this->verification_4->verify($participant_id, $card_id, $follower, $fixed_facilites, $canceled_facilities, $additional_facilities, $followers, $souvenir_qty);
-		}
+		} else file_put_contents($file, $msg.' '.$this->config->item('model_4').": ".$card_id.PHP_EOL, FILE_APPEND | LOCK_EX);
 		if($this->model_5) {
 			$this->verification_5->verify($participant_id, $card_id, $follower, $fixed_facilites, $canceled_facilities, $additional_facilities, $followers, $souvenir_qty);
-		}
+		} else file_put_contents($file, $msg.' '.$this->config->item('model_5').": ".$card_id.PHP_EOL, FILE_APPEND | LOCK_EX);
         if($this->model_6) {
             $this->verification_6->verify($participant_id, $card_id, $follower, $fixed_facilites, $canceled_facilities, $additional_facilities, $followers, $souvenir_qty);
-        }
+        } else file_put_contents($file, $msg.' '.$this->config->item('model_6').": ".$card_id.PHP_EOL, FILE_APPEND | LOCK_EX);
         if($this->model_7) {
             $this->verification_7->verify($participant_id, $card_id, $follower, $fixed_facilites, $canceled_facilities, $additional_facilities, $followers, $souvenir_qty);
-        }
+        } else file_put_contents($file, $msg.' '.$this->config->item('model_7').": ".$card_id.PHP_EOL, FILE_APPEND | LOCK_EX);
         if($this->model_8) {
             $this->verification_8->verify($participant_id, $card_id, $follower, $fixed_facilites, $canceled_facilities, $additional_facilities, $followers, $souvenir_qty);
-        }
+        } else file_put_contents($file, $msg.' '.$this->config->item('model_8').": ".$card_id.PHP_EOL, FILE_APPEND | LOCK_EX);
         if($this->model_9) {
             $this->verification_9->verify($participant_id, $card_id, $follower, $fixed_facilites, $canceled_facilities, $additional_facilities, $followers, $souvenir_qty);
-        }
+        } else file_put_contents($file, $msg.' '.$this->config->item('model_9').": ".$card_id.PHP_EOL, FILE_APPEND | LOCK_EX);
 
+        } catch (Exception $e) {
+            $this->session->set_flashdata('temp_card', $card_id);
+            echo "<script>alert('Verifikasi gagal, pastikan koneksi printer dan wifi terhubung. Lakukan verifikasi kembali pada kode kartu dibawah ini.');</script>";
+        }
+        
         $this->view('admin/home');
 	}
 
