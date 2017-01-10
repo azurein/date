@@ -99,7 +99,7 @@ $(document).ready(function() {
 					totalWinner--;
 				}
 			}
-			
+
 			// if(totalWinner > 0) {
 			// 	for(var i = 0; i < originalTotalWinner; i++)
 			// 	{
@@ -341,7 +341,9 @@ function populateTablePrize(data)
 	});
 
 	$(".showWinner").click(function(e){
-		showWinner();
+		var prize_id = $(this).parent().parent().attr("value");
+		var text = $(this).parent().siblings(".name").text();
+		showWinner(text, prize_id);
 	});
 
 	$(".settingButton").click(function(){
@@ -439,18 +441,13 @@ function populateTablePrize(data)
 
 function populateTableWinner(data)
 {
-	// $('#winnerDataTable').DataTable().destroy();
-	// $('#contentWinner').empty();
+	$('#contentWinner').empty();
 
-	// for(var i = 0 ; i < data.length ; i++)
-	// {
-	// 	$('#contentWinner').append('<tr><td>' + data[i].card_id + '</td><td>' + data[i].participant_name + '</td><td>'
-	// 		+ data[i].group_name + '</td></tr>');
-	// }
-
-	// $('#winnerDataTable').DataTable({
-	// 	"order"		: [[ 0, "asc" ]],
-	// });
+	for(var i = 0 ; i < data.length ; i++)
+	{
+		$('#contentWinner').append('<tr><td>' + data[i].card_id + '</td><td>' + data[i].participant_name + '</td><td>'
+			+ data[i].group_name + '</td></tr>');
+	}
 }
 
 function loadImage(text, imagePath)

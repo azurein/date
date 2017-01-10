@@ -25,13 +25,13 @@ class Hadiah_acara_model extends CI_Model {
 
 	public function getParticipants()
 	{
-		$query = " SELECT 
+		$query = " SELECT
 					CONCAT(b.title_name, a.participant_name) AS ParticipantName
 					FROM participant a
 					JOIN titles b ON a.title_id = b.title_id
 					WHERE a._status <> 'D'
 					AND b._status <> 'D'
-					AND a.participant_id NOT IN (SELECT DISTINCT participant_id from prize_setting WHERE _status <> 'D') 
+					AND a.participant_id NOT IN (SELECT DISTINCT participant_id from prize_setting WHERE _status <> 'D')
 					AND a.event_id = '".$_SESSION['event_id']."'";
 
 		$data = $this->db->query($query)->result_array();
@@ -48,12 +48,12 @@ class Hadiah_acara_model extends CI_Model {
 					LEFT JOIN participant c ON a.participant_id = c.participant_id
 					LEFT JOIN event d ON c.event_id = d.event_id
 					LEFT JOIN titles e ON c.title_id = e.title_id
-					WHERE a._status <> 'D' 
+					WHERE a._status <> 'D'
 					AND b._status <> 'D'
 					AND c._status <> 'D'
-					AND a.prize_id = '".$prize_id."' 
+					AND a.prize_id = '".$prize_id."'
 					AND a.participant_id <> 0
-					AND a.group_id = 0 
+					AND a.group_id = 0
 					AND d.event_id = '".$_SESSION['event_id']."'";
 
 		$data = $this->db->query($query)->result_array();
@@ -68,9 +68,9 @@ class Hadiah_acara_model extends CI_Model {
 					FROM prize_setting a
 					LEFT JOIN prize b ON a.prize_id = b.prize_id
 					LEFT JOIN groups c ON a.group_id = c.group_id
-					WHERE a._status <> 'D' 
+					WHERE a._status <> 'D'
 					AND b._status <> 'D'
-					AND a.prize_id = '".$prize_id."' 
+					AND a.prize_id = '".$prize_id."'
 					AND a.participant_id = 0
 					AND a.group_id <> 0 ";
 
@@ -108,8 +108,8 @@ class Hadiah_acara_model extends CI_Model {
 					prize_priority,
 					total_winner
 					FROM prize
-					WHERE _status <> 'D' 
-					AND prize_id = '".$prize_id."' 
+					WHERE _status <> 'D'
+					AND prize_id = '".$prize_id."'
 					AND event_id = '".$_SESSION['event_id']."'";
 
 		$data = $this->db->query($query)->result();
@@ -119,14 +119,14 @@ class Hadiah_acara_model extends CI_Model {
 
 	public function getWinnerByID($prize_id)
 	{
-		$query = " SELECT
+		$query = " 	SELECT
 					e.card_id,
 					c.participant_name,
 					d.group_name
-					FROM prize_setting a
+					FROM lottery a
 					JOIN prize b ON a.prize_id = b.prize_id
 					JOIN participant c ON a.participant_id = c.participant_id
-					JOIN groups d ON a.group_id = d.group_id
+					JOIN groups d ON c.group_id = d.group_id
 					JOIN card e ON c.participant_id = e.participant_id
 					AND a._status <> 'D'
 					AND b._status <> 'D'
@@ -147,23 +147,23 @@ class Hadiah_acara_model extends CI_Model {
 		BEGIN CRUD FUNCTION
 	*/
 	public function insertPrize($data){
-		$query = " INSERT INTO prize ( 
-						event_id, 
-						prize_name, 
-						prize_descr, 
-						prize_img, 
+		$query = " INSERT INTO prize (
+						event_id,
+						prize_name,
+						prize_descr,
+						prize_img,
 						prize_priority,
 						total_winner,
-						_status, 
-						_user, 
+						_status,
+						_user,
 						_date
-					) 
+					)
 					VALUES(?,?,?,?,?,?,'I',?,NOW())";
 
-		$this->db->query($query,array(	
+		$this->db->query($query,array(
 			$_SESSION['event_id'],
 			$data['prize_name'],
-			$data['prize_descr'], 
+			$data['prize_descr'],
 			$data['prize_img'],
 			$data['prize_priority'],
 			$data['total_winner'],
@@ -176,14 +176,14 @@ class Hadiah_acara_model extends CI_Model {
 	}
 
 	public function saveGroups($data, $value){
-		$query = " INSERT INTO prize_setting ( 
-						prize_id, 
-						participant_id, 
+		$query = " INSERT INTO prize_setting (
+						prize_id,
+						participant_id,
 						group_id,
-						_status, 
-						_user, 
+						_status,
+						_user,
 						_date
-					) 
+					)
 					VALUES(?,0,?,'I',?,NOW())";
 
 		$this->db->query($query,array(
@@ -198,7 +198,7 @@ class Hadiah_acara_model extends CI_Model {
 	}
 
 	public function saveParticipants($data, $participant, $title){
-		$query = " SELECT 
+		$query = " SELECT
 					a.participant_id
 					FROM participant a
 					JOIN titles b ON a.title_id = b.title_id
@@ -209,14 +209,14 @@ class Hadiah_acara_model extends CI_Model {
 
 		$dataParticipant = $this->db->query($query)->result();
 
-		$query = " INSERT INTO prize_setting (  
+		$query = " INSERT INTO prize_setting (
 						prize_id,
-						participant_id, 
+						participant_id,
 						group_id,
 						_status,
-						_user, 
+						_user,
 						_date
-					) 
+					)
 					VALUES(?,?,0,'I',?,NOW())";
 
 		$this->db->query($query,array(
@@ -235,22 +235,22 @@ class Hadiah_acara_model extends CI_Model {
 		$query = " UPDATE prize SET
 					event_id = ?,
 					prize_name = ?,
-					prize_descr = ?, 
+					prize_descr = ?,
 					prize_img = ?,
 					prize_priority = ?,
-					total_winner = ?, 
+					total_winner = ?,
 					_status = 'U',
 					_user = ?,
 					_date = NOW()
-					WHERE prize_id = ? "; 
+					WHERE prize_id = ? ";
 
 		$data = $this->db->query($query,array(
 			$_SESSION['event_id'],
 			$data['prize_name'],
-			$data['prize_descr'], 
-			$data['prize_img'], 
+			$data['prize_descr'],
+			$data['prize_img'],
 			$data['prize_priority'],
-			$data['total_winner'], 
+			$data['total_winner'],
 			$_SESSION['user_id'],
 			$data['prize_id']
 		));
@@ -265,18 +265,18 @@ class Hadiah_acara_model extends CI_Model {
 					prize_name = ?,
 					prize_descr = ?,
 					prize_priority = ?,
-					total_winner = ?, 
+					total_winner = ?,
 					_status = 'U',
 					_user = ?,
 					_date = NOW()
-					WHERE prize_id = ? "; 
+					WHERE prize_id = ? ";
 
 		$data = $this->db->query($query,array(
 			$_SESSION['event_id'],
 			$data['prize_name'],
 			$data['prize_descr'],
 			$data['prize_priority'],
-			$data['total_winner'], 
+			$data['total_winner'],
 			$_SESSION['user_id'],
 			$data['prize_id']
 		));
@@ -359,7 +359,7 @@ class Hadiah_acara_model extends CI_Model {
 
 	public function removeParticipants($data, $participant, $title)
 	{
-		$query = " SELECT 
+		$query = " SELECT
 					a.participant_id
 					FROM participant a
 					JOIN titles b ON a.title_id = b.title_id
