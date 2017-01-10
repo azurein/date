@@ -7,14 +7,18 @@ class Kehadiran_model_8 extends CI_Model {
 	}
 
 	public function getVerificationLog($key='', $user_id='', $event_id=''){
+		$query = "SELECT privilege FROM users WHERE user_id = '".$user_id."' AND _status <> 'D'";
+		$data = $this->db->query($query)->result_array();
+
 		$userCondition = "";
-		if ($user_id != "1") {
+		if ($data[0]['privilege'] != "1") {
 			$userCondition = "AND a._user = '".$user_id."'";
 		}
+
 		$query = 	"SELECT DISTINCT
 					CONCAT(DATE_FORMAT(a.verification_date, '%Y%m%d%H%i'), a.card_id) as log_id,
 					a.card_id,
-                    COALESCE(d.title_name, '') as title_name,
+					COALESCE(d.title_name, '') as title_name,
 					c.participant_name,
 					DATE_FORMAT(a.verification_date, '%H:%i') as verification_time,
 					a.verification_date,
@@ -31,9 +35,9 @@ class Kehadiran_model_8 extends CI_Model {
 					ON b.participant_id = c.participant_id
 					AND c._status <> 'D'
 
-                    LEFT JOIN titles d
-                    ON c.title_id = d.title_id
-                    AND	d._status <> 'D'
+					LEFT JOIN titles d
+					ON c.title_id = d.title_id
+					AND	d._status <> 'D'
 
 					LEFT JOIN users e
 					ON a._user = e.user_id
@@ -107,8 +111,8 @@ class Kehadiran_model_8 extends CI_Model {
 					AND e._status <> 'D'
 
 					LEFT JOIN participant f
-	                ON a.participant_id = f.participant_id
-	                AND f._status <> 'D'
+					ON a.participant_id = f.participant_id
+					AND f._status <> 'D'
 
 					WHERE a.card_id like '".$code."'
 
@@ -158,7 +162,7 @@ class Kehadiran_model_8 extends CI_Model {
 						WHERE card_id IN (
 							SELECT card_id
 							FROM verification
-							WHERE CONCAT(DATE_FORMAT(verification_date, '%Y%m%d%H%i'), card_id) = ? 
+							WHERE CONCAT(DATE_FORMAT(verification_date, '%Y%m%d%H%i'), card_id) = ?
 						)
 					)
 					";
@@ -167,7 +171,7 @@ class Kehadiran_model_8 extends CI_Model {
 			$data['userID'],
 			$data['log_id']
 		));
-				
+
 		$query = 	"UPDATE verification SET
 					_status = 'D',
 					_user = ?,
@@ -203,7 +207,7 @@ class Kehadiran_model_8 extends CI_Model {
 	public function getParticipantAttendance(){
 		$query = 	"SELECT DISTINCT
 					b.card_id,
-                    concat(COALESCE(d.title_name, ''), a.participant_name) as participant_name,
+					concat(COALESCE(d.title_name, ''), a.participant_name) as participant_name,
 					COALESCE(DATE_FORMAT(c.verification_date, '%H:%i'), '-') as verification_time
 
 					FROM participant a
@@ -218,15 +222,15 @@ class Kehadiran_model_8 extends CI_Model {
 					ON b.card_id = c.card_id
 					AND c._status <> 'D'
 
-                    LEFT JOIN titles d
-                    ON a.title_id = d.title_id
-                    AND	d._status <> 'D'
+					LEFT JOIN titles d
+					ON a.title_id = d.title_id
+					AND	d._status <> 'D'
 
 					WHERE
 					b.event_id = $_SESSION[event_id]
 
-                    ORDER BY
-                    verification_time DESC
+					ORDER BY
+					verification_time DESC
 					";
 		$data = $this->db->query($query)->result_array();
 		return $data;

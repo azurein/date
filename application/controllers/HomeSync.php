@@ -154,34 +154,35 @@ class HomeSync extends Main_Controller {
 
         $file = "C:/Users/KELOLATAMU/Desktop/error_log.txt";
         $msg = "Failed registration on ";
+        $currdate = date('m/d/Y h:i:s a', time());
 
         $result = $this->home->directRegistration($data, $facilities);
         $this->printStruk($result, $follower, $souvenir);
 
         if($this->model_2) {
             $this->home_2->directRegistration($data, $facilities);
-        } else file_put_contents($file, $msg.' '.$this->config->item('model_2').": ".$participantname.PHP_EOL, FILE_APPEND | LOCK_EX);
+        } else file_put_contents($file, $currdate.'. '.$msg.' '.$this->config->item('model_2').": ".$participantname.PHP_EOL, FILE_APPEND | LOCK_EX);
         if($this->model_3) {
             $this->home_3->directRegistration($data, $facilities);
-        } else file_put_contents($file, $msg.' '.$this->config->item('model_3').": ".$participantname.PHP_EOL, FILE_APPEND | LOCK_EX);
+        } else file_put_contents($file, $currdate.'. '.$this->config->item('model_3').": ".$participantname.PHP_EOL, FILE_APPEND | LOCK_EX);
         if($this->model_4) {
             $this->home_4->directRegistration($data, $facilities);
-        } else file_put_contents($file, $msg.' '.$this->config->item('model_4').": ".$participantname.PHP_EOL, FILE_APPEND | LOCK_EX);
+        } else file_put_contents($file, $currdate.'. '.$this->config->item('model_4').": ".$participantname.PHP_EOL, FILE_APPEND | LOCK_EX);
         if($this->model_5) {
             $this->home_5->directRegistration($data, $facilities);
-        } else file_put_contents($file, $msg.' '.$this->config->item('model_5').": ".$participantname.PHP_EOL, FILE_APPEND | LOCK_EX);
+        } else file_put_contents($file, $currdate.'. '.$this->config->item('model_5').": ".$participantname.PHP_EOL, FILE_APPEND | LOCK_EX);
         if($this->model_6) {
             $this->home_6->directRegistration($data, $facilities);
-        } else file_put_contents($file, $msg.' '.$this->config->item('model_6').": ".$participantname.PHP_EOL, FILE_APPEND | LOCK_EX);
+        } else file_put_contents($file, $currdate.'. '.$this->config->item('model_6').": ".$participantname.PHP_EOL, FILE_APPEND | LOCK_EX);
         if($this->model_7) {
             $this->home_7->directRegistration($data, $facilities);
-        } else file_put_contents($file, $msg.' '.$this->config->item('model_7').": ".$participantname.PHP_EOL, FILE_APPEND | LOCK_EX);
+        } else file_put_contents($file, $currdate.'. '.$this->config->item('model_7').": ".$participantname.PHP_EOL, FILE_APPEND | LOCK_EX);
         if($this->model_8) {
             $this->home_8->directRegistration($data, $facilities);
-        } else file_put_contents($file, $msg.' '.$this->config->item('model_8').": ".$participantname.PHP_EOL, FILE_APPEND | LOCK_EX);
+        } else file_put_contents($file, $currdate.'. '.$this->config->item('model_8').": ".$participantname.PHP_EOL, FILE_APPEND | LOCK_EX);
         if($this->model_9) {
             $this->home_9->directRegistration($data, $facilities);
-        } else file_put_contents($file, $msg.' '.$this->config->item('model_9').": ".$participantname.PHP_EOL, FILE_APPEND | LOCK_EX);
+        } else file_put_contents($file, $currdate.'. '.$this->config->item('model_9').": ".$participantname.PHP_EOL, FILE_APPEND | LOCK_EX);
 
         $this->view('admin/home');
     }

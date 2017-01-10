@@ -7,10 +7,14 @@ class Kehadiran_model extends CI_Model {
 	}
 
 	public function getVerificationLog($key='', $user_id='', $event_id=''){
+		$query = "SELECT privilege FROM users WHERE user_id = '".$user_id."' AND _status <> 'D'";
+		$data = $this->db->query($query)->result_array();
+
 		$userCondition = "";
-		if ($user_id != "1") {
+		if ($data[0]['privilege'] != "1") {
 			$userCondition = "AND a._user = '".$user_id."'";
 		}
+
 		$query = 	"SELECT DISTINCT
 					CONCAT(DATE_FORMAT(a.verification_date, '%Y%m%d%H%i'), a.card_id) as log_id,
 					a.card_id,
@@ -147,7 +151,7 @@ class Kehadiran_model extends CI_Model {
 	}
 
 	public function deactiveVerificationLog($data)
-	{	
+	{
 		$query = 	"UPDATE participant_facility SET
 					_status = 'D',
 					_user = ?,
@@ -158,7 +162,7 @@ class Kehadiran_model extends CI_Model {
 						WHERE card_id IN (
 							SELECT card_id
 							FROM verification
-							WHERE CONCAT(DATE_FORMAT(verification_date, '%Y%m%d%H%i'), card_id) = ? 
+							WHERE CONCAT(DATE_FORMAT(verification_date, '%Y%m%d%H%i'), card_id) = ?
 						)
 					)
 					";

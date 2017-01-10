@@ -33,38 +33,38 @@ class VerificationSync extends Main_Controller {
         $this->load->model("Kehadiran_model","kehadiran");
         $this->load->model("Peserta_model","peserta");
 
-        if($this->ping($this->config->item('model_2'))) {
-        	$this->load->model("Verification_model_2","verification_2");
-        	$this->model_2 = TRUE;
-        }
-        if($this->ping($this->config->item('model_3'))) {
-        	$this->load->model("Verification_model_3","verification_3");
-        	$this->model_3 = TRUE;
-        }
-        if($this->ping($this->config->item('model_4'))) {
-        	$this->load->model("Verification_model_4","verification_4");
-        	$this->model_4 = TRUE;
-        }
-        if($this->ping($this->config->item('model_5'))) {
-        	$this->load->model("Verification_model_5","verification_5");
-        	$this->model_5 = TRUE;
-        }
-        if($this->ping($this->config->item('model_6'))) {
-            $this->load->model("Verification_model_6","verification_6");
-            $this->model_6 = TRUE;
-        }
-        if($this->ping($this->config->item('model_7'))) {
-            $this->load->model("Verification_model_7","verification_7");
-            $this->model_7 = TRUE;
-        }
-        if($this->ping($this->config->item('model_8'))) {
-            $this->load->model("Verification_model_8","verification_8");
-            $this->model_8 = TRUE;
-        }
-        if($this->ping($this->config->item('model_9'))) {
-            $this->load->model("Verification_model_9","verification_9");
-            $this->model_9 = TRUE;
-        }
+        // if($this->ping($this->config->item('model_2'))) {
+        // 	$this->load->model("Verification_model_2","verification_2");
+        // 	$this->model_2 = TRUE;
+        // }
+        // if($this->ping($this->config->item('model_3'))) {
+        // 	$this->load->model("Verification_model_3","verification_3");
+        // 	$this->model_3 = TRUE;
+        // }
+        // if($this->ping($this->config->item('model_4'))) {
+        // 	$this->load->model("Verification_model_4","verification_4");
+        // 	$this->model_4 = TRUE;
+        // }
+        // if($this->ping($this->config->item('model_5'))) {
+        // 	$this->load->model("Verification_model_5","verification_5");
+        // 	$this->model_5 = TRUE;
+        // }
+        // if($this->ping($this->config->item('model_6'))) {
+        //     $this->load->model("Verification_model_6","verification_6");
+        //     $this->model_6 = TRUE;
+        // }
+        // if($this->ping($this->config->item('model_7'))) {
+        //     $this->load->model("Verification_model_7","verification_7");
+        //     $this->model_7 = TRUE;
+        // }
+        // if($this->ping($this->config->item('model_8'))) {
+        //     $this->load->model("Verification_model_8","verification_8");
+        //     $this->model_8 = TRUE;
+        // }
+        // if($this->ping($this->config->item('model_9'))) {
+        //     $this->load->model("Verification_model_9","verification_9");
+        //     $this->model_9 = TRUE;
+        // }
 	}
 
     public function index()
@@ -121,41 +121,41 @@ class VerificationSync extends Main_Controller {
 
         $file = "C:/Users/KELOLATAMU/Desktop/error_log.txt";
         $msg = "Failed verification on ";
+        $currdate = date('m/d/Y h:i:s a', time());
 
         $data = $this->verification->verify($participant_id, $card_id, $follower, $fixed_facilites, $canceled_facilities, $additional_facilities, $followers, $souvenir_qty);
-
         $this->printStruk($data, $follower, count($followers));
 
         if($this->model_2) {
 			$this->verification_2->verify($participant_id, $card_id, $follower, $fixed_facilites, $canceled_facilities, $additional_facilities, $followers, $souvenir_qty);
-		} else file_put_contents($file, $msg.' '.$this->config->item('model_2').": ".$card_id.PHP_EOL, FILE_APPEND | LOCK_EX);
+		} else file_put_contents($file, $currdate.'. '.$this->config->item('model_2').": ".$card_id.PHP_EOL, FILE_APPEND | LOCK_EX);
 		if($this->model_3) {
 			$this->verification_3->verify($participant_id, $card_id, $follower, $fixed_facilites, $canceled_facilities, $additional_facilities, $followers, $souvenir_qty);
-		} else file_put_contents($file, $msg.' '.$this->config->item('model_3').": ".$card_id.PHP_EOL, FILE_APPEND | LOCK_EX);
+		} else file_put_contents($file, $currdate.'. '.$this->config->item('model_3').": ".$card_id.PHP_EOL, FILE_APPEND | LOCK_EX);
 		if($this->model_4) {
 			$this->verification_4->verify($participant_id, $card_id, $follower, $fixed_facilites, $canceled_facilities, $additional_facilities, $followers, $souvenir_qty);
-		} else file_put_contents($file, $msg.' '.$this->config->item('model_4').": ".$card_id.PHP_EOL, FILE_APPEND | LOCK_EX);
+		} else file_put_contents($file, $currdate.'. '.$this->config->item('model_4').": ".$card_id.PHP_EOL, FILE_APPEND | LOCK_EX);
 		if($this->model_5) {
 			$this->verification_5->verify($participant_id, $card_id, $follower, $fixed_facilites, $canceled_facilities, $additional_facilities, $followers, $souvenir_qty);
-		} else file_put_contents($file, $msg.' '.$this->config->item('model_5').": ".$card_id.PHP_EOL, FILE_APPEND | LOCK_EX);
+		} else file_put_contents($file, $currdate.'. '.$this->config->item('model_5').": ".$card_id.PHP_EOL, FILE_APPEND | LOCK_EX);
         if($this->model_6) {
             $this->verification_6->verify($participant_id, $card_id, $follower, $fixed_facilites, $canceled_facilities, $additional_facilities, $followers, $souvenir_qty);
-        } else file_put_contents($file, $msg.' '.$this->config->item('model_6').": ".$card_id.PHP_EOL, FILE_APPEND | LOCK_EX);
+        } else file_put_contents($file, $currdate.'. '.$this->config->item('model_6').": ".$card_id.PHP_EOL, FILE_APPEND | LOCK_EX);
         if($this->model_7) {
             $this->verification_7->verify($participant_id, $card_id, $follower, $fixed_facilites, $canceled_facilities, $additional_facilities, $followers, $souvenir_qty);
-        } else file_put_contents($file, $msg.' '.$this->config->item('model_7').": ".$card_id.PHP_EOL, FILE_APPEND | LOCK_EX);
+        } else file_put_contents($file, $currdate.'. '.$this->config->item('model_7').": ".$card_id.PHP_EOL, FILE_APPEND | LOCK_EX);
         if($this->model_8) {
             $this->verification_8->verify($participant_id, $card_id, $follower, $fixed_facilites, $canceled_facilities, $additional_facilities, $followers, $souvenir_qty);
-        } else file_put_contents($file, $msg.' '.$this->config->item('model_8').": ".$card_id.PHP_EOL, FILE_APPEND | LOCK_EX);
+        } else file_put_contents($file, $currdate.'. '.$this->config->item('model_8').": ".$card_id.PHP_EOL, FILE_APPEND | LOCK_EX);
         if($this->model_9) {
             $this->verification_9->verify($participant_id, $card_id, $follower, $fixed_facilites, $canceled_facilities, $additional_facilities, $followers, $souvenir_qty);
-        } else file_put_contents($file, $msg.' '.$this->config->item('model_9').": ".$card_id.PHP_EOL, FILE_APPEND | LOCK_EX);
+        } else file_put_contents($file, $currdate.'. '.$this->config->item('model_9').": ".$card_id.PHP_EOL, FILE_APPEND | LOCK_EX);
 
         } catch (Exception $e) {
             $this->session->set_flashdata('temp_card', $card_id);
             echo "<script>alert('Verifikasi gagal, pastikan koneksi printer dan wifi terhubung. Lakukan verifikasi kembali pada kode kartu dibawah ini.');</script>";
         }
-        
+
         $this->view('admin/home');
 	}
 
