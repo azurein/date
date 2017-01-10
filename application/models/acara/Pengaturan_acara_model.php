@@ -185,7 +185,7 @@ class Pengaturan_acara_model extends CI_Model {
 					participant.phone_num,
 					groups.group_name,
 					participant.follower_prev,
-					participant.follower
+					CASE WHEN verification.verification_date IS NULL THEN -1 ELSE participant.follower END AS follower
 
 					FROM participant
 
@@ -197,6 +197,16 @@ class Pengaturan_acara_model extends CI_Model {
 					JOIN groups
 					ON participant.group_id = groups.group_id
 					AND groups._status <> 'D'
+
+                    JOIN card
+                    ON participant.participant_id = card.participant_id
+                    AND card._status <> 'D'
+
+                    LEFT JOIN verification
+                    ON card.card_id = verification.card_id
+                    AND verification._status <> 'D'
+
+                    WHERE participant.event_id = '$_SESSION[event_id]'
 
 					ORDER BY
 					participant.participant_name,
