@@ -1,7 +1,0 @@
-/*Ubah nilai dibawah ini apabila ada perubahan printer atau alamat IP*/
-$config['printer'] = '//DESKTOP-IOHB31N/POS58 10.0.0.6';
-$config['model_2'] = '192.168.0.101';
-$config['model_3'] = '192.168.0.103';
-$config['model_4'] = '192.168.0.104';
-$config['model_5'] = '192.168.0.105';
-/*Ubah nilai diatas ini apabila ada perubahan printer atau alamat IP*/
